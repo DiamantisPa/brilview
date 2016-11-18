@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base href="/">
+        <meta charset="UTF-8">
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.angularjs.org/1.5.1/angular.js"></script>
+        <script src="script.js"></script>
+    </head>
+
+    <body ng-app="app">
+        <div ng-controller="TestController as ctrl">
+            <div>
+                RUN from:
+                <input type="number" ng-model="ctrl.run_from"/ >
+            </div>
+            <div>
+                RUN to:
+                <input type="number" ng-model="ctrl.run_to"/ >
+            </div>
+            <button ng-click="ctrl.update_chart()">Query</button>
+
+            <div id="chart1"></div>
+        </div>
+    </body>
+
+</html>
