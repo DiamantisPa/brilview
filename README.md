@@ -7,5 +7,5 @@
 
     ```
     cd brilview
-    cherryd -c brilview.cherrypy.config -i brilview_flask_app.app -d
+    cherryd -c brilview.cherryd.config -i brilview_flask_app -d
     ```
