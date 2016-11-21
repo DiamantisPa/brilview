@@ -1,6 +1,6 @@
 import flask
 import json
-from brilview import cmmdhandler
+from handlers import cmmdhandler
 
 
 app = flask.Flask(__name__)
@@ -12,7 +12,7 @@ def root():
 
 
 @app.route('/query', methods=['GET', 'POST'])
-def forward_to_server():
+def query():
     data = flask.request.json
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
