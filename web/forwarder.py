@@ -5,7 +5,7 @@ import json
 
 BASE = '/api'
 REMOTE_HOST = 'vocms063.cern.ch'
-REMOT_API_PORT = '6000'
+REMOT_API_PORT = '9000'
 REMOTE_API = 'http://' + REMOTE_HOST + ':' + REMOT_API_PORT
 app = flask.Flask(__name__)
 
