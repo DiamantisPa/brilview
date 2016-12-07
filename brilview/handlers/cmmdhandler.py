@@ -6,6 +6,7 @@ def brilcalcLumiHandler(brilcalcargs, cmmd=[]):
     brilcalcargs: arguments for brilcalc lumi
     cmmd : for passing brilcalc command in case you don't run standard brilcalc
     '''
+    print 
     if not brilcalcargs:
         print 'about to return empty'
         return []

@@ -27,23 +27,23 @@ def blob_to_array(iblob,itypecode):
     result.fromstring(iblob)
     return result
 
-def groupby_1d(bins, binned_array, groupby_array, groupbyalgos ):
+def groupby_1d(bindef, binned_array, groupby_array, groupbyalgos ):
     '''
     aggregate array data by bins
 
     Input parameters:
-        bins: grouping boundaries
-        binned_array: the array to be divided by bins
-        groupbyalgo: aggregation algorithm of the binned values ['average','sum','max','min']
+        bindef: grouping boundaries
+        binned_array: the array to be divided into bins
+        groupbyalgos: aggregation algorithm of the binned values ['average','sum','max','min']
         groupby_array: array to be aggregated according to the binning
         
         binned_array and groupby_array must have the same length
 
     Output parameters:
-        groupresult = {'bin':index of the left-most element of each bin in the input array , 'algo1': resultarray}
-        The arrays all have the same length 
+        groupresult = {'bin':index of the left-most element in each bin in the input array , 'algo1': resultarray}
+        The result arrays all have the same length 
     '''
-    binindx = np.digitize( binned_array, bins, right=False )
+    binindx = np.digitize( binned_array, bindef, right=False )
     bins, indices = np.unique(binindx, return_index=True) # pandas unique is faster?
     #The indices of the first occurrences of the unique values
     result = {}
@@ -76,5 +76,5 @@ if __name__=='__main__':
     bindef = [0., 1., 2.5, 4.0, 10.0]
     t = [0.2, 0.3, 0.4, 1.1, 1.2, 3.3, 3.0, 4.1, 6.2, 16.]
     y = [1,2,3,4,5,6,7,8,9,10]
-    grouped = groupby_1d(bindef, t, y, ['min','max'] )
+    grouped = groupby_1d(bindef, t, y, ['min','max','average'] )
     print grouped
