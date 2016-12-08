@@ -16,10 +16,10 @@ app.controller("TestController", function($http, $timeout) {
             type: "datetime"
         },
         series: [{
-            name: 'field 5',
+            name: 'field 6',
             data: [7.0, 6.9, 9.5]
         }, {
-            name: 'field 6',
+            name: 'field 7',
             data: [14.5, 18.2, 21.5]
         }]
     };
@@ -43,14 +43,14 @@ app.controller("TestController", function($http, $timeout) {
                     data = response.data.data;
                     chartData = [];
                     for (i = 0; i < data.length; i++) {
-                        chartData.push([data[i][3], data[i][5]]);
+                        chartData.push([data[i][3], data[i][6]]);
                     }
                     console.log(data);
                     console.log(chartData);
                     chart.series[0].setData(chartData);
                     chartData = [];
                     for (i = 0; i < data.length; i++) {
-                        chartData.push([data[i][3], data[i][6]]);
+                        chartData.push([data[i][3], data[i][7]]);
                     }
                     console.log(chartData);
                     chart.series[1].setData(chartData);
