@@ -1,0 +1,17 @@
+#base directory for log files and pid file (used only when path provided are no absolute) 
+instance_path: 
+
+cherrypy:
+  engine.autoreload: true
+  log.screen: true
+#  log.access_file: access.log
+  log.error_file: web.log
+
+webapp:
+  handlers: [brilcommandhandler,dbhandler]
+
+brilcommandhandler:
+  command: /home/zhen/work/brilws/brilcalc-run.py
+
+
+
