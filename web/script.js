@@ -4,6 +4,8 @@ app.controller("TestController", function($http, $timeout) {
     var me = this;
     this.run_from = 0;
     this.run_to = 0;
+    this.status = "";
+    this.message = "";
 
     var chart = null;
     var options = {
@@ -27,8 +29,21 @@ app.controller("TestController", function($http, $timeout) {
         console.log(body);
         $http.post("/api/query", body)
             .then(function(response) {
-                chart.series[0].setData(response.data);
+                var chartData;
+                console.log(response);
+                me.status = response.data.status;
+                if (me.status === "OK") {
+                    me.message = "";
+                    chartData = response.data.data;
+                    for (i = 0; i < chartData.length; i++) {
+                        chartData[i] = chartData[i][7];
+                    }
+                    chart.series[0].setData(response.data.data);
+                } else {
+                    me.message = response.data.data;
+                }
             }, function(response) {
+                me.status = "HTTP failed";
                 console.error(response);
             });
     };

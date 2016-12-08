@@ -18,6 +18,8 @@
                 RUN to:
                 <input type="number" ng-model="ctrl.run_to"/ >
             </div>
+            <div>Status: {{ctrl.status}}</div>
+            <div>Message: {{ctrl.message}}</div>
             <button ng-click="ctrl.update_chart()">Query</button>
 
             <div id="chart1"></div>
