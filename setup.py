@@ -23,11 +23,11 @@ setup(
     version = version,
     description = "bril data viewer",
     long_description = long_desc,
-    packages = ['brilview', 'brilview.cli','brilview.handlers'],
+    packages = ['brilview', 'brilview.cli','brilview.handlers','web'],
     entry_points = {
         "console_scripts" : ['brilview = brilview.cli.brilview_main:brilview_main']
         },
-    package_data = {'data':['brilview/data/*.yaml']},
+    package_data = {'data':['brilview/data/*.yaml'],},
     include_package_data = True,
 )
 
