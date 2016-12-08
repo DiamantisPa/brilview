@@ -17,8 +17,6 @@ def init_app(instance_path, config_dict, log):
         # workaround: static_folder is not picked from app.config
         if 'static_folder' in config_dict['flask']:
             app.static_folder = config_dict['flask']['static_folder']
-        else:
-            app.static_folder = '../web/'
     config.appconfig = {
         x: config_dict[x]
         for x in config_dict.keys()
