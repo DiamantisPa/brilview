@@ -1,6 +1,8 @@
 import ConfigParser
 import numpy as np
 
+beamstatustoid = {'NO BEAM':0,'SETUP':1,'ABORT':2,'INJECTION PROBE BEAM':3,'INJECTION SETUP BEAM':4,'INJECTION PHYSICS BEAM':5,'PREPARE RAMP':6,'RAMP':7,'FLAT TOP':8,'SQUEEZE':9,'ADJUST':10,'STABLE BEAMS':11,'UNSTABLE BEAMS':12,'BEAM DUMP WARNING':13,'BEAM DUMP':14,'RAMP DOWN':15,'CYCLING':16,'RECOVERY':17,'INJECT & DUMP':18,'CIRCULATE & DUMP':19,'UNKNOWN':20}
+
 class ini_parser(ConfigParser.SafeConfigParser):
     '''
     extended SafeConfigParser class adding as_dict method
