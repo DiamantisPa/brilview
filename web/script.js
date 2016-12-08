@@ -12,9 +12,15 @@ app.controller("TestController", function($http, $timeout) {
         chart: {
             renderTo: "chart1"
         },
+        xAxis: {
+            type: "datetime"
+        },
         series: [{
-            name: 'series1',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5]
+            name: 'field 5',
+            data: [7.0, 6.9, 9.5]
+        }, {
+            name: 'field 6',
+            data: [14.5, 18.2, 21.5]
         }]
     };
 
@@ -29,16 +35,25 @@ app.controller("TestController", function($http, $timeout) {
         console.log(body);
         $http.post("/api/query", body)
             .then(function(response) {
-                var chartData;
+                var chartData, data, i;
                 console.log(response);
                 me.status = response.data.status;
                 if (me.status === "OK") {
                     me.message = "";
-                    chartData = response.data.data;
-                    for (i = 0; i < chartData.length; i++) {
-                        chartData[i] = chartData[i][7];
+                    data = response.data.data;
+                    chartData = [];
+                    for (i = 0; i < data.length; i++) {
+                        chartData.push([data[i][3], data[i][5]]);
                     }
-                    chart.series[0].setData(response.data.data);
+                    console.log(data);
+                    console.log(chartData);
+                    chart.series[0].setData(chartData);
+                    chartData = [];
+                    for (i = 0; i < data.length; i++) {
+                        chartData.push([data[i][3], data[i][6]]);
+                    }
+                    console.log(chartData);
+                    chart.series[1].setData(chartData);
                 } else {
                     me.message = response.data.data;
                 }
