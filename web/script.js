@@ -39,6 +39,7 @@ app.controller("TestController", function($http, $timeout) {
 
     this.update_chart = function() {
         var body = {
+            "type": "timelumi",
             "from": me.time_from,
             "to": me.time_to,
             "time_unit": me.time_unit};

@@ -14,5 +14,5 @@ webapp:
   handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  # command: '/home/jonas/brilconda/bin/brilcalc'
-  command: /home/zhen/work/brilws/brilcalc-run.py
+  command: '/home/jonas/brilconda/bin/brilcalc'
+  # command: /home/zhen/work/brilws/brilcalc-run.py

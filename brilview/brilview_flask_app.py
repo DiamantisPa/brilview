@@ -1,8 +1,6 @@
-import os
 import flask
 import json
-from handlers import cmmdhandler
-from brilview import config
+from brilview import config, queryrouter
 
 
 # static_url_path is hardcoded because it cannot be changed after creating app,
@@ -36,23 +34,7 @@ def query():
     data = flask.request.json
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
-    run_from = data['from']
-    run_to = data['to']
-
-    handlername = 'brilcommandhandler'
-
-    command = os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__), '..', '..', '..', 'bin', 'brilcalc'))
-
-    if handlername in config.appconfig:
-        handler = config.appconfig[handlername]
-        if 'command' in handler and handler['command']:
-            command = handler['command']
-
-    result = cmmdhandler.brilcalcLumiHandler(
-        ['--begin', str(run_from), '--end', str(run_to)],
-        cmmd=[command])
+    result = queryrouter.query(data)
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 
