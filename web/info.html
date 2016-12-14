@@ -1,0 +1,9 @@
+<div>
+    <label>Status:</label>
+    <span class="label"
+          ng-if="ctrl.status"
+          ng-class="ctrl.status === 'OK' ? 'label-success' : 'label-danger'">
+        {{ctrl.status}}
+    </span>
+</div>
+<div>Message: {{ctrl.message}}</div>

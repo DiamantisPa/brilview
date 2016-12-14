@@ -3,27 +3,42 @@
     <head>
         <base href="/">
         <meta charset="UTF-8">
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.angularjs.org/1.5.1/angular.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/clarity-ui@latest/clarity-ui.min.css" />
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+        <script src="https://code.angularjs.org/1.6.0/angular.min.js"></script>
         <script src="script.js"></script>
+        <style>
+         body {
+             font-family: sans-serif;
+         }
+        </style>
     </head>
 
-    <body ng-app="app">
-        <div ng-controller="TestController as ctrl">
-            <div>
-                RUN from:
-                <input type="number" ng-model="ctrl.run_from"/ >
-            </div>
-            <div>
-                RUN to:
-                <input type="number" ng-model="ctrl.run_to"/ >
-            </div>
-            <div>Status: {{ctrl.status}}</div>
-            <div>Message: {{ctrl.message}}</div>
-            <button ng-click="ctrl.update_chart()">Query</button>
+    <body ng-app="app" ng-controller="TestController as ctrl">
+        <div class="main-container">
+            <header class="header header-6"> </header>
 
-            <div id="chart1"></div>
+            <div class="content-container">
+                <!-- <nav class="sidenav"> -->
+                <!-- <section class="sidenav-content"> -->
+                <!-- <a class="nav-link" href="#">Navigation link</a> -->
+                <!-- <a class="nav-link" href="#">another navigation link</a> -->
+                <!-- <a class="nav-link" href="#">Short</a> -->
+                <!-- </section> -->
+                <!-- </nav> -->
+                <div class="content-area">
+
+                    <div ng-include="'form.html'"> </div>
+
+                    <div ng-include="'info.html'"> </div>
+
+                    <div id="chart1"></div>
+
+                </div>
+            </div>
         </div>
+
     </body>
 
 </html>
