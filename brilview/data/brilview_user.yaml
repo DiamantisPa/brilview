@@ -1,0 +1,33 @@
+#application server port
+port: 8765
+
+#application server host
+host: localhost
+
+#use cherrypy container or not
+use_cherrypy: true     #true of false
+
+#base directory for files, considered only when no absolute path provided
+instance_path:            #none or absolute path
+
+#log level
+log_level: ERROR       #ERROR INFO WARNING DEBUG
+
+#log to screen
+log_screen: true          #true or false
+
+#unified log file
+log_file:                       #none or file name 
+
+#pid file
+pid_file:                       #none or file name
+
+#folder for static file
+static_folder: '../web/' #none of path 
+
+handlers: [brilcommandhandler,dbhandler]
+
+brilcommandhandler:
+  command:                 #none or command path
+ # command: /home/zhen/work/brilws/brilcalc-run.py
+  webcacheconfig: /afs/cern.ch/cms/SITECONF/CERN/JobConfig/site-local-config.xml #none or config file
