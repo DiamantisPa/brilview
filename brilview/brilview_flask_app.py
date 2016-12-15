@@ -1,7 +1,9 @@
+import time
+import threading
 import flask
 import json
 import logging
-from brilview import config, queryrouter, bvlogging
+from brilview import bvconfig, queryrouter, bvlogging
 
 
 # static_url_path is hardcoded because it cannot be changed after creating app,
@@ -9,16 +11,17 @@ from brilview import config, queryrouter, bvlogging
 app = flask.Flask(__name__, static_url_path='')
 
 
-def init_app(instance_path):
-    app.instance_path = instance_path
+def init_app():
+    app.instance_path = bvconfig.instance_path
     app.logger.handlers = []
-    app.logger.addHandler(bvlogging.get_handler())
+    for h in bvlogging.get_current_handlers():
+        app.logger.addHandler(h)
 
-    if 'flask' in config:
-        app.config.update(config['flask'])
+    if hasattr(bvconfig, 'flask'):
+        app.config.update(bvconfig.flask)
         # workaround: static_folder is not picked from app.config
-        if 'static_folder' in config['flask']:
-            app.static_folder = config['flask']['static_folder']
+        if 'static_folder' in bvconfig.flask:
+            app.static_folder = bvconfig.flask['static_folder']
     return app
 
 
@@ -37,15 +40,34 @@ def query():
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 
-def main():
-    main_handler = bvlogging.get_handler()
-    app.logger.handlers = []
-    app.logger.addHandler(main_handler)
-    wzlog = logging.getLogger('werkzeug')
-    wzlog.handlers = []
-    wzlog.addHandler(main_handler)
-    app.run(host=config.host, port=config.port)
+def run_flask():
+    app.run(host=bvconfig.host, port=bvconfig.port)
+
+
+def run(after_start=None):
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+
+    try:
+        # FIXME: this is fake after start implementation. It just waits and
+        # executes anyway. It should execute only when and immediately after
+        # flask is started succesfully
+        time.sleep(1)
+        # First swap `werkzeug` logger handlers with bvlogging current handlers
+        wzlog = logging.getLogger('werkzeug')
+        wzlog.handlers = []
+        for h in bvlogging.get_current_handlers():
+            wzlog.addHandler(h)
+        # then continue with `after_start`
+        after_start()
+
+        while True:
+            time.sleep(20)
+
+    except KeyboardInterrupt:
+        return
 
 
 if __name__ == '__main__':
-    main()
+    run()

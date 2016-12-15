@@ -1,4 +1,3 @@
-
 #application server port
 port: 9000
 
@@ -12,19 +11,20 @@ use_cherrypy: true    #true of false
 instance_path:                         #TO DO none or absolute path
 
 #log level
-log_level: ERROR                     #ERROR INFO WARNING DEBUG
+log_level: WARNING                     #ERROR INFO WARNING DEBUG
 
 #log to screen
-log_screen: false                     #true or false
+log_to_screen: false                     #true or false
 
 #unified log file
-log_file: /tmp/brilview.log   #none or file name 
+log_file: /tmp/brilview.log   #none or file name
 
 #pid file
 pid_file: /tmp/brilview.pid   #none or file name
 
-#folder for static file
-static_folder: '../web/' #TO DO none of path 
+flask:
+  #folder for static file
+  static_folder: '../web/' #TO DO none of path
 
 handlers: [brilcommandhandler,dbhandler]
 

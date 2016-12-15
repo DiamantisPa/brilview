@@ -1,33 +1,40 @@
-#application server port
-port: 9001                   #none or port number
+# application server port: none or port number
+port: 9001
 
-#application server host
-host: 0.0.0.0               #none or hostname
+# application server host: none or hostname
+host: 0.0.0.0
 
-#use cherrypy container or not
-use_cherrypy: false    #true of false
+open_browser: true
 
-#base directory for files, considered only when no absolute path provided
-instance_path:            #none or absolute path
+# use cherrypy container or not: true/false
+# use_cherrypy: false
+use_cherrypy: true
 
-#log level
-log_level: INFO             #ERROR INFO WARNING DEBUG
+# base directory for files, considered only when no absolute path provided: none or absolute path
+instance_path:
 
-#log to screen
-log_screen: true          #true or false
+# log level: ERROR INFO WARNING DEBUG
+log_level: INFO
 
-#unified log file
-log_file:                       #none or file name 
+# log to screen: true/false
+# log_to_screen: true
+log_to_screen: false
 
-#pid file
-pid_file:                       #none or file name
+# log file: none or file path
+log_file:
 
-#folder for static file
-static_folder: '../web/' #none of path 
+# pid file: none or file path
+pid_file:
+
+flask:
+  # folder for static file: none or path
+  static_folder: '../web/'
 
 handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  command: /home/jonas/brilconda/bin/brilcalc #none or command path
- # command: /home/zhen/work/brilws/brilcalc-run.py
-  webcacheconfig: /home/data/frontier_config.xml    #none or config file
+  # command fro commandhandler: none or command path
+  command: /home/jonas/brilconda/bin/brilcalc
+  # command: /home/zhen/work/brilws/brilcalc-run.py
+  # web cache configuration path: none or config file path
+  webcacheconfig: /home/data/frontier_config.xml
