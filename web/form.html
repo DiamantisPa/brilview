@@ -1,5 +1,16 @@
-<form class="compact">
-    <div class="form-block">
+<form class="row compact">
+    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
+        <label>Time range</label>
+        <div class="form-group">
+            <label>Time range unit</label>
+            <div class="select">
+                <select ng-model="ctrl.query.timeunit">
+                    <option>RUN</option>
+                    <option>FILL</option>
+                    <option>DATE</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label>From</label>
             <input
@@ -14,30 +25,35 @@
                 placeholder="Ending at"
                 ng-model="ctrl.query.end">
         </div>
-        <div class="form-group">
-            <label>Time range unit</label>
-            <div class="select">
-                <select ng-model="ctrl.query.timeunit">
-                    <option>RUN</option>
-                    <option>FILL</option>
-                    <option>DATE</option>
-                </select>
-            </div>
-        </div>
-        <!-- </div> -->
+    </div>
 
-        <!-- <div class="form-block"> -->
+    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
+        <label>Other</label>
         <div class="form-group">
             <label>Luminometer type</label>
-            <input type="text" ng-model="ctrl.query.type">
+            <div class="select">
+                <select
+                    ng-model="ctrl.query.type"
+                    ng-options="v as k for (k, v) in ctrl.type_options">
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <label>Normtag</label>
             <input type="text" ng-model="ctrl.query.normtag">
         </div>
-        <!-- </div> -->
+        <div class="form-group">
+            <label>Datatag</label>
+            <input type="text" ng-model="ctrl.query.datatag">
+        </div>
+        <div class="form-group">
+            <label>HLT path</label>
+            <input type="text" ng-model="ctrl.query.hltpath">
+        </div>
+    </div>
 
-        <!-- <div class="form-block"> -->
+    <div class="form-block col-lg-4">
+        <label>Other2</label>
         <div class="form-group">
             <label>By run/lumisection</label>
             <div class="checkbox">
@@ -45,6 +61,15 @@
                        type="checkbox"
                        ng-model="ctrl.query.byls">
                 <label for="f0-byls-check">By lumisection</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Unit</label>
+            <div class="select">
+                <select
+                    ng-model="ctrl.query.unit"
+                    ng-options="o for o in ctrl.unit_options">
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -58,10 +83,12 @@
         </div>
     </div>
 
-    <button
-        type="submit"
-        class="btn btn-primary"
-        ng-click="ctrl.update_chart()">
-        Query
-    </button>
+    <div class="col-sm-12">
+        <button
+            type="submit"
+            class="btn btn-primary"
+            ng-click="ctrl.update_chart()">
+            Query
+        </button>
+    </div>
 </form>

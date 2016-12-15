@@ -24,6 +24,14 @@ app.controller("TestController", function($http, $timeout) {
         "SQUEEZE": "SQUEEZE",
         "FLAT TOP": "FLAT TOP"
     };
+    this.unit_options = ["hz/ub", ""];
+    this.type_options = {
+        "Online": null,
+        "PLTZERO": "pltzero",
+        "BCM1F": "bcm1f",
+        "HFOC": "hfoc",
+        "PCC": "pxl"
+    };
 
     this.status = "";
     this.message = "";
