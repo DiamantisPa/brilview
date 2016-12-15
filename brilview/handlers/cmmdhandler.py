@@ -1,37 +1,37 @@
 import subprocess
 import re
 import numpy as np
-from brilview import common
-from brilview import config
+from brilview import bvconfig
+
 
 def brilcalcLumiHandler(commandargs={}):
     '''
     brilcalcargs: arguments for brilcalc lumi
-    
+
     the handler decides if --byls is needed according to input time parameters
     input:
-         commandargs: arguments for command 
+         commandargs: arguments for command
          {
            begin: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
            end: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
            timeunit: run,fill,strdate
-           unit: str 
+           unit: str
            beamstatus: str (must be in 'stable beams','squeeze','flat top','adjust')
            normtag: str textbox or dropdown select
            datatag: str
-           hltpath:  str //'^HLT_[\w\*\?\[\]\!]+$' reject wildcard patterns ?? 
+           hltpath:  str //'^HLT_[\w\*\?\[\]\!]+$' reject wildcard patterns ??
            type:  str or None
            selectjson: jsonstr
            byls: boolean
          }
 
     output:
-    {'status':'OK'/'ERROR', 
-    'data': {'fillnum': [], 
+    {'status':'OK'/'ERROR',
+    'data': {'fillnum': [],
                   'runnum': [],
                   'tssec': [],
                   'delivered': [],
-                   'recorded':[], 
+                   'recorded':[],
                     'lsnum':[] or None }
     or {'message':str}
     }
@@ -40,11 +40,11 @@ def brilcalcLumiHandler(commandargs={}):
     begin = ''
     end = ''
     selectjson = ''
-        
+
     cmd = 'brilcalc'
-    if config.appconfig.has_key('brilcommandhandler') and config.appconfig['brilcommandhandler'].has_key('command') and config.appconfig['brilcommandhandler']['command'] :
-        cmd = config.appconfig['brilcommandhandler']['command']
-    cmdargs = [cmd,'lumi','--output-style', 'csv', '--without-checkjson','--tssec']    
+    if hasattr(bvconfig, 'brilcommandhandler') and bvconfig.brilcommandhandler.has_key('command') and bvconfig.brilcommandhandler['command'] :
+        cmd = bvconfig.brilcommandhandler['command']
+    cmdargs = [cmd,'lumi','--output-style', 'csv', '--without-checkjson','--tssec']
     if not commandargs.has_key('selectjson') :
         if not commandargs.has_key('begin') or not commandargs.has_key('end')  :
             return 'ERROR: parameters begin, end or selectjson are not provided'
@@ -55,23 +55,23 @@ def brilcalcLumiHandler(commandargs={}):
     else:
         selectjson = commandargs['selectjson']
         cmdargs += ['-i',selectjson]
-        
+
     byls = False
     if commandargs.has_key('byls') and commandargs['byls'] is True:
         byls = True
         cmdargs.append('--byls')
-        
+
     unit = '/ub'
     if commandargs.has_key('unit') and commandargs['unit'] :
         unit = commandargs['unit']
     cmdargs += ['-u',unit]
-        
+
     if commandargs.has_key('type') and commandargs['type']:
         cmdargs += [ '--type', commandargs['type'] ]
-        
+
     if commandargs.has_key('beamstatus') and commandargs['beamstatus']:
         cmdargs += [ '-b', commandargs['beamstatus'].upper() ]
-        
+
     if commandargs.has_key('hltpath') and commandargs['hltpath']:
         cmdargs += [ '--hltpath', commandargs['hltpath'] ]
     print cmdargs
@@ -87,7 +87,7 @@ def brilcalcLumiHandler(commandargs={}):
     tssecs = []
     delivereds = []
     recordeds = []
-    
+
     for line in result_strarray:
         items = line.split(',')
         if items[0].find(':') == -1: #output is an error message
@@ -98,7 +98,7 @@ def brilcalcLumiHandler(commandargs={}):
 
         fillnums.append(fillnum)
         runnums.append(runnum)
-        
+
         if byls:
             tssecs.append( int(items[2]) )
             delivereds.append( float(items[5]) )
@@ -109,10 +109,10 @@ def brilcalcLumiHandler(commandargs={}):
             tssecs.append( int(items[1]) )
             delivereds.append( float(items[4]) )
             recordeds.append( float(items[5]) )
-            
+
     if iserror:
         return {'status':'ERROR', 'message': '\n'.join( result_strarray ) }
-    
+
     resultdata = {'fillnum':fillnums, 'runnum':runnums, 'lsnum':lsnums ,'tssec':tssecs, 'delivered':delivereds,'recorded':recordeds}
     return { 'status':'OK', 'data': resultdata}
 
@@ -120,7 +120,7 @@ def brilcalcLumiHandler(commandargs={}):
 def brilcalcBXLumiHandler(brilcalcargs, unit='/ub',cmmd=[]):
     '''
     output:
-       {'status':'OK'/'ERROR', 
+       {'status':'OK'/'ERROR',
         'data': [ [fillnum,runnum,lsnum,tssec,bxid_array,bxdelivered_array,bxrecorded_array] ]
         or 'errormessagestring'
     }
@@ -150,7 +150,7 @@ def brilcalcBXLumiHandler(brilcalcargs, unit='/ub',cmmd=[]):
         [lsnum,cmsalive] = [ int(x) for x in items[1].split(':') ]
         tssec =  int(items[2])
         bxlumi_str = items[9]
-        bxlumi_str = re.sub(r'\[|\]','',bxlumi_str)        
+        bxlumi_str = re.sub(r'\[|\]','',bxlumi_str)
         bxlumi = np.fromstring(bxlumi_str,dtype='f4', sep=' ')
         bxid_array = bxlumi[0::3].astype(int)
         bxdelivered_array = bxlumi[1::3]
@@ -165,7 +165,7 @@ def brilcalcBeamHandler(brilcalcargs, cmmd=[]):
 
 def brilcalcBXBeamHandler(brilcalcargs, cmmd=[]):
     pass
-    
+
 if __name__ == '__main__':
      #from project root run python -m brilview.handlers.cmmdhandler
      #print brilcalcLumiHandler(
@@ -175,6 +175,6 @@ if __name__ == '__main__':
      #print brilcalcLumiHandler(
      #    ['-r', '284077'],
      #    cmmd=['/home/data/brilws/brilcalc-run.py'])
-     config.appconfig['brilcommandhandler'] = {}
-     config.appconfig['brilcommandhandler']['command'] = '/home/zhen/work/brilws/brilcalc-run.py'
+     bvconfig.update({"brilcommandhandler": {}})
+     bvconfig.brilcommandhandler['command'] = '/home/zhen/work/brilws/brilcalc-run.py'
      print brilcalcLumiHandler({'begin':284077,'end':284077})

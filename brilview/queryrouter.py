@@ -1,5 +1,3 @@
-import os
-import config
 from handlers import cmmdhandler
 
 

@@ -17,7 +17,6 @@ def update(config):
             raise KeyError(
                 'Cannot update config - not allowed key: {}'.format(na))
 
-    KEYS.clear()
     for k, v in config.iteritems():
         KEYS.add(k)
         setattr(sys.modules[__name__], k, v)
