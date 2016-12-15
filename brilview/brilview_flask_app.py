@@ -1,6 +1,7 @@
 import flask
 import json
-from brilview import config, queryrouter
+import logging
+from brilview import config, queryrouter, bvlogging
 
 
 # static_url_path is hardcoded because it cannot be changed after creating app,
@@ -8,18 +9,16 @@ from brilview import config, queryrouter
 app = flask.Flask(__name__, static_url_path='')
 
 
-def init_app(instance_path, config_dict, log):
+def init_app(instance_path):
     app.instance_path = instance_path
-    if 'flask' in config_dict:
-        app.config.update(config_dict['flask'])
+    app.logger.handlers = []
+    app.logger.addHandler(bvlogging.get_handler())
+
+    if 'flask' in config:
+        app.config.update(config['flask'])
         # workaround: static_folder is not picked from app.config
-        if 'static_folder' in config_dict['flask']:
-            app.static_folder = config_dict['flask']['static_folder']
-    config.appconfig = {
-        x: config_dict[x]
-        for x in config_dict.keys()
-        if x != 'flask'}
-    log.debug('current app config {} '.format(str(config.appconfig)))
+        if 'static_folder' in config['flask']:
+            app.static_folder = config['flask']['static_folder']
     return app
 
 
@@ -38,5 +37,15 @@ def query():
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 
+def main():
+    main_handler = bvlogging.get_handler()
+    app.logger.handlers = []
+    app.logger.addHandler(main_handler)
+    wzlog = logging.getLogger('werkzeug')
+    wzlog.handlers = []
+    wzlog.addHandler(main_handler)
+    app.run(host=config.host, port=config.port)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='9001')
+    main()
