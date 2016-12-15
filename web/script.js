@@ -24,7 +24,7 @@ app.controller("TestController", function($http, $timeout) {
         "SQUEEZE": "SQUEEZE",
         "FLAT TOP": "FLAT TOP"
     };
-    this.unit_options = ["hz/ub", ""];
+    this.unit_options = ["hz/ub", "/ub", "/mb"];
     this.type_options = {
         "Online": null,
         "PLTZERO": "pltzero",
