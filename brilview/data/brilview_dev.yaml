@@ -17,8 +17,7 @@ instance_path:
 log_level: INFO
 
 # log to screen: true/false
-# log_to_screen: true
-log_to_screen: false
+log_to_screen: true
 
 # log file: none or file path
 log_file:

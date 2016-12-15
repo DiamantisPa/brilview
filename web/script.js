@@ -2,15 +2,32 @@ var app = angular.module('app', []);
 
 app.controller("TestController", function($http, $timeout) {
     var me = this;
-    this.time_from = null;
-    this.time_to = null;
-    this.time_unit = "RUN";
-    this.lumi_type = null;
-    this.normtag = null;
-    this.byls = true;
-    this.beam_status = null;
+    this.query = {
+        query_type: "timelumi",
+        begin: null,
+        end: null,
+        timeunit: "RUN",
+        unit: "hz/ub",
+        beamstatus: null,
+        normtag: null,
+        datatag: null,
+        hltpath: null,
+        type: null,
+        // selectjson: "",
+        byls: true
+    };
+
+    this.beamstatus_options = {
+        "ANY": null,
+        "STABLE BEAMS": "STABLE BEAMS",
+        "ADJUST": "ADJUST",
+        "SQUEEZE": "SQUEEZE",
+        "FLAT TOP": "FLAT TOP"
+    };
+
     this.status = "";
     this.message = "";
+
 
     var chartData = [{
         x: [1, 2, 3, 4],
@@ -38,11 +55,7 @@ app.controller("TestController", function($http, $timeout) {
     });
 
     this.update_chart = function() {
-        var body = {
-            "type": "timelumi",
-            "from": me.time_from,
-            "to": me.time_to,
-            "time_unit": me.time_unit};
+        var body = me.query;
         console.log(body);
 
         $http.post("/api/query", body)
@@ -50,24 +63,20 @@ app.controller("TestController", function($http, $timeout) {
                 var i, x, y1, y2, data;
                 console.log(response);
                 me.status = response.data.status;
+                me.message = response.data.message;
                 if (me.status === "OK") {
                     me.message = "";
                     data = response.data.data;
                     x = [];
-                    y1 = [];
-                    y2 = [];
-                    for (i = 0; i < data.length; i++) {
-                        x.push(data[i][3] * 1000);
-                        y1.push(data[i][6]);
-                        y2.push(data[i][7]);
+                    for (i = 0; i < data["tssec"].length; i++) {
+                        x.push(data["tssec"][i] * 1000);
                     }
                     chartData[0].x = x;
-                    chartData[0].y = y1;
+                    chartData[0].y = data["delivered"];
                     chartData[1].x = x;
-                    chartData[1].y = y2;
+                    chartData[1].y = data["recorded"];
+                    console.log(chartData);
                     Plotly.redraw('chart1');
-                } else {
-                    me.message = response.data.data;
                 }
             }, function(response) {
                 me.status = "HTTP failed";
