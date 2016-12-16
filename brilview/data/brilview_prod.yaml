@@ -4,6 +4,15 @@ port: 9000
 #application server host
 host: 0.0.0.0
 
+#is daemon
+daemon: true
+
+#user
+user: lumipro
+
+#group
+group: zh
+
 #use cherrypy container or not
 use_cherrypy: true    #true of false
 
