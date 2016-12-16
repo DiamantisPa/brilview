@@ -28,12 +28,12 @@ log_file_backup_count: 5
 #pid file
 pid_file: brilview.pid   #none or file name
 
-flask:
+#flask:
   #folder for static file
-  static_folder: '../web/' #TO DO none or path
+  #static_folder: '../web/' #TO DO none or path
 
 handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  command: /home/zhen/work/brilws/brilcalc-run.py    #none or command path
+  command: /home/data/brilconda/brilcalc    #none or command path
   webcacheconfig: /home/data/frontier_config.xml      #none or config file
