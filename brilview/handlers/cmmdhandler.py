@@ -74,12 +74,10 @@ def brilcalcLumiHandler(commandargs={}):
 
     if commandargs.has_key('hltpath') and commandargs['hltpath']:
         cmdargs += [ '--hltpath', commandargs['hltpath'] ]
-    print cmdargs
     r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
     result_strarray = [l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
     if not result_strarray: #no data found
         return { 'status':'ERROR', 'message':'No data found' }
-    print cmdargs
     iserror = False
     fillnums = []
     runnums = []
@@ -93,7 +91,6 @@ def brilcalcLumiHandler(commandargs={}):
         if items[0].find(':') == -1: #output is an error message
             iserror = True
             break
-        print items[0]
         [runnum,fillnum] = [ int(x) for x in items[0].split(':') ]
 
         fillnums.append(fillnum)
