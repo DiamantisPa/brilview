@@ -55,8 +55,8 @@ def run_in_cp_tree(app, after_start=None):
         plugins.Daemonizer(cp.engine).subscribe()
     cp.engine.signals.subscribe()
     if hasattr(bvconfig, 'user') or hasattr(bvconfig, 'group'):
-        user = bvconfig['user'] if hasattr(bvconfig, 'user') else None
-        group = bvconfig['group'] if hasattr(bvconfig, 'group') else None
+        user = bvconfig.user if hasattr(bvconfig, 'user') else None
+        group = bvconfig.group if hasattr(bvconfig, 'group') else None
         plugins.DropPrivileges(cp.engine, uid=user, gid=group).subscribe()
     if hasattr(bvconfig, 'pid_file') and bvconfig.pid_file is not None:
         plugins.PIDFile(cp.engine, bvconfig.pid_file).subscribe()
