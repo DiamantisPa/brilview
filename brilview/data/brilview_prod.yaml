@@ -44,5 +44,5 @@ pid_file: brilview.pid   #none or file name
 handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  command: /home/data/brilconda/brilcalc    #none or command path
+  command: /home/data/brilconda/bin/brilcalc    #none or command path
   webcacheconfig: /home/data/frontier_config.xml      #none or config file
