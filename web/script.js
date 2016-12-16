@@ -15,7 +15,8 @@ app.controller("TestController", function($http, $timeout) {
         hltpath: null,
         type: null,
         // selectjson: "",
-        byls: true
+        byls: true,
+        measurement: "Delivered & Recorded"
     };
     this.chart_width = 1200;
     this.status = "";
@@ -23,46 +24,33 @@ app.controller("TestController", function($http, $timeout) {
 
     this.reflow = reflow;
     this.update_chart = update_chart;
+    this.chart_clear = chart_clear;
+    this.chart_pop_series = chart_pop_series;
+    this.autofill_query_end = autofill_query_end;
 
     this.chart_width_options = {
-        "400px": 400,
-        "600px": 600,
-        "900px": 900,
-        "1200px": 1200,
-        "1500px": 1500,
-        "1800px": 1800,
-        "2100px": 2100
+        "400px": 400, "600px": 600, "900px": 900, "1200px": 1200,
+        "1500px": 1500, "1800px": 1800, "2100px": 2100
     };
 
     this.beamstatus_options = {
-        "ANY": null,
-        "STABLE BEAMS": "STABLE BEAMS",
-        "ADJUST": "ADJUST",
-        "SQUEEZE": "SQUEEZE",
-        "FLAT TOP": "FLAT TOP"
+        "ANY": null, "STABLE BEAMS": "STABLE BEAMS", "ADJUST": "ADJUST",
+        "SQUEEZE": "SQUEEZE", "FLAT TOP": "FLAT TOP"
     };
+
     this.unit_options = ["hz/ub", "/ub", "/mb"];
     this.type_options = {
-        "Online": null,
-        "PLTZERO": "pltzero",
-        "BCM1F": "bcm1f",
-        "HFOC": "hfoc",
-        "PCC": "pxl"
+        "Online": null, "PLTZERO": "pltzero", "BCM1F": "bcm1f", "HFOC": "hfoc",
+        "PCC": "pxl", "DT": "dt", "Mixed": null
     };
 
-
-
-    var chartData = [{
-        x: [1, 2, 3, 4],
-        y: [16, 5, 11, 9],
-        mode: "lines"
-    }, {
-        x: [1, 2, 3, 4],
-        y: [10, 15, 13, 17],
-        mode: "lines"
-    }];
+    var chartData = [];
     var chartLayout = {
+        legend: {
+            orientation: "h"
+        },
         width: me.chart_width,
+        height: 600,
         xaxis: {
             type: "date"
         }
@@ -73,9 +61,9 @@ app.controller("TestController", function($http, $timeout) {
         modeBarButtonsToRemove: ["sendDataToCloud", "lasso2d"]
     };
 
+
     $timeout(function() {
         Plotly.newPlot('chart1', chartData, chartLayout, chartConfig);
-        // chart = new Highcharts.Chart(options);
     });
 
     function reflow() {
@@ -84,9 +72,42 @@ app.controller("TestController", function($http, $timeout) {
         });
     }
 
+    function chart_clear() {
+        while(chartData.length > 0) {
+            chartData.pop();
+        }
+        Plotly.redraw('chart1');
+    }
+
+    function chart_pop_series() {
+        chartData.pop();
+        Plotly.redraw('chart1');
+    }
+
+    function autofill_query_end() {
+        if (me.query.end === null || me.query.end === "") {
+            me.query.end = me.query.begin;
+        }
+    }
+
     function update_chart() {
         var body = me.query;
         console.log(body);
+        var name = body.type + " " + body.normtag + " " + body.beamstatus;
+        name += " " + body.hltpath + " " + body.datatag + " (" + body.unit + ")";
+        var series = [];
+        if (body.measurement === "Delivered & Recorded" || body.measurement === "Delivered") {
+            series.push({
+                yfield: "delivered",
+                name: "Delivered " + name
+            });
+        }
+        if (body.measurement === "Delivered & Recorded" || body.measurement === "Recorded") {
+            series.push({
+                yfield: "recorded",
+                name: "Recorded " + name
+            });
+        }
 
         $http.post("/api/query", body)
             .then(function(response) {
@@ -101,10 +122,14 @@ app.controller("TestController", function($http, $timeout) {
                     for (i = 0; i < data["tssec"].length; i++) {
                         x.push(data["tssec"][i] * 1000);
                     }
-                    chartData[0].x = x;
-                    chartData[0].y = data["delivered"];
-                    chartData[1].x = x;
-                    chartData[1].y = data["recorded"];
+                    for (i = 0; i < series.length; i++) {
+                        chartData.push({
+                            x: x,
+                            y: data[series[i].yfield],
+                            name: series[i].name,
+                            mode: "lines"
+                        });
+                    }
                     console.log(chartData);
                     Plotly.redraw('chart1');
                 }

@@ -16,6 +16,7 @@
             <input
                 type="text"
                 placeholder="Starting from"
+                ng-blur="ctrl.autofill_query_end()"
                 ng-model="ctrl.query.begin">
         </div>
         <div class="form-group">
@@ -78,6 +79,16 @@
                 <select
                     ng-model="ctrl.query.beamstatus"
                     ng-options="v as k for (k, v) in ctrl.beamstatus_options">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Measurement</label>
+            <div class="select">
+                <select ng-model="ctrl.query.measurement">
+                    <option>Delivered & Recorded</option>
+                    <option>Delivered</option>
+                    <option>Recorded</option>
                 </select>
             </div>
         </div>
