@@ -7,8 +7,7 @@ host: 0.0.0.0
 open_browser: true
 
 # use cherrypy container or not: true/false
-# use_cherrypy: false
-use_cherrypy: true
+use_cherrypy: false
 
 # base directory for files, considered only when no absolute path provided: none or absolute path
 instance_path:
@@ -33,7 +32,6 @@ handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
   # command fro commandhandler: none or command path
-  command: /home/jonas/brilconda/bin/brilcalc
-  # command: /home/zhen/work/brilws/brilcalc-run.py
+  command: /home/zhen/work/brilws/brilcalc-run.py
   # web cache configuration path: none or config file path
   webcacheconfig: /home/data/frontier_config.xml
