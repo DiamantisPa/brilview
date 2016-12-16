@@ -2,6 +2,7 @@ var app = angular.module('app', []);
 
 app.controller("TestController", function($http, $timeout) {
     var me = this;
+
     this.query = {
         query_type: "timelumi",
         begin: null,
@@ -15,6 +16,22 @@ app.controller("TestController", function($http, $timeout) {
         type: null,
         // selectjson: "",
         byls: true
+    };
+    this.chart_width = 1200;
+    this.status = "";
+    this.message = "";
+
+    this.reflow = reflow;
+    this.update_chart = update_chart;
+
+    this.chart_width_options = {
+        "400px": 400,
+        "600px": 600,
+        "900px": 900,
+        "1200px": 1200,
+        "1500px": 1500,
+        "1800px": 1800,
+        "2100px": 2100
     };
 
     this.beamstatus_options = {
@@ -33,8 +50,6 @@ app.controller("TestController", function($http, $timeout) {
         "PCC": "pxl"
     };
 
-    this.status = "";
-    this.message = "";
 
 
     var chartData = [{
@@ -47,6 +62,7 @@ app.controller("TestController", function($http, $timeout) {
         mode: "lines"
     }];
     var chartLayout = {
+        width: me.chart_width,
         xaxis: {
             type: "date"
         }
@@ -62,7 +78,13 @@ app.controller("TestController", function($http, $timeout) {
         // chart = new Highcharts.Chart(options);
     });
 
-    this.update_chart = function() {
+    function reflow() {
+        $timeout(function() {
+            Plotly.relayout('chart1', {width: me.chart_width, height: 600});
+        });
+    }
+
+    function update_chart() {
         var body = me.query;
         console.log(body);
 
