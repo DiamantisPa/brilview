@@ -35,17 +35,17 @@ def update(config):
 
     if 'log_file' in config and config['log_file'] is not None:
         if 'log_file_max_bytes' in config:
-            maxbytes = config.log_file_max_bytes
+            maxbytes = config['log_file_max_bytes']
         else:
             maxbytes = 10485760
         if 'log_file_backup_count' in config:
-            backupcount = config.log_file_backup_count
+            backupcount = config['log_file_backup_count']
         else:
             backupcount = 5
 
         file_handler.close()
         file_handler = logging.handlers.RotatingFileHandler(
-            config.log_file, maxBytes=maxbytes, backupCount=backupcount)
+            config['log_file'], maxBytes=maxbytes, backupCount=backupcount)
         file_handler.setLevel(level)
         file_handler.setFormatter(formatter)
     else:
