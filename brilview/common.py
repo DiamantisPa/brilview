@@ -28,7 +28,7 @@ def blob_to_array(iblob,itypecode):
     result.fromstring(iblob)
     return result
 
-def smart_groupby_1d(data, bindef, aggalgos):
+def groupby_1d(data, bindef, aggalgos):
     '''
     inputs:
       data: {
@@ -125,5 +125,5 @@ if __name__=='__main__':
     data = {'t':t,'y':y}
     bindefdict = {'field':'t','step_count':5 }
     aggalgos = {'y':'max'}
-    smart_grouped =  smart_groupby_1d(data, bindefdict, aggalgos)
-    print smart_grouped
+    grouped =  groupby_1d(data, bindefdict, aggalgos)
+    print grouped
