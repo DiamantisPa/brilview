@@ -1,6 +1,6 @@
-import ConfigParser
 import numpy as np
 import numbers
+import calendar, datetime
 
 #class ini_parser(ConfigParser.SafeConfigParser):
 #    '''
@@ -28,10 +28,65 @@ def blob_to_array(iblob,itypecode):
     result.fromstring(iblob)
     return result
 
-def groupby_1d(data, bindef, aggalgos):
+def _find_datebins(tsarray, bintype='day'):
+    '''
+    Digitize input array by date type (day, week, month,year).
+    input: list of unixtimestamp
+    output:
+    [[pos_in_tsarray),],[],[]]
+   
+    '''
+    list_of_dts = [ ( i,datetime.datetime.utcfromtimestamp(x) )  for (i,x) in enumerate(tsarray) ]
+    data = {}
+    for (i,dt) in list_of_dts :
+        if bintype=='day':
+            data.setdefault( dt.toordinal(), [] ).append( i )
+        elif bintype=='week':
+            data.setdefault( dt.isocalendar()[0]*100+dt.isocalendar()[1],[] ).append( i )
+        elif bintype=='month':
+            data.setdefault( dt.year*100+dt.month,[] ).append( i )
+        elif bintype=='year':
+            data.setdefault( dt.year,[] ).append( i )
+    results = [ data.get(x, []) for x in range(min(data), max(data)+1) ]
+    return results
+
+def _find_numbins(numarray,nbins=None,step_size=None):
+    '''
+    Digitize input number list by number of bins or step size
+    output:
+    [[pos_in_numarray,],[],[]]
+      or None is input array is not digitized
+    '''
+    step_count = 0
+    bins = 100 
+    if nbins:
+        bins = nbins
+    elif step_size:
+        bins = np.arange( min(numarray),max(numarray)+step_size, step_size )
+    if isinstance(bins, numbers.Number) :
+        if bins > len(numarray):
+            return None # not aggregated    
+    else:
+        if bins.size > len(numarray): # no need of aggregation
+            return None
+            
+    ( hist, bin_edges ) = np.histogram( np.array(numarray), bins=bins )
+    results = []
+    for i,e in enumerate( bin_edges[:-1] ):
+        left_edge = e
+        right_edge = bin_edges[i+1]
+        pos = []
+        if i==(bin_edges.size-2):#if last bin, the right edge is inclusive 
+            pos = np.where( (numarray<=right_edge)&(numarray>=left_edge) )[0]
+        else:
+            pos = np.where( (numarray<right_edge)&(numarray>=left_edge) )[0]
+        results.append( list(pos) )
+    return results
+
+def aggregate_1d(inputdata, bindef, aggalgos):
     '''
     inputs:
-      data: {
+      inputdata: {
         'time':...
         'val1': ...
      }
@@ -56,74 +111,91 @@ def groupby_1d(data, bindef, aggalgos):
     '''
     if not bindef.has_key('field'):
         raise KeyError('field not found in the bindef input, cannot decide on the binning variable')
-    
     binning_field = bindef['field']    
-    binning_array = data[binning_field]
-    step_count = 0
-    step_size = 0
-    bins = 100 #well, default to 100 bins if nothing given
-    if bindef.has_key('step_count') and bindef['step_count']:
-        bins = bindef['step_count']
-    elif not bins and bindef.has_key('step_size') and  bindef['step_size']:
-        bins =  np.arange( min(binning_array), max(binning_array), bindef['step_size'] )
-
-    if isinstance(bins, numbers.Number):
-        if bins > len(binning_array): # no need of aggregation
-            return { 'aggregated':False }
-    else:
-        if bins.size > len(binning_array): # no need of aggregation
-            return { 'aggregated':False }
-    (hist, bin_edges) = np.histogram( np.array(binning_array), bins=bins,  )
-
-    outdata = dict.fromkeys(aggalgos.keys(),[])
-    if not outdata.has_key(binning_field):
-        outdata[ binning_field ] = []
-
-    for i,e in enumerate( bin_edges[:-1] ):
-        left_edge = e
-        right_edge = bin_edges[i+1]        
-        if i==(bin_edges.size-2):#if last bin, the right edge is inclusive            
-            pos = np.where( (binning_array<=right_edge)&(binning_array>=left_edge) )[0]
-        else:
-            pos = np.where( (binning_array<right_edge)&(binning_array>=left_edge) )[0]
+    binning_array = inputdata[binning_field]
+    step_unit = 'number'
+    pos = None
+    result = {}
+    if bindef.has_key('step_unit') and bindef['step_unit']:
+        step_unit = bindef['step_unit']
+    if step_unit =='number':
+        pos = _find_numbins(binning_array,nbins=bindef.get('step_count',None),step_size=bindef.get('step_size',None))
+    elif step_unit in ['day','week','month','year']:
+        pos = _find_datebins(binning_array,bintype=step_unit)
+    if not pos:
+        result['aggregated'] = False
+        return result
+    result['aggregated'] = True
+    result['data'] = {}
+    for posbucket in pos:
+        if not posbucket:
+            result['data'].setdefault(binning_field,[]).append(None)
+            continue
+        leftedge = posbucket[0]
+        result['data'].setdefault(binning_field,[]).append( binning_array[leftedge] ) #left
         
-        outdata[ binning_field ].append( (left_edge+right_edge)/2. )
-        for fieldname in aggalgos.keys() :
+    for posbucket in pos:
+        for fieldname in aggalgos.keys():
+            if not posbucket: #empty bin
+                result['data'].setdefault(fieldname,[]).append(None)  
+                continue
             aggalgo = aggalgos[fieldname]
-            agg_array = data[fieldname]
-            toaggregate = np.take(agg_array, pos)
-            if len(toaggregate)==0:
-                outdata[fieldname].append(None) # or zero???
-                continue            
-            if aggalgo=='average':
-                outdata[fieldname].append( np.average(toaggregate) )
+            toaggregate = [ inputdata[fieldname][i] for i in posbucket ]
+            if aggalgo=='average':                
+                result['data'].setdefault(fieldname,[]).append( np.average(toaggregate) )
             elif aggalgo=='sum':
-                outdata[fieldname].append( np.sum(toaggregate) )
+                result['data'].setdefault(fieldname,[]).append( np.sum(toaggregate) )
             elif aggalgo=='max':
-                outdata[fieldname].append( np.max(toaggregate) )
+                result['data'].setdefault(fieldname,[]).append( np.max(toaggregate) )
             elif aggalgo=='min':
-                outdata[fieldname].append( np.min(toaggregate) )
+                result['data'].setdefault(fieldname,[]).append( np.min(toaggregate) )
             elif aggalgo=='left':
-                outdata[fieldname].append( toaggregate[0] )
+                result['data'].setdefault(fieldname,[]).append( toaggregate[0] )
             elif aggalgo=='right':
-                outdata[fieldname].append( toaggregate[-1] )
+                result['data'].setdefault(fieldname,[]).append( toaggregate[-1] )
             elif aggalgo=='middle':
                 if len(toaggregate)==1:
-                    outdata[fieldname].append( toaggregate[0] )
-                elif len(toaggregate)%2==0: #even number of elements
-                    outdata[fieldname].append( toaggregate[ len(toaggregate)/2-1 ] )
-                else:    
-                    outdata[fieldname].append( toaggregate[ len(toaggregate)/2 ] )
+                    result['data'].setdefault(fieldname,[]).append( toaggregate[0] )
+                elif len(toaggregate)%2==0:
+                    result['data'].setdefault(fieldname,[]).append( toaggregate[ len(toaggregate)/2-1 ] )
+                else:
+                    result['data'].setdefault(fieldname,[]).append( toaggregate[ len(toaggregate)/2 ] )
+    return result
+
+if __name__=='__main__':        
+
+    tt = [1452242977,1483865377,1484038177,1484045377,1484131777,1484149777,1484749869,1468852268,1474209068,1473949868]
+    result =_find_datebins(tt, bintype='month')
+    print 'date result ',result
+
+    nn =  [0.2, 0.3, 0.4, 1.1, 1.2, 3.3, 3.0, 4.1, 6.2, 16.1]
+    result = _find_numbins(nn,nbins=None,step_size=3)
+    print 'num result by step size ',result
+    result = _find_numbins(nn,nbins=5,step_size=None)
+    print 'num result by nbins ',result
+
+    inputdata = {
+        'time': tt,
+        'velocity': nn        
+    }
+    bindef = {
+        'field': 'time',
+        'step_unit': 'month'        
+    }
     
-    return {'aggregated':True, 'data':outdata}
+    aggalgos = {
+        'velocity': 'max'
+    }
+    result = aggregate_1d(inputdata, bindef, aggalgos)
+    print result
 
-if __name__=='__main__':    
-
-    t = [0.2, 0.3, 0.4, 1.1, 1.2, 3.3, 3.0, 4.1, 6.2, 16.1]
-    y = [1,2,3,4,5,6,7,8,9,10]
-
-    data = {'t':t,'y':y}
-    bindefdict = {'field':'t','step_count':5 }
-    aggalgos = {'y':'max'}
-    grouped =  groupby_1d(data, bindefdict, aggalgos)
-    print grouped
+    bindef = {
+        'field': 'velocity',
+        'step_unit': 'number',
+        'step_count': 5
+    }
+    aggalgos = {
+        'time': 'max'
+    }
+    result = aggregate_1d(inputdata, bindef, aggalgos)
+    print result
