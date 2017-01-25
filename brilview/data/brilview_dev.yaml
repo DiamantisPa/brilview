@@ -26,7 +26,8 @@ pid_file:
 
 flask:
   # folder for static file: none or path
-  static_folder: '../web/'
+  # static_folder: '../web/'
+  static_folder: '../web/ng2/dist/' #none of path
 
 handlers: [brilcommandhandler,dbhandler]
 

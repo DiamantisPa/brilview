@@ -27,7 +27,8 @@ def init_app():
 
 @app.route('/')
 def root():
-    return app.send_static_file('Default.htm')
+    # return app.send_static_file('Default.htm')
+    return app.send_static_file('index.html')
 
 
 @app.route('/api/query', methods=['GET', 'POST'])
