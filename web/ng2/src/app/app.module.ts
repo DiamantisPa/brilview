@@ -4,19 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ClarityModule } from 'clarity-angular';
 
+import { LumiInspectorModule } from './lumi-inspector/lumi-inspector.module';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HeaderComponent
+        HeaderComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        ClarityModule.forRoot()
+        ClarityModule.forRoot(),
+        LumiInspectorModule
     ],
     providers: [],
     bootstrap: [AppComponent]

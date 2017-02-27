@@ -1,0 +1,90 @@
+<form class="row compact">
+    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
+        <label>Time range</label>
+        <div class="form-group">
+            <label>Time range unit</label>
+            <div class="select">
+                <select>
+                    <option>RUN</option>
+                    <option>FILL</option>
+                    <option>DATE</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>From</label>
+            <input type="text" placeholder="Starting from">
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <input type="text" placeholder="Ending at">
+        </div>
+    </div>
+
+    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
+        <label>Data</label>
+        <div class="form-group">
+            <label>Lumitype</label>
+            <div class="select">
+                <select>
+                    <!-- ng-options="v as k for (k, v) in ctrl.type_options"> -->
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Normtag</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>Datatag</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>HLT path</label>
+            <input type="text">
+        </div>
+    </div>
+
+    <div class="form-block col-lg-4">
+        <label>Switches</label>
+        <div class="form-group">
+            <label>By run/lumisection</label>
+            <div class="checkbox">
+                <input id="f0-byls-check" type="checkbox">
+                <label for="f0-byls-check">By lumisection</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Unit</label>
+            <div class="select">
+                <select>
+                    <!-- ng-options="o for o in ctrl.unit_options"> -->
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Beam status</label>
+            <div class="select">
+                <select>
+                    <!-- ng-options="v as k for (k, v) in ctrl.beamstatus_options"> -->
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Measurement</label>
+            <div class="select">
+                <select>
+                    <option>Delivered & Recorded</option>
+                    <option>Delivered</option>
+                    <option>Recorded</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary">
+            Query
+        </button>
+    </div>
+</form>

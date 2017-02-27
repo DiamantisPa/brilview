@@ -1,0 +1,9 @@
+<div>
+    <label>Status:</label>
+    <span class="label"
+          *ngIf="status"
+          [ngClass]="status === 'OK' ? 'label-success' : 'label-danger'">
+        {{status}}
+    </span>
+</div>
+<div>Message: {{message}}</div>
