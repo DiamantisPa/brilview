@@ -14,6 +14,16 @@ export class ChartComponent implements OnInit, AfterViewInit {
     @ViewChild('secondaryChart') secondChart;
     chartData: any = [];
 
+
+    _twoCharts = false;
+    set twoCharts(newVal: boolean) {
+        this._twoCharts = newVal;
+        setTimeout(this.onResize.bind(this), 100);
+    }
+    get twoCharts(): boolean {
+        return this._twoCharts;
+    }
+
     constructor() { }
 
     ngOnInit() {

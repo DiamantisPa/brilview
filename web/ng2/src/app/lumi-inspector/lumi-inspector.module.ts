@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { DataService } from './data.service';
 
@@ -11,7 +12,8 @@ import { ChartComponent } from './chart/chart.component';
 @NgModule({
     imports: [
         CommonModule,
-        HttpModule
+        HttpModule,
+        FormsModule
     ],
     exports: [
         LumiInspectorComponent
