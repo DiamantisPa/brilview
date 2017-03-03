@@ -1,90 +1,119 @@
-<form class="row compact">
-    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
-        <label>Time range</label>
-        <div class="form-group">
-            <label>Time range unit</label>
-            <div class="select">
+<div class="row">
+    <div class="col-lg-3 col-md-5 col-sm-12">
+        <h4>Time range</h4>
+        <div class="bv-form-group">
+            <label>Time unit</label>
+            <span class="select">
                 <select>
                     <option>RUN</option>
                     <option>FILL</option>
                     <option>DATE</option>
                 </select>
-            </div>
+            </span>
         </div>
-        <div class="form-group">
-            <label>From</label>
+
+        <div class="bv-form-group">
+            <label>Begin</label>
             <input type="text" placeholder="Starting from">
         </div>
-        <div class="form-group">
-            <label>To</label>
+
+        <div class="bv-form-group">
+            <label>End</label>
             <input type="text" placeholder="Ending at">
         </div>
     </div>
 
-    <div class="form-block col-lg-4" style="border-right: 1px solid grey;">
-        <label>Data</label>
-        <div class="form-group">
-            <label>Lumitype</label>
-            <div class="select">
-                <select>
-                    <!-- ng-options="v as k for (k, v) in ctrl.type_options"> -->
-                </select>
+    <div class="col-lg-9 col-md-7 col-sm-12">
+        <h4>Options</h4>
+        <div class="bv-form-options">
+            <div class="bv-form-group">
+                <label>Luminosity source</label>
+                <div class="select">
+                    <select>
+                        <!-- ng-options="v as k for (k, v) in ctrl.type_options"> -->
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label>Normtag</label>
-            <input type="text">
-        </div>
-        <div class="form-group">
-            <label>Datatag</label>
-            <input type="text">
-        </div>
-        <div class="form-group">
-            <label>HLT path</label>
-            <input type="text">
+            <div class="bv-form-group">
+                <label>Normtag</label>
+                <input type="text">
+            </div>
+            <div class="bv-form-group">
+                <label>HLT path</label>
+                <input type="text">
+            </div>
+            <div class="bv-form-group tooltip tooltip-bottom-left">
+                <label>By lumisection</label>
+                <div class="checkbox">
+                    <input id="f0-byls-check" type="checkbox">
+                    <label for="f0-byls-check">By lumisection</label>
+                </div>
+                <span class="tooltip-content">
+                    Data point per lumisection. Otherwise per RUN.
+                </span>
+            </div>
+            <div class="bv-form-group">
+                <label>Unit</label>
+                <div class="select">
+                    <select>
+                        <!-- ng-options="o for o in ctrl.unit_options"> -->
+                    </select>
+                </div>
+            </div>
+            <div class="bv-form-group">
+                <label>Beam status</label>
+                <div class="select">
+                    <select>
+                        <!-- ng-options="v as k for (k, v) in ctrl.beamstatus_options"> -->
+                    </select>
+                </div>
+            </div>
+            <div class="bv-form-group">
+                <label>Measurement</label>
+                <div class="select">
+                    <select>
+                        <option>Delivered & Recorded</option>
+                        <option>Delivered</option>
+                        <option>Recorded</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bv-form-group">
+                <label>Datatag</label>
+                <input type="text">
+            </div>
         </div>
     </div>
 
-    <div class="form-block col-lg-4">
-        <label>Switches</label>
-        <div class="form-group">
-            <label>By run/lumisection</label>
-            <div class="checkbox">
-                <input id="f0-byls-check" type="checkbox">
-                <label for="f0-byls-check">By lumisection</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Unit</label>
-            <div class="select">
-                <select>
-                    <!-- ng-options="o for o in ctrl.unit_options"> -->
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Beam status</label>
-            <div class="select">
-                <select>
-                    <!-- ng-options="v as k for (k, v) in ctrl.beamstatus_options"> -->
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Measurement</label>
-            <div class="select">
-                <select>
-                    <option>Delivered & Recorded</option>
-                    <option>Delivered</option>
-                    <option>Recorded</option>
-                </select>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <div class="col-sm-12">
+<div class="row">
+    <div class="col-sm-2 col-lg-1">
         <button type="submit" class="btn btn-primary">
             Query
         </button>
     </div>
-</form>
+    <div class="col-sm-10 col-lg-11">
+        <div>
+            <label>Status:</label>
+            <span class="label"
+                  [ngClass]="loadingStatus === 'OK' ?
+                             'label-success' :
+                             (loadingStatus === 'WAITING' ?
+                             'label-info' :
+                             'label-danger')">
+                {{loadingStatus}}
+            </span>
+        </div>
+        <div class="hidden-xs-down"
+             *ngIf="message && loadingProgress >= 100">
+            <label>Message:</label> {{message}}
+        </div>
+    </div>
+</div>
+
+<div class="progress progress-fade"
+     [ngClass]="loadingStatus === 'OK' ? 'success flash' : 'flash-danger'"
+     [class.loop]="loadingProgress < 100">
+    <progress max="100" [value]="loadingProgress"></progress>
+</div>
