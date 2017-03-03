@@ -1,2 +1,2 @@
-<bv-lumi-inspector-form></bv-lumi-inspector-form>
-<bv-lumi-inspector-chart></bv-lumi-inspector-chart>
+<bv-lumi-inspector-form (onQuerySuccess)="chartComponent.onNewData($event)"></bv-lumi-inspector-form>
+<bv-lumi-inspector-chart #chartComponent></bv-lumi-inspector-chart>

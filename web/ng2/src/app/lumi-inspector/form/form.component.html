@@ -89,12 +89,12 @@
 
 <div class="row">
     <div class="col-sm-2 col-lg-1">
-        <button type="submit" class="btn btn-primary">
+        <button class="btn btn-primary" (click)="query()">
             Query
         </button>
     </div>
     <div class="col-sm-10 col-lg-11">
-        <div>
+        <div [hidden]="!loadingStatus">
             <label>Status:</label>
             <span class="label"
                   [ngClass]="loadingStatus === 'OK' ?
@@ -106,13 +106,14 @@
             </span>
         </div>
         <div class="hidden-xs-down"
-             *ngIf="message && loadingProgress >= 100">
+             [hidden]="!message || loadingProgress < 100">
             <label>Message:</label> {{message}}
         </div>
     </div>
 </div>
 
 <div class="progress progress-fade"
+     [hidden]="!loadingStatus"
      [ngClass]="loadingStatus === 'OK' ? 'success flash' : 'flash-danger'"
      [class.loop]="loadingProgress < 100">
     <progress max="100" [value]="loadingProgress"></progress>

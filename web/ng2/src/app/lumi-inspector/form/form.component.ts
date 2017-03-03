@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
     selector: 'bv-lumi-inspector-form',
@@ -7,27 +8,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
+    @Output() onQuerySuccess = new EventEmitter();
     message = '';
-    loadingStatus = 'WAITING';
-    loadingProgress = 0;
+    loadingStatus = '';
+    loadingProgress = 100;
+    params = {
+        begin: null,
+        end: null,
+        timeunit: 'RUN',
+        beamstatus: null,
+        normtag: null,
+        datatag: null,
+        hltpath: null,
+        unit: 'hz/ub',
+        type: null,
+        byls: true,
+        measurement: 'Recorded'
+    };
+    lastQueryParams = {};
 
-    constructor() { }
+    constructor(private dataService: DataService) { }
 
     ngOnInit() {
-        setTimeout(() => {
-            this.loadingStatus = 'ERROR';
-            this.message = 'some kind of problem';
-            this.loadingProgress = 100;
-        }, 2000);
-        setTimeout(() => {
-            this.loadingStatus = 'WAITING';
-            this.loadingProgress = 0;
-        }, 4000);
-        setTimeout(() => {
-            this.loadingStatus = 'OK';
-            this.message = 'all good';
-            this.loadingProgress = 100;
-        }, 6000);
+        this.params.begin = '275309';
+        this.params.end = '275309';
+        this.params.measurement = 'Recorded';
+    }
+
+    query() {
+        this.loadingStatus = 'WAITING';
+        this.message = null;
+        this.loadingProgress = 0;
+        this.lastQueryParams = Object.assign({}, this.params);
+        this.dataService.query(this.lastQueryParams)
+            .finally(() => this.loadingProgress = 100)
+            .subscribe(
+                this.handleQuerySuccess.bind(this),
+                this.handleQueryFailure.bind(this)
+            );
+    }
+
+    handleQuerySuccess(data) {
+        this.loadingStatus = 'OK';
+        this.message = null;
+        // try {
+        this.onQuerySuccess.emit({data: data, params: this.lastQueryParams});
+        // } catch (e) {
+        //     console.log(e);
+        //     this.loadingStatus = 'CHART FAILED';
+        //     this.message = e;
+        // }
+    }
+
+    handleQueryFailure(error) {
+        this.loadingStatus = 'REQUEST FAILED';
+        this.message = error;
     }
 
 }

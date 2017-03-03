@@ -8,6 +8,7 @@
 .bv-form-options::after {
     content: "";
     flex: 1 0 312px;
+    margin-right: 24px;
 }
 
 .bv-form-group {
