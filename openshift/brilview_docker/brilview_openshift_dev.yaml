@@ -1,0 +1,48 @@
+#application server port
+port: 1495
+
+#application server host
+host: 0.0.0.0
+
+#is daemon
+daemon: false
+
+#user only works with sudoer
+user: brilview
+
+#group only works with sudoer
+#group: zh
+
+#use cherrypy container or not
+use_cherrypy: true    #true of false
+
+#base directory for files, considered only when no absolute path provided
+instance_path: /brilview_tmp
+
+#log level
+log_level: WARNING                     #ERROR INFO WARNING DEBUG
+
+#log to screen
+log_to_screen: false                     #true or false
+
+#unified log file
+log_file: /brilview_tmp/brilview.log   #none or file name
+
+#max bytes of log file
+log_file_max_bytes: 10485760
+
+#max number of log file rollover
+log_file_backup_count: 5
+
+#pid file
+pid_file: /brilview_tmp/brilview.pid   #none or file name
+
+flask:
+  #folder for static file
+  static_folder: '/opt/app-root/src/brilview/web/' #TO DO none or path
+
+handlers: [brilcommandhandler,dbhandler]
+
+brilcommandhandler:
+  command: /opt/brilconda/bin/brilcalc    #none or command path
+  webcacheconfig: /brilview_tmp/frontier_config.xml      #none or config file
