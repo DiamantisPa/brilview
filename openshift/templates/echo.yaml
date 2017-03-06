@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata: {name: echo-image}
+- apiVersion: v1
+  kind: BuildConfig
+  metadata: {name: echo}
+  spec: 
+    source: 
+      type: Binary
+      binary: {asFile: ""}
+    strategy: 
+      type: Docker
+    output: 
+      to: 
+        kind: ImageStreamTag
+        name: "echo-image:latest"
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata: {name: echopod}
+  spec: 
+    template:
+      metadata: 
+        labels: 
+          app: echo 
+      spec:
+        containers:
+        - name: 
+            echo-container 
+          image: 
+            "172.30.78.46:5000/test-paaszhen/echo-image"
+          ports:
+          - {containerPort: 1500, protocol: TCP} 
+    replicas: 1
+  triggers:
+  - {type: ConfigChange}
+  - type: 
+      ImageChange:
+        imageChangeParams: 
+          automatic: 
+            true 
+          containerNames: [echo-container]
+          from: 
+            kind: 
+              ImageStreamTag
+            name: 
+              "echo-image:latest" 
+  strategy: {type: Rolling}
+  revisionHistoryLimit: 2 
+- apiVersion: v1
+  kind: Service
+  metadata: {name: echoservice}
+  spec:
+    selector: {app: echo}
+    ports: [{name: mainport, port: 1501, protocol: TCP, targetPort: 1500}]
+- apiVersion: v1
+  kind: Route
+  metadata: {name: echoroute}
+  spec:
+    path: "/echo" 
+    to: 
+      kind: Service
+      name: echoservice
+    port: 
+      targetPort: mainport
+      
+

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata: {name: brilconda-image}
+- apiVersion: v1
+  kind: BuildConfig
+  metadata: {name: brilconda}
+  spec: 
+    source: 
+      type: Binary 
+      binary: {asFile: ""} 
+    strategy: 
+      type: Docker 
+    output: 
+      to: 
+        kind: ImageStreamTag
+        name: "brilconda-image:latest"
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata: {name: brilview-pod}
+  spec: 
+    template:
+      metadata: 
+        labels: 
+          app: brilview
+      spec:
+        containers:
+        - name: 
+            brilconda-container 
+          image: 
+            "172.30.78.46:5000/test-paaszhen/brilconda-image"
+    replicas: 1
+  triggers:
+  - type: 
+      ConfigChange
+  - type: 
+      ImageChange:
+        imageChangeParams: 
+          automatic: 
+            true
+          containerNames: [brilconda-container] 
+          from: 
+            kind: 
+              ImageStreamTag 
+            name: 
+              "brilconda-image:latest" 
+  strategy: {type: Rolling}
+  revisionHistoryLimit: 2 
+- apiVersion: v1
+  kind: Service
+  metadata: {name: brilservice}
+  spec:
+    selector: {app: brilview}
+    ports: [{name: mainport, port: 1496, protocol: TCP, targetPort: 1495}]
+- apiVersion: v1
+  kind: Route
+  metadata: {name: brilroute}
+  spec: 
+    to: 
+      kind: Service
+      name: brilservice
+    port: 
+      targetPort: mainport
+      
+
