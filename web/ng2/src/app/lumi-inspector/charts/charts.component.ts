@@ -68,7 +68,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         console.log('newdata', newData);
 
         let name = params['type'] + ' ' + params['normtag'] + ' ';
-        name += params['beamstatus'] + ' ' + params['htlpath'] + ' ';
+        name += params['beamstatus'] + ' ' + params['hltpath'] + ' ';
         name += params['datatag'] + ' (' + params['unit'] + ')';
         const newSeries = [];
         if (params['measurement'] === 'Delivered & Recorded' ||

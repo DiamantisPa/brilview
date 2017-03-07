@@ -38,12 +38,6 @@ export class CommonChartControlsComponent implements OnInit {
     ngOnInit() {
     }
 
-    test() {
-        const chartData = this.chart.data;
-        chartData.push({x: [1, 2, 3, 4, 5, 6], y: [2, 1, 4, 2, 3, 5]});
-        Plotly.redraw(this.chart);
-    }
-
     toggleAxesTypes() {
         // only Y axis is needed
         const layout: any = {

@@ -3,23 +3,21 @@
         <h4>Time range</h4>
         <div class="li-form-group">
             <label>Time unit</label>
-            <span class="select">
-                <select>
-                    <option>RUN</option>
-                    <option>FILL</option>
-                    <option>DATE</option>
+            <div class="select">
+                <select [(ngModel)]="params.timeunit">
+                    <option *ngFor="let opt of paramOptions.timeunit">{{opt}}</option>
                 </select>
-            </span>
+            </div>
         </div>
 
         <div class="li-form-group">
             <label>Begin</label>
-            <input type="text" placeholder="Starting from">
+            <input type="text" placeholder="Starting from" [(ngModel)]="params.begin">
         </div>
 
         <div class="li-form-group">
             <label>End</label>
-            <input type="text" placeholder="Ending at">
+            <input type="text" placeholder="Ending at" [(ngModel)]="params.end">
         </div>
     </div>
 
@@ -29,58 +27,55 @@
             <div class="li-form-group">
                 <label>Luminosity source</label>
                 <div class="select">
-                    <select>
-                        <!-- ng-options="v as k for (k, v) in ctrl.type_options"> -->
+                    <select [(ngModel)]="params.type">
+                        <option *ngFor="let opt of paramOptions.type">{{opt}}</option>
                     </select>
                 </div>
             </div>
             <div class="li-form-group">
                 <label>Normtag</label>
-                <input type="text">
+                <input type="text" [(ngModel)]="params.normtag">
             </div>
             <div class="li-form-group">
                 <label>HLT path</label>
-                <input type="text">
+                <input type="text" [(ngModel)]="params.hltpath">
             </div>
             <div class="li-form-group tooltip tooltip-bottom-left">
                 <label>By lumisection</label>
-                <div class="checkbox">
-                    <input id="f0-byls-check" type="checkbox">
-                    <label for="f0-byls-check">By lumisection</label>
-                </div>
+                <clr-checkbox [(ngModel)]="params.byls">
+                    By lumisection
+                </clr-checkbox>
                 <span class="tooltip-content">
-                    Data point per lumisection. Otherwise per RUN.
+                    Data point per lumisection. Otherwise per run.
                 </span>
             </div>
             <div class="li-form-group">
                 <label>Unit</label>
                 <div class="select">
-                    <select>
-                        <!-- ng-options="o for o in ctrl.unit_options"> -->
+                    <select [(ngModel)]="params.unit">
+                        <option *ngFor="let opt of paramOptions.unit">{{opt}}</option>
                     </select>
                 </div>
             </div>
             <div class="li-form-group">
                 <label>Beam status</label>
                 <div class="select">
-                    <select>
-                        <!-- ng-options="v as k for (k, v) in ctrl.beamstatus_options"> -->
+                    <select [(ngModel)]="params.beamstatus">
+                        <option *ngFor="let opt of paramOptions.beamstatus">{{opt}}</option>
                     </select>
                 </div>
             </div>
             <div class="li-form-group">
                 <label>Measurement</label>
                 <div class="select">
-                    <select>
-                        <option>Delivered & Recorded</option>
-                        <option>Delivered</option>
-                        <option>Recorded</option>
+                    <select [(ngModel)]="params.measurement">
+                        <option *ngFor="let opt of paramOptions.measurement">{{opt}}</option>
                     </select>
                 </div>
             </div>
             <div class="li-form-group">
                 <label>Datatag</label>
-                <input type="text">
+                <input type="text" [(ngModel)]="params.datatag">
             </div>
         </div>
     </div>

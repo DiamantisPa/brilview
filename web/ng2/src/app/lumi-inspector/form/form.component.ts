@@ -24,18 +24,24 @@ export class FormComponent implements OnInit {
         datatag: null,
         hltpath: null,
         unit: 'hz/ub',
-        type: null,
+        type: 'Online',
         byls: true,
         measurement: 'Recorded'
     };
     lastQueryParams = {};
+    paramOptions = {
+        timeunit: ['RUN', 'FILL', 'DATE'],
+        type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PCC', 'DT', 'mixed'],
+        unit: ['hz/ub', '/ub', '/mb'],
+        beamstatus: ['any', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
+        measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
+    };
 
     constructor(private dataService: DataService) { }
 
     ngOnInit() {
         this.params.begin = '275309';
         this.params.end = '275309';
-        this.params.measurement = 'Recorded';
     }
 
     query() {
@@ -52,20 +58,14 @@ export class FormComponent implements OnInit {
     }
 
     handleQuerySuccess(data) {
-        this.loadingStatus = 'OK';
         this.message = null;
-        // try {
-        this.onQuerySuccess.emit({data: data, params: this.lastQueryParams});
-        // } catch (e) {
-        //     console.log(e);
-        //     this.loadingStatus = 'CHART FAILED';
-        //     this.message = e;
-        // }
+        this.loadingStatus = data.status;
+        this.onQuerySuccess.emit({data: data.data, params: this.lastQueryParams});
     }
 
     handleQueryFailure(error) {
         this.loadingStatus = 'REQUEST FAILED';
-        this.message = error;
+        this.message = JSON.stringify(error);
     }
 
 }
