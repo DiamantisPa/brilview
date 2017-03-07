@@ -4,7 +4,10 @@ import { DataService } from '../data.service';
 @Component({
     selector: 'bv-lumi-inspector-form',
     templateUrl: './form.component.html',
-    styleUrls: ['./form.component.css']
+    styleUrls: [
+        '../lumi-inspector.component.css',
+        './form.component.css'
+    ]
 })
 export class FormComponent implements OnInit {
 

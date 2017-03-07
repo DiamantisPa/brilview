@@ -1,32 +1,3 @@
-.bv-form-options {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.bv-form-options::after {
-    content: "";
-    flex: 1 0 312px;
-    margin-right: 24px;
-}
-
-.bv-form-group {
-    flex: 1 0 312px;
-    margin-right: 24px;
-    position: relative;
-    padding-left: 134px;
-    padding-bottom: 3px;
-    /* overflow: hidden; cannot use yet because of Clarity tooltip visibility */
-}
-
-.bv-form-group > label:first-child{
-    font-weight: bold;
-    position: absolute;
-    width: 134px;
-    left: 0px
-}
-
 .progress {
     margin-top: 3px;
     line-height: 0px;
