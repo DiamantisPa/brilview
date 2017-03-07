@@ -14,6 +14,16 @@ export class CommonChartControlsComponent implements OnInit {
 
     @Input('chart') chart;
 
+    chartTypeOptions = ['line', 'scatter', 'bar'];
+    _chartType: string;
+    set chartType(value: string) {
+        this._chartType = value;
+        this.toggleChartType();
+    }
+    get chartType(): string {
+        return this._chartType;
+    }
+
     _logarithmicY: boolean = false;
     set logarithmicY(value: boolean) {
         this._logarithmicY = value;
@@ -26,7 +36,6 @@ export class CommonChartControlsComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        console.log(this.chart);
     }
 
     test() {
@@ -45,6 +54,32 @@ export class CommonChartControlsComponent implements OnInit {
             layout['yaxis.type'] = 'log';
         }
         Plotly.relayout(this.chart, layout);
+    }
+
+    toggleChartType() {
+        console.log('in toggleChartType', this.chartType);
+        const chartData = this.chart.data;
+        const chartTypeLow = this.chartType.toLowerCase();
+        let modeAndType;
+        if (chartTypeLow === 'line') {
+            modeAndType = {
+                'mode': 'lines',
+                'type': 'scatter'
+            };
+        } else if (chartTypeLow === 'scatter') {
+            modeAndType = {
+                'mode': 'markers',
+                'type': 'scatter'
+            };
+        } else if (chartTypeLow === 'bar') {
+            modeAndType = {
+                'type': 'bar'
+            };
+        }
+        for (const series of chartData) {
+            Object.assign(series, modeAndType);
+        }
+        Plotly.redraw(this.chart, chartData);
     }
 
 }

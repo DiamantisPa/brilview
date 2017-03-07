@@ -38,6 +38,9 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         Plotly.plot(this.secondChart.nativeElement, [{
             x: [1, 2, 3, 4, 5],
             y: [1, 2, 4, 8, 16],
+        }, {
+            x: [0, 1, 4, 9],
+            y: [1, 3, 5, 7],
         }]);
         Observable.fromEvent(window, 'resize')
             .debounceTime(900)
