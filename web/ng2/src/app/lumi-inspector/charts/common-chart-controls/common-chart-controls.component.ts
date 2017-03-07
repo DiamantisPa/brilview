@@ -40,16 +40,11 @@ export class CommonChartControlsComponent implements OnInit {
         const layout: any = {
             'yaxis.type': 'lin',
             'yaxis.autorange': true
-            // 'xaxis.autorange': true
         };
         if (this.logarithmicY) {
             layout['yaxis.type'] = 'log';
         }
         Plotly.relayout(this.chart, layout);
-        // setTimeout(() => {
-        //     layout.yaxis['autorange'] = true;
-        //     Plotly.relayout(this.chart, layout);
-        // }, 200);
     }
 
 }
