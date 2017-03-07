@@ -29,12 +29,18 @@ items:
           app: brilview
       spec:
         containers:
-        - name: 
-            brilview-container 
-          image: 
-            "172.30.78.46:5000/test-paaszhen/brilview-image"
+        - name: brilview-container 
+          image: "172.30.78.46:5000/test-paaszhen/brilview-image"
           ports:
-          - {containerPort: 1495, protocol: TCP}  
+          - containerPort: 1495 
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 4000m
+              memory: 8Gi
+            requests:
+              cpu: 3600m
+              memory: 7Gi 
     replicas: 1
     triggers:
       - type: ConfigChange
