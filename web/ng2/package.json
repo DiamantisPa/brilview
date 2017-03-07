@@ -21,14 +21,16 @@
     "@angular/platform-browser": "^2.4.0",
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "~3.4.0",
-    "@webcomponents/custom-elements": "^1.0.0-alpha.3",
     "clarity-angular": "^0.8.8",
     "clarity-icons": "^0.8.8",
     "clarity-ui": "^0.8.8",
     "core-js": "^2.4.1",
+    "install": "^0.8.7",
+    "npm": "^4.3.0",
     "plotly.js": "^1.24.0",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
+    "webcomponents.js": "github:webcomponents/webcomponentsjs",
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
