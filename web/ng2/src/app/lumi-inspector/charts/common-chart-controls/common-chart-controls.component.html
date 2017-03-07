@@ -1,0 +1,40 @@
+<div class="li-form-controls li-compact-form-controls">
+    <!-- <div class="li-form-group"> -->
+    <!-- <label>Chart height</label> -->
+    <!-- <div class="select" > -->
+    <!-- <select> -->
+    <!-- <option>400</option> -->
+    <!-- <option>600</option> -->
+    <!-- <option>800</option> -->
+    <!-- <option>1000</option> -->
+    <!-- </select> -->
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <div class="li-form-group">
+        <label>Chart type</label>
+        <div class="select" >
+            <select>
+                <option>Scatter</option>
+                <option>Line</option>
+                <option>Bar</option>
+                <option>Area</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="li-form-element form-group">
+        <clr-checkbox [(ngModel)]="logarithmicY" [clrInline]="true">
+            Log Y axis
+        </clr-checkbox>
+    </div>
+
+    <div class="li-form-element">
+        <button class="btn btn-warning-outline">
+            Clear chart
+        </button>
+        <button class="btn btn-warning-outline">
+            Pop series
+        </button>
+    </div>
+</div>

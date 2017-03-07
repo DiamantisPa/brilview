@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Rx';
 declare var Plotly: any;
 
 @Component({
-    selector: 'bv-lumi-inspector-chart',
-    templateUrl: './chart.component.html',
-    styleUrls: ['./chart.component.css']
+    selector: 'bv-lumi-inspector-charts',
+    templateUrl: './charts.component.html',
+    styleUrls: ['./charts.component.css']
 })
-export class ChartComponent implements OnInit, AfterViewInit {
+export class ChartsComponent implements OnInit, AfterViewInit {
 
     @ViewChild('mainChart') mainChart;
     @ViewChild('secondaryChart') secondChart;

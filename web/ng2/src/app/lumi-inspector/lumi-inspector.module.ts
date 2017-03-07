@@ -2,18 +2,21 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { ClarityModule } from 'clarity-angular';
 
 import { DataService } from './data.service';
 
 import { FormComponent } from './form/form.component';
 import { LumiInspectorComponent } from './lumi-inspector.component';
-import { ChartComponent } from './chart/chart.component';
+import { ChartsComponent } from './charts/charts.component';
+import { CommonChartControlsComponent } from './charts/common-chart-controls/common-chart-controls.component';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
-        FormsModule
+        FormsModule,
+        ClarityModule.forRoot()
     ],
     exports: [
         LumiInspectorComponent
@@ -22,7 +25,8 @@ import { ChartComponent } from './chart/chart.component';
     declarations: [
         FormComponent,
         LumiInspectorComponent,
-        ChartComponent
+        ChartsComponent,
+        CommonChartControlsComponent,
     ],
     providers: [
         DataService

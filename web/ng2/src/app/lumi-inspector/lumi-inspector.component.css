@@ -1,0 +1,58 @@
+.li-form-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+}
+
+.li-form-controls::after {
+    content: "";
+    flex: 1 0 312px;
+    margin-right: 24px;
+}
+
+.li-compact-form-controls::after {
+    display: none;
+}
+
+.li-form-group {
+    flex: 1 0 312px;
+    margin-right: 24px;
+    position: relative;
+    padding-left: 144px;
+    padding-bottom: 3px;
+    /* overflow: hidden; cannot use yet because of Clarity tooltip visibility */
+}
+
+.li-form-element {
+    flex: 0 0 auto;
+    padding-left: 12px;
+    margin-right: 24px;
+    position: relative;
+    padding-bottom: 3px;
+}
+
+.li-compact-form-controls > .li-form-group {
+    flex: 0 0 216px;
+    padding-left: 120px;
+    margin-right: 12px;
+}
+
+.li-form-group > label:first-child {
+    font-weight: bold;
+    position: absolute;
+    padding-right: 6px;
+    text-align: right;
+    white-space: nowrap;
+    width: 144px;
+    left: 0px
+}
+
+.li-compact-form-controls > .li-form-group > label:first-child {
+    width: 120px;
+}
+
+input {
+    width: 100%;
+}
