@@ -3,14 +3,17 @@ kind: List
 items:
 - apiVersion: v1
   kind: ImageStream
-  metadata: {name: echo-image}
+  metadata: 
+    name: echo-image
 - apiVersion: v1
   kind: BuildConfig
-  metadata: {name: echo}
+  metadata: 
+    name: echo
   spec: 
     source: 
       type: Binary
-      binary: {asFile: ""}
+      binary: 
+        asFile: ""
     strategy: 
       type: Docker
     output: 
@@ -19,7 +22,8 @@ items:
         name: "echo-image:latest"
 - apiVersion: v1
   kind: DeploymentConfig
-  metadata: {name: echopod}
+  metadata: 
+    name: echopod
   spec: 
     template:
       metadata: 
@@ -27,28 +31,23 @@ items:
           app: echo 
       spec:
         containers:
-        - name: 
-            echo-container 
-          image: 
-            "172.30.78.46:5000/test-paaszhen/echo-image"
+        - name: echo-container 
+          image: "172.30.78.46:5000/test-paaszhen/echo-image"
           ports:
           - {containerPort: 1500, protocol: TCP} 
     replicas: 1
-  triggers:
-  - {type: ConfigChange}
-  - type: 
-      ImageChange:
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
         imageChangeParams: 
-          automatic: 
-            true 
+          automatic: true 
           containerNames: [echo-container]
           from: 
-            kind: 
-              ImageStreamTag
-            name: 
-              "echo-image:latest" 
-  strategy: {type: Rolling}
-  revisionHistoryLimit: 2 
+            kind: ImageStreamTag
+            name: "echo-image:latest" 
+    strategy: 
+      type: Rolling
+    revisionHistoryLimit: 2 
 - apiVersion: v1
   kind: Service
   metadata: {name: echoservice}
