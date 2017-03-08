@@ -14,7 +14,7 @@ export class CommonChartControlsComponent implements OnInit {
 
     @Input('chart') chart;
 
-    chartTypeOptions = ['line', 'scatter', 'bar'];
+    chartTypeOptions = ['line', 'scatter', 'bar', 'barstack'];
     _chartType: string;
     set chartType(value: string) {
         this._chartType = value;
@@ -55,25 +55,39 @@ export class CommonChartControlsComponent implements OnInit {
         const chartData = this.chart.data;
         const chartTypeLow = this.chartType.toLowerCase();
         let modeAndType;
+        let layout = null;
         if (chartTypeLow === 'line') {
             modeAndType = {
                 'mode': 'lines',
-                'type': 'scatter'
+                'type': 'scatter',
             };
         } else if (chartTypeLow === 'scatter') {
             modeAndType = {
                 'mode': 'markers',
-                'type': 'scatter'
+                'type': 'scatter',
             };
         } else if (chartTypeLow === 'bar') {
             modeAndType = {
-                'type': 'bar'
+                'type': 'bar',
+            };
+            layout = {
+                'barmode': null
+            };
+        } else if (chartTypeLow === 'barstack') {
+            modeAndType = {
+                'type': 'bar',
+            };
+            layout = {
+                'barmode': 'stack'
             };
         }
         for (const series of chartData) {
             Object.assign(series, modeAndType);
         }
         Plotly.redraw(this.chart, chartData);
+        if (layout) {
+            Plotly.relayout(this.chart, layout);
+        }
     }
 
 }

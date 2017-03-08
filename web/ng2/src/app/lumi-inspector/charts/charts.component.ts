@@ -94,8 +94,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
             this.chartData.push({
                 x: x,
                 y: newData[series.yfield],
-                name: series.name,
-                mode: 'lines'
+                name: series.name
             });
         }
         console.log(this.chartData);
