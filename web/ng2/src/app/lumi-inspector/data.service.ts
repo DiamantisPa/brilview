@@ -11,6 +11,7 @@ export class DataService {
     static postOptions = new RequestOptions({ headers: DataService.postHeaders });
 
 
+    lumiDataLimit = 20;
     lumiData = [];
     protected storage = {};
     protected lastStorageID = -1;
@@ -67,6 +68,7 @@ export class DataService {
             data: data
         };
         this.lumiData.push([id, name]);
+        this.removeLumiDataOverLimit();
     }
 
     makeLumiDataName(params, data) {
@@ -97,6 +99,14 @@ export class DataService {
         const ids = Object.keys(this.storage);
         for (const id of ids) {
             delete this.storage[id];
+        }
+    }
+
+    removeLumiDataOverLimit() {
+        let id;
+        while (this.lumiData.length > this.lumiDataLimit) {
+            id = this.lumiData[0][0];
+            this.removeLumiDataFromStorage(id);
         }
     }
 
