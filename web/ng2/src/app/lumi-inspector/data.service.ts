@@ -92,4 +92,12 @@ export class DataService {
         delete this.storage[id];
     }
 
+    clearLumiDataStorage() {
+        this.lumiData.length = 0;
+        const ids = Object.keys(this.storage);
+        for (const id of ids) {
+            delete this.storage[id];
+        }
+    }
+
 }

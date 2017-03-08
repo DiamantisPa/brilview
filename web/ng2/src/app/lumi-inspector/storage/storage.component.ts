@@ -33,6 +33,10 @@ export class StorageComponent implements OnInit {
         this.dataService.removeLumiDataFromStorage(id);
     }
 
+    clearAllLumiData() {
+        this.dataService.clearLumiDataStorage();
+    }
+
     openLumiDataCSV(id) {
         const data = this.dataService.getLumiDataFromStorage(id)['data'];
         const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];

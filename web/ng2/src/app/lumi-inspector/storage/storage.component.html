@@ -12,9 +12,14 @@
                 </button>
                 <button
                     (click)="removeLumiData(item[0])">
-                    delete
+                    remove
                 </button>
             </clr-dg-cell>
         </clr-dg-row>
         <clr-dg-footer>{{lumiData.length}} items</clr-dg-footer>
 </clr-datagrid>
+<button
+    class="btn btn-danger"
+    (click)="clearAllLumiData()">
+    Remove all
+</button>
