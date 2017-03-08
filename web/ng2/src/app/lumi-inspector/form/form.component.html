@@ -110,9 +110,10 @@
     </div>
 </div>
 
-<div class="progress progress-fade"
+<div class="progress"
      [hidden]="!loadingStatus"
-     [ngClass]="loadingStatus === 'OK' ? 'success flash' : 'flash-danger'"
+     [class.flash]="loadingProgress === 100 && loadingStatus === 'OK'"
+     [class.flash-danger]="loadingProgress === 100 && loadingStatus !== 'OK'"
      [class.loop]="loadingProgress < 100">
     <progress max="100" [value]="loadingProgress"></progress>
 </div>

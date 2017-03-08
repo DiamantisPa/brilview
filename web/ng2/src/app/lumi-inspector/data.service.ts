@@ -10,6 +10,12 @@ export class DataService {
     static postHeaders = new Headers({'Content-Type': 'application/json'});
     static postOptions = new RequestOptions({ headers: DataService.postHeaders });
 
+
+    lumiData = [];
+    protected storage = {};
+    protected lastStorageID = -1;
+
+
     constructor(private http: Http) { }
 
     query(params) {
@@ -28,6 +34,7 @@ export class DataService {
                     }
                     throw data;
                 }
+                this.addToStorage(params, data.data);
             });
     }
 
@@ -46,6 +53,43 @@ export class DataService {
             }
         }
         return _params;
+    }
+
+    protected addToStorage(params, data) {
+        const id = this.lastStorageID = this.lastStorageID + 1;
+        const name = this.makeLumiDataName(params, data);
+        if (this.storage.hasOwnProperty(id)) {
+            throw Error('Cannot insert lumi data. ID already exists.');
+        }
+        this.storage[id] = {
+            name: name,
+            params: Object.assign({}, params),
+            data: data
+        };
+        this.lumiData.push([id, name]);
+    }
+
+    makeLumiDataName(params, data) {
+        return [
+            params['begin'], params['end'], params['type'],
+            (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
+            params['normtag'], params['hltpath'], params['datatag'],
+            params['unit'], data['tssec'].length + ' data points'].filter(Boolean).join(', ');
+    }
+
+    getLumiDataFromStorage(id) {
+        // TODO: better be return clone, not reference
+        return this.storage[id];
+    }
+
+    removeLumiDataFromStorage(id) {
+        for (let i = 0; i < this.lumiData.length; ++i) {
+            if (this.lumiData[i][0] === id) {
+                this.lumiData.splice(i, 1);
+                break;
+            }
+        }
+        delete this.storage[id];
     }
 
 }

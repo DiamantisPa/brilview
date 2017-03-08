@@ -10,6 +10,7 @@ import { FormComponent } from './form/form.component';
 import { LumiInspectorComponent } from './lumi-inspector.component';
 import { ChartsComponent } from './charts/charts.component';
 import { CommonChartControlsComponent } from './charts/common-chart-controls/common-chart-controls.component';
+import { StorageComponent } from './storage/storage.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { CommonChartControlsComponent } from './charts/common-chart-controls/com
         LumiInspectorComponent,
         ChartsComponent,
         CommonChartControlsComponent,
+        StorageComponent,
     ],
     providers: [
         DataService

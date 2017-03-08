@@ -75,7 +75,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
 
         if (this.chartData.length > 0) {
             if (this.chartUnit !== params['unit']) {
-                throw 'Conflicting Y axis units';
+                throw Error('Conflicting Y axis units');
             }
         } else {
             this.chartUnit = params['unit'];

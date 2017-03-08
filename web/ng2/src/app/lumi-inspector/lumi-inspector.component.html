@@ -1,5 +1,22 @@
-<li-form
-    [constraints]="chartsComponent.inputDataConstraints"
-    (onQuerySuccess)="chartsComponent.onNewData($event)">
-</li-form>
+<clr-tabs>
+    <clr-tab-link [clrTabLinkActive]="true">
+        <clr-icon shape="search"></clr-icon>
+        Query
+    </clr-tab-link>
+    <clr-tab-link>
+        <clr-icon shape="clipboard"></clr-icon>
+        Memory
+        <span class="badge badge-blue">{{lumiData.length}}</span>
+    </clr-tab-link>
+
+    <clr-tab-content [clrTabContentActive]="true">
+        <li-form
+            [constraints]="chartsComponent.inputDataConstraints"
+            (onQuerySuccess)="chartsComponent.onNewData($event)">
+        </li-form>
+    </clr-tab-content>
+    <clr-tab-content>
+        <li-storage></li-storage>
+    </clr-tab-content>
+</clr-tabs>
 <li-charts #chartsComponent></li-charts>
