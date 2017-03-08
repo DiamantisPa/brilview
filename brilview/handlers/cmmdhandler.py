@@ -100,7 +100,7 @@ def brilcalcLumiHandler(commandargs={}):
             tssecs.append( int(items[2]) )
             delivereds.append( float(items[5]) )
             recordeds.append( float(items[6]) )
-            lsnum = [ int(x[0]) for x in items[1].split(':') ]
+            lsnum =  int(items[1].split(':')[0] )
             lsnums.append(lsnum)
         else:
             tssecs.append( int(items[1]) )
@@ -174,4 +174,4 @@ if __name__ == '__main__':
      #    cmmd=['/home/data/brilws/brilcalc-run.py'])
      bvconfig.update({"brilcommandhandler": {}})
      bvconfig.brilcommandhandler['command'] = '/home/zhen/work/brilws/brilcalc-run.py'
-     print brilcalcLumiHandler({'begin':284077,'end':284077})
+     print brilcalcLumiHandler({'begin':284077,'end':284077,'byls':True})

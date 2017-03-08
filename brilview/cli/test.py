@@ -3,7 +3,16 @@ import threading
 import requests
 import webbrowser
 import time
-app = flask.Flask(__name__)
+import os
+
+
+default_instancepath = os.path.abspath(os.path.join(os.path.dirname(__file__),'data'))
+app = flask.Flask(__name__, instance_path=default_instancepath , instance_relative_config=True )
+
+with open(os.path.join(default_instancepath,brilview.config)) as f:
+    
+
+
 @app.route('/')
 def hello_world():
     return 'hello world'
