@@ -41,7 +41,7 @@ export class DataService {
             }
         }
         if (_params['beamstatus']) {
-            if (_params['beamstatus'].toLowerCase() === 'any') {
+            if (_params['beamstatus'].toLowerCase() === 'any beams') {
                 _params['beamstatus'] = null;
             }
         }

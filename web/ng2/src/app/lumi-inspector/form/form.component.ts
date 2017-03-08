@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
         begin: null,
         end: null,
         timeunit: 'RUN',
-        beamstatus: null,
+        beamstatus: 'any beams',
         normtag: null,
         datatag: null,
         hltpath: null,
@@ -33,7 +33,7 @@ export class FormComponent implements OnInit {
         timeunit: ['RUN', 'FILL', 'DATE'],
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PCC', 'DT', 'mixed'],
         unit: ['hz/ub', '/ub', '/mb'],
-        beamstatus: ['any', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
+        beamstatus: ['any beams', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
         measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
     };
 

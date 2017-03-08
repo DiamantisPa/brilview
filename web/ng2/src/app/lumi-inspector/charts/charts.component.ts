@@ -75,22 +75,26 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         const params = event.params;
         console.log('newdata', newData);
 
-        let name = params['type'] + ' ' + params['normtag'] + ' ';
-        name += params['beamstatus'] + ' ' + params['hltpath'] + ' ';
-        name += params['datatag'] + ' (' + params['unit'] + ')';
+        const name = [
+            params['type'], params['normtag'], params['beamstatus'],
+            params['hltpath'], params['datatag'],
+            (params['byls'] ? 'byLS' : 'byRUN')
+        ].filter(Boolean); // filter out null, undefined, 0, false, empty string
+        name.push('(' + params['unit'] + ')');
+
         const newSeries = [];
         if (params['measurement'] === 'Delivered & Recorded' ||
             params['measurement'] === 'Delivered') {
             newSeries.push({
                 yfield: 'delivered',
-                name: 'Delivered ' + name
+                name: 'Delivered ' + name.join(' ')
             });
         }
         if (params['measurement'] === 'Delivered & Recorded' ||
             params['measurement'] === 'Recorded') {
             newSeries.push({
                 yfield: 'recorded',
-                name: 'Recorded ' + name
+                name: 'Recorded ' + name.join(' ')
             });
         }
 
@@ -102,7 +106,10 @@ export class ChartsComponent implements OnInit, AfterViewInit {
             this.chartData.push({
                 x: x,
                 y: newData[series.yfield],
-                name: series.name
+                name: series.name,
+                line: {
+                    width: 1
+                }
             });
         }
         console.log(this.chartData);
