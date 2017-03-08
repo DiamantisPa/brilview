@@ -1,2 +1,5 @@
-<bv-lumi-inspector-form (onQuerySuccess)="chartsComponent.onNewData($event)"></bv-lumi-inspector-form>
-<bv-lumi-inspector-charts #chartsComponent></bv-lumi-inspector-charts>
+<li-form
+    [constraints]="chartsComponent.inputDataConstraints"
+    (onQuerySuccess)="chartsComponent.onNewData($event)">
+</li-form>
+<li-charts #chartsComponent></li-charts>

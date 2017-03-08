@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
-    selector: 'bv-lumi-inspector-form',
+    selector: 'li-form',
     templateUrl: './form.component.html',
     styleUrls: [
         '../lumi-inspector.component.css',
@@ -11,10 +11,12 @@ import { DataService } from '../data.service';
 })
 export class FormComponent implements OnInit {
 
-    @Output() onQuerySuccess = new EventEmitter();
+    @Input('constraints') constraints;
+    @Output('onQuerySuccess') onQuerySuccess = new EventEmitter();
     message = '';
     loadingStatus = '';
     loadingProgress = 100;
+    lastQueryParams = {};
     params = {
         begin: null,
         end: null,
@@ -28,13 +30,29 @@ export class FormComponent implements OnInit {
         byls: true,
         measurement: 'Recorded'
     };
-    lastQueryParams = {};
     paramOptions = {
         timeunit: ['RUN', 'FILL', 'DATE'],
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PCC', 'DT', 'mixed'],
         unit: ['hz/ub', '/ub', '/mb'],
         beamstatus: ['any beams', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
         measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
+    };
+    validators = {
+        unit: () => {
+            if (this.constraints && this.constraints.unit) {
+                if (this.constraints.unit !== this.params.unit) {
+                    this.errors.unit =
+                        'Existing data in chart has different unit. Please ' +
+                        'either match the unit or clear the chart';
+                    return false;
+                }
+            }
+            this.errors.unit = null;
+            return true;
+        }
+    };
+    errors = {
+        unit: null
     };
 
     constructor(private dataService: DataService) { }
@@ -45,6 +63,11 @@ export class FormComponent implements OnInit {
     }
 
     query() {
+        if (!this.formIsValid()) {
+            this.loadingStatus = 'WILL NOT QUERY';
+            this.message = 'Form is invalid';
+            return;
+        }
         this.loadingStatus = 'WAITING';
         this.message = null;
         this.loadingProgress = 0;
@@ -66,6 +89,15 @@ export class FormComponent implements OnInit {
     handleQueryFailure(error) {
         this.loadingStatus = 'REQUEST FAILED';
         this.message = JSON.stringify(error);
+    }
+
+    formIsValid() {
+        for (const validator of Object.keys(this.validators)) {
+            if (!this.validators[validator]()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -49,13 +49,16 @@
                     Data point per lumisection. Otherwise per run.
                 </span>
             </div>
-            <div class="li-form-group">
+            <div class="li-form-group tooltip tooltip-bottom-left">
                 <label>Unit</label>
                 <div class="select">
-                    <select [(ngModel)]="params.unit">
+                    <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()">
                         <option *ngFor="let opt of paramOptions.unit">{{opt}}</option>
                     </select>
                 </div>
+                <span class="tooltip-content" *ngIf="!validators.unit()">
+                    {{errors.unit}}
+                </span>
             </div>
             <div class="li-form-group">
                 <label>Beam status</label>

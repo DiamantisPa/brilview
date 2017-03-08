@@ -6,7 +6,7 @@ import * as defaults from './chart-defaults';
 declare var Plotly: any;
 
 @Component({
-    selector: 'bv-lumi-inspector-charts',
+    selector: 'li-charts',
     templateUrl: './charts.component.html',
     styleUrls: ['./charts.component.css']
 })
@@ -15,8 +15,12 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     @ViewChild('mainChart') mainChart;
     @ViewChild('secondaryChart') secondChart;
     chartData: any = [];
-
-
+    chartUnit = null;
+    get inputDataConstraints() {
+        return {
+            unit: this.chartUnit
+        };
+    };
     _twoCharts = false;
     set twoCharts(newVal: boolean) {
         this._twoCharts = newVal;
@@ -59,12 +63,6 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         const update = {
             autosize: true,
             width: null,
-            margin: {
-                t: 10,
-                r: 10,
-                b: 40,
-                l: 40
-            }
         };
         Plotly.relayout(this.mainChart.nativeElement, update);
         Plotly.relayout(this.secondChart.nativeElement, update);
@@ -74,6 +72,14 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         const newData = event.data;
         const params = event.params;
         console.log('newdata', newData);
+
+        if (this.chartData.length > 0) {
+            if (this.chartUnit !== params['unit']) {
+                throw 'Conflicting Y axis units';
+            }
+        } else {
+            this.chartUnit = params['unit'];
+        }
 
         const name = [
             params['type'], params['normtag'], params['beamstatus'],
@@ -100,7 +106,8 @@ export class ChartsComponent implements OnInit, AfterViewInit {
 
         const x = [];
         for (const xval of newData['tssec']) {
-            x.push(xval * 1000);
+            // Conversion to string needed for Plotly to not use local timezone
+            x.push(new Date(xval * 1000).toISOString());
         }
         for (const series of newSeries) {
             this.chartData.push({
@@ -114,6 +121,17 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         }
         console.log(this.chartData);
         Plotly.redraw(this.mainChart.nativeElement);
+        this.updateYAxisTitle();
+    }
+
+    updateYAxisTitle() {
+        const newTitle = 'Luminosity (' + this.chartUnit + ')';
+        if (this.mainChart.nativeElement.layout.yaxis.title !== newTitle) {
+            Plotly.relayout(this.mainChart.nativeElement, {
+                'yaxis.title': newTitle,
+                'yaxis.autorange': true
+            });
+        }
     }
 
 }
