@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
+import * as defaults from './chart-defaults';
+
 declare var Plotly: any;
 
 @Component({
@@ -30,18 +32,24 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        Plotly.plot(this.mainChart.nativeElement, this.chartData);
+        Plotly.plot(this.mainChart.nativeElement,
+                    this.chartData,
+                    defaults.getChartLayout(),
+                    defaults.getChartConfig());
         Observable.fromEvent(window, 'resize')
             .debounceTime(900)
             .subscribe(this.onResize.bind(this));
 
-        Plotly.plot(this.secondChart.nativeElement, [{
-            x: [1, 2, 3, 4, 5],
-            y: [1, 2, 4, 8, 16],
-        }, {
-            x: [0, 1, 4, 9],
-            y: [1, 3, 5, 7],
-        }]);
+        Plotly.plot(this.secondChart.nativeElement,
+                    [{
+                        x: [1, 2, 3, 4, 5],
+                        y: [1, 2, 4, 8, 16],
+                    }, {
+                        x: [0, 1, 4, 9],
+                        y: [1, 3, 5, 7],
+                    }],
+                    defaults.getChartLayout(),
+                    defaults.getChartConfig());
         Observable.fromEvent(window, 'resize')
             .debounceTime(900)
             .subscribe(this.onResize.bind(this));
