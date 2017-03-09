@@ -13,7 +13,7 @@ use_cherrypy: false
 instance_path:
 
 # log level: ERROR INFO WARNING DEBUG
-log_level: INFO
+log_level: DEBUG
 
 # log to screen: true/false
 log_to_screen: true
@@ -27,12 +27,12 @@ pid_file:
 flask:
   # folder for static file: none or path
   # static_folder: '../web/'
-  static_folder: '../web/ng2/dist/' #none of path
+  static_folder: '../web/dist/' #none of path
 
 handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  # command fro commandhandler: none or command path
-  command: /home/zhen/work/brilws/brilcalc-run.py
+  # command for commandhandler: none or command path
+  command: brilcalc
   # web cache configuration path: none or config file path
   webcacheconfig: /home/data/frontier_config.xml
