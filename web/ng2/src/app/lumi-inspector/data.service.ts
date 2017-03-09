@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
+
+export interface LumiDataEvent {
+    type: string;
+    data: Object;
+}
 
 @Injectable()
 export class DataService {
@@ -11,13 +17,16 @@ export class DataService {
     static postOptions = new RequestOptions({ headers: DataService.postHeaders });
 
 
+    onNewLumiData: Subject<LumiDataEvent>;
     lumiDataLimit = 20;
     lumiData = [];
     protected storage = {};
     protected lastStorageID = -1;
 
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        this.onNewLumiData = new Subject();
+    }
 
     query(params) {
         const _params = this.normalizeQueryParams(params);
@@ -35,7 +44,8 @@ export class DataService {
                     }
                     throw data;
                 }
-                this.addToStorage(params, data.data);
+                const id = this.addToStorage(params, data.data);
+                this.onNewLumiData.next({type: 'new', data: id});
             });
     }
 
@@ -69,6 +79,7 @@ export class DataService {
         };
         this.lumiData.push([id, name]);
         this.removeLumiDataOverLimit();
+        return id;
     }
 
     makeLumiDataName(params, data) {

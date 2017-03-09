@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
@@ -12,7 +12,6 @@ import { DataService } from '../data.service';
 export class FormComponent implements OnInit {
 
     @Input('constraints') constraints;
-    @Output('onQuerySuccess') onQuerySuccess = new EventEmitter();
     message = '';
     loadingStatus = '';
     loadingProgress = 100;
@@ -28,14 +27,14 @@ export class FormComponent implements OnInit {
         unit: 'hz/ub',
         type: 'Online',
         byls: true,
-        measurement: 'Recorded'
+        // measurement: 'Recorded'
     };
     paramOptions = {
         timeunit: ['RUN', 'FILL', 'DATE'],
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PCC', 'DT', 'mixed'],
         unit: ['hz/ub', '/ub', '/mb'],
         beamstatus: ['any beams', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
-        measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
+        // measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
     };
     validators = {
         unit: () => {
@@ -83,7 +82,6 @@ export class FormComponent implements OnInit {
     handleQuerySuccess(data) {
         this.message = null;
         this.loadingStatus = data.status;
-        this.onQuerySuccess.emit({data: data.data, params: this.lastQueryParams});
     }
 
     handleQueryFailure(error) {

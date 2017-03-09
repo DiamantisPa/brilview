@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import * as defaults from './chart-defaults';
+import { DataService } from '../data.service';
 
 declare var Plotly: any;
 
@@ -30,9 +31,10 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         return this._twoCharts;
     }
 
-    constructor() { }
+    constructor(private dataService: DataService) {}
 
     ngOnInit() {
+        this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
     }
 
     ngAfterViewInit() {
@@ -69,8 +71,9 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     }
 
     onNewData(event) {
-        const newData = event.data;
-        const params = event.params;
+        const newLumiData = this.dataService.getLumiDataFromStorage(event.data);
+        const newData = newLumiData.data;
+        const params = newLumiData.params;
         console.log('newdata', newData);
 
         if (this.chartData.length > 0) {
@@ -82,51 +85,49 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         }
 
         const name = [
-            params['type'], params['normtag'], params['beamstatus'],
+            params['type'], 'recorded', params['normtag'], params['beamstatus'],
             params['hltpath'], params['datatag'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
         name.push('(' + params['unit'] + ')');
 
-        const newSeries = [];
-        if (params['measurement'] === 'Delivered & Recorded' ||
-            params['measurement'] === 'Delivered') {
-            newSeries.push({
-                yfield: 'delivered',
-                name: 'Delivered ' + name.join(' ')
-            });
-        }
-        if (params['measurement'] === 'Delivered & Recorded' ||
-            params['measurement'] === 'Recorded') {
-            newSeries.push({
-                yfield: 'recorded',
-                name: 'Recorded ' + name.join(' ')
-            });
-        }
+        this.addSeries(this.mainChart, newData, 'recorded', name.join('_'));
+        this.updateYAxisTitle(this.mainChart);
+    }
 
+    addSeries(chart, data, yfield, name) {
+        // const newSeries = [];
+        // if (params['measurement'] === 'Delivered & Recorded' ||
+        //     params['measurement'] === 'Delivered') {
+        //     newSeries.push({
+        //         yfield: 'delivered',
+        //         name: 'Delivered ' + name.join(' ')
+        //     });
+        // }
+        // if (params['measurement'] === 'Delivered & Recorded' ||
+        //     params['measurement'] === 'Recorded') {
+        //     newSeries.push({
+        //         yfield: 'recorded',
+        //         name: 'Recorded ' + name.join(' ')
+        //     });
+        // }
         const x = [];
-        for (const xval of newData['tssec']) {
+        for (const xval of data['tssec']) {
             // Conversion to string needed for Plotly to not use local timezone
             x.push(new Date(xval * 1000).toISOString());
         }
-        for (const series of newSeries) {
-            this.chartData.push({
-                x: x,
-                y: newData[series.yfield],
-                name: series.name,
-                line: {
-                    width: 1
-                }
-            });
-        }
-        console.log(this.chartData);
-        Plotly.redraw(this.mainChart.nativeElement);
-        this.updateYAxisTitle();
+        this.chartData.push({
+            x: x,
+            y: data[yfield],
+            name: name,
+            line: {width: 1}
+        });
+        Plotly.redraw(chart.nativeElement);
     }
 
-    updateYAxisTitle() {
+    updateYAxisTitle(chart) {
         const newTitle = 'Luminosity (' + this.chartUnit + ')';
-        if (this.mainChart.nativeElement.layout.yaxis.title !== newTitle) {
+        if (chart.nativeElement.layout.yaxis.title !== newTitle) {
             Plotly.relayout(this.mainChart.nativeElement, {
                 'yaxis.title': newTitle,
                 'yaxis.autorange': true

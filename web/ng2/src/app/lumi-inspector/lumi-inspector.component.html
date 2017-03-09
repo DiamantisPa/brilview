@@ -6,13 +6,11 @@
     <clr-tab-link>
         <clr-icon shape="clipboard"></clr-icon>
         Memory
-        <span class="badge badge-blue">{{lumiData.length}}</span>
+        <span class="badge">{{lumiData.length}}</span>
     </clr-tab-link>
 
     <clr-tab-content [clrTabContentActive]="true">
-        <li-form
-            [constraints]="chartsComponent.inputDataConstraints"
-            (onQuerySuccess)="chartsComponent.onNewData($event)">
+        <li-form [constraints]="chartsComponent.inputDataConstraints">
         </li-form>
     </clr-tab-content>
     <clr-tab-content>
