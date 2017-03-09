@@ -16,6 +16,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     @ViewChild('alerts') alerts;
     @ViewChild('mainChart') mainChart;
     @ViewChild('secondaryChart') secondChart;
+    lumiData: Array<Array<any>>;
     chartData: any = [];
     chartUnit = null;
     _twoCharts = false;
@@ -31,6 +32,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
+        this.lumiData = this.dataService.lumiData;
     }
 
     ngAfterViewInit() {
@@ -67,17 +69,24 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     }
 
     onNewData(event) {
-        const newLumiData = this.dataService.getLumiDataFromStorage(event.data);
-        const newData = newLumiData.data;
-        const params = newLumiData.params;
-        console.log('newdata', newData);
+        this.addSeriesFromMemory(this.mainChart, event.data, 'recorded');
+    }
+
+    addSeriesFromMemory(chart, dataid, yfield) {
+        const newLumiData = this.dataService.getLumiDataFromStorage(dataid);
+        this.addSeries(chart, newLumiData, yfield);
+    }
+
+    addSeries(chart, lumiData, yfield) {
+        const newData = lumiData.data;
+        const params = lumiData.params;
 
         if (this.chartData.length > 0) {
             if (this.chartUnit !== params['unit']) {
                 this.alerts.alert({
                     label: '',
                     message: 'Cannot add series to chart. Conflicting Y axis ' +
-                        'units from data: "' + newLumiData.name + '"'});
+                        'units from data: "' + lumiData.name + '"'});
                 return;
             }
         } else {
@@ -85,32 +94,17 @@ export class ChartsComponent implements OnInit, AfterViewInit {
         }
 
         const name = [
-            params['type'], 'recorded', params['normtag'], params['beamstatus'],
+            params['type'], yfield, params['normtag'], params['beamstatus'],
             params['hltpath'], params['datatag'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
         name.push('(' + params['unit'] + ')');
 
-        this.addSeries(this.mainChart, newData, 'recorded', name.join('_'));
+        this._addSeries(this.mainChart, newData, yfield, name.join('_'));
         this.updateYAxisTitle(this.mainChart);
     }
 
-    addSeries(chart, data, yfield, name) {
-        // const newSeries = [];
-        // if (params['measurement'] === 'Delivered & Recorded' ||
-        //     params['measurement'] === 'Delivered') {
-        //     newSeries.push({
-        //         yfield: 'delivered',
-        //         name: 'Delivered ' + name.join(' ')
-        //     });
-        // }
-        // if (params['measurement'] === 'Delivered & Recorded' ||
-        //     params['measurement'] === 'Recorded') {
-        //     newSeries.push({
-        //         yfield: 'recorded',
-        //         name: 'Recorded ' + name.join(' ')
-        //     });
-        // }
+    protected _addSeries(chart, data, yfield, name) {
         const x = [];
         for (const xval of data['tssec']) {
             // Conversion to string needed for Plotly to not use local timezone
