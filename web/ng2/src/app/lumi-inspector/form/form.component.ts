@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
@@ -11,7 +11,6 @@ import { DataService } from '../data.service';
 })
 export class FormComponent implements OnInit {
 
-    @Input('constraints') constraints;
     message = '';
     loadingStatus = '';
     loadingProgress = 100;
@@ -37,18 +36,7 @@ export class FormComponent implements OnInit {
         // measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
     };
     validators = {
-        unit: () => {
-            if (this.constraints && this.constraints.unit) {
-                if (this.constraints.unit !== this.params.unit) {
-                    this.errors.unit =
-                        'Existing data in chart has different unit. Please ' +
-                        'either match the unit or clear the chart';
-                    return false;
-                }
-            }
-            this.errors.unit = null;
-            return true;
-        }
+        unit: () =>  true
     };
     errors = {
         unit: null

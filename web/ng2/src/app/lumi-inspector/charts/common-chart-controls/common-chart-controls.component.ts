@@ -50,6 +50,22 @@ export class CommonChartControlsComponent implements OnInit {
         Plotly.relayout(this.chart, layout);
     }
 
+    clearChart() {
+        const chartData = this.chart.data;
+        if (chartData.length > 0) {
+            chartData.length = 0;
+            Plotly.redraw(this.chart);
+        }
+    }
+
+    popSeries() {
+        const chartData = this.chart.data;
+        if (chartData.length > 0) {
+            chartData.pop();
+            Plotly.redraw(this.chart);
+        }
+    }
+
     toggleChartType() {
         console.log('in toggleChartType', this.chartType);
         const chartData = this.chart.data;

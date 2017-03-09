@@ -13,15 +13,11 @@ declare var Plotly: any;
 })
 export class ChartsComponent implements OnInit, AfterViewInit {
 
+    @ViewChild('alerts') alerts;
     @ViewChild('mainChart') mainChart;
     @ViewChild('secondaryChart') secondChart;
     chartData: any = [];
     chartUnit = null;
-    get inputDataConstraints() {
-        return {
-            unit: this.chartUnit
-        };
-    };
     _twoCharts = false;
     set twoCharts(newVal: boolean) {
         this._twoCharts = newVal;
@@ -78,7 +74,11 @@ export class ChartsComponent implements OnInit, AfterViewInit {
 
         if (this.chartData.length > 0) {
             if (this.chartUnit !== params['unit']) {
-                throw Error('Conflicting Y axis units');
+                this.alerts.alert({
+                    label: '',
+                    message: 'Cannot add series to chart. Conflicting Y axis ' +
+                        'units from data: "' + newLumiData.name + '"'});
+                return;
             }
         } else {
             this.chartUnit = params['unit'];

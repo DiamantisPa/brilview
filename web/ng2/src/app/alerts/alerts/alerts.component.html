@@ -1,0 +1,13 @@
+<div>
+    <div class="alert alert-danger"
+         *ngFor="let item of alerts; let idx = index">
+        <button type="button" class="close" (click)="removeAlert(idx)">
+            <clr-icon shape="close"></clr-icon>
+        </button>
+        <div class="alert-item">
+            <span class="alert-text">
+                {{item.message}}
+            </span>
+        </div>
+    </div>
+</div>

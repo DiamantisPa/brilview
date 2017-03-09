@@ -30,10 +30,7 @@ export class DataService {
 
     query(params) {
         const _params = this.normalizeQueryParams(params);
-        return this.http.post(
-            '/api/query',
-            _params,
-            DataService.postOptions)
+        const request = this.http.post('/api/query', _params, DataService.postOptions)
             .map((data) => {
                 return data.json();
             })
@@ -44,9 +41,12 @@ export class DataService {
                     }
                     throw data;
                 }
-                const id = this.addToStorage(params, data.data);
-                this.onNewLumiData.next({type: 'new', data: id});
             });
+        request.subscribe(data => {
+            const id = this.addToStorage(params, data.data);
+            this.onNewLumiData.next({type: 'new', data: id});
+        });
+        return request;
     }
 
     protected normalizeQueryParams(params) {

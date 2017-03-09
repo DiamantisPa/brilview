@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from 'clarity-angular';
+import { AlertsModule } from '../alerts/alerts.module';
 
 import { DataService } from './data.service';
 
@@ -17,7 +18,8 @@ import { StorageComponent } from './storage/storage.component';
         CommonModule,
         HttpModule,
         FormsModule,
-        ClarityModule.forRoot()
+        ClarityModule.forChild(),
+        AlertsModule
     ],
     exports: [
         LumiInspectorComponent
