@@ -2,7 +2,7 @@
 port: 9001
 
 # application server host: none or hostname
-host: 0.0.0.0
+host: localhost
 
 open_browser: true
 
