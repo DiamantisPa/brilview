@@ -1,0 +1,53 @@
+<bv-alerts #alerts></bv-alerts>
+
+<div class="row" >
+    <div [ngClass]="twoCharts ? 'col-md-6' : 'col-md-12'">
+        <div style="height:600px; width: 100%; overflow: hidden">
+            <div #mainChart style="width: 100%; height:100%;"></div>
+        </div>
+        <li-common-chart-controls
+            [chart]="mainChart">
+        </li-common-chart-controls>
+
+        <form>
+            <div class="form-group">
+                <label>Add series</label>
+                <div class="select">
+                    <select #lumiDataSelect>
+                        <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                    </select>
+                </div>
+                <div class="select">
+                    <select #measurementSelect>
+                        <option>recorded</option>
+                        <option>delivered</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn"
+                    (click)="addSeriesFromMemory(mainChart, lumiDataSelect.value, measurementSelect.value)">
+                Add series
+            </button>
+        </form>
+    </div>
+
+
+    <div [hidden]="!twoCharts" class="col-md-6">
+        <div style="height:600px; width: 100%; overflow: hidden">
+            <div #secondaryChart style="width: 100%; height: 100%;"></div>
+        </div>
+        <li-common-chart-controls
+            [chart]="secondaryChart">
+        </li-common-chart-controls>
+    </div>
+</div>
+
+<form class="row" style="justify-content: center;">
+    <div class="toggle-switch">
+        <input name="twoChartsCheckbox"
+               type="checkbox"
+               id="li-two-charts-checkbox"
+               [(ngModel)]="twoCharts" />
+        <label for="li-two-charts-checkbox">Analysis chart</label>
+    </div>
+</form>

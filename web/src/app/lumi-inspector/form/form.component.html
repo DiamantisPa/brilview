@@ -1,0 +1,119 @@
+<div class="row">
+    <div class="col-lg-3 col-md-5 col-sm-12">
+        <h4>Time range</h4>
+        <div class="li-form-group">
+            <label>Time unit</label>
+            <div class="select">
+                <select [(ngModel)]="params.timeunit">
+                    <option *ngFor="let opt of paramOptions.timeunit">{{opt}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="li-form-group">
+            <label>Begin</label>
+            <input type="text" placeholder="Starting from" [(ngModel)]="params.begin">
+        </div>
+
+        <div class="li-form-group">
+            <label>End</label>
+            <input type="text" placeholder="Ending at" [(ngModel)]="params.end">
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-7 col-sm-12">
+        <h4>Options</h4>
+        <div class="li-form-controls">
+            <div class="li-form-group">
+                <label>Luminosity source</label>
+                <div class="select">
+                    <select [(ngModel)]="params.type">
+                        <option *ngFor="let opt of paramOptions.type">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="li-form-group">
+                <label>Normtag</label>
+                <input type="text" [(ngModel)]="params.normtag">
+            </div>
+            <div class="li-form-group">
+                <label>HLT path</label>
+                <input type="text" [(ngModel)]="params.hltpath">
+            </div>
+            <div class="li-form-group tooltip tooltip-bottom-left">
+                <label>By lumisection</label>
+                <clr-checkbox [(ngModel)]="params.byls">
+                    By lumisection
+                </clr-checkbox>
+                <span class="tooltip-content">
+                    Data point per lumisection. Otherwise per run.
+                </span>
+            </div>
+            <div class="li-form-group tooltip tooltip-bottom-left">
+                <label>Unit</label>
+                <div class="select">
+                    <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()">
+                        <option *ngFor="let opt of paramOptions.unit">{{opt}}</option>
+                    </select>
+                </div>
+                <span class="tooltip-content" *ngIf="!validators.unit()">
+                    {{errors.unit}}
+                </span>
+            </div>
+            <div class="li-form-group">
+                <label>Beam status</label>
+                <div class="select">
+                    <select [(ngModel)]="params.beamstatus">
+                        <option *ngFor="let opt of paramOptions.beamstatus">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- <div class="li-form-group"> -->
+            <!-- <label>Measurement</label> -->
+            <!-- <div class="select"> -->
+            <!-- <select [(ngModel)]="params.measurement"> -->
+            <!-- <option *ngFor="let opt of paramOptions.measurement">{{opt}}</option> -->
+            <!-- </select> -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="li-form-group">
+                <label>Datatag</label>
+                <input type="text" [(ngModel)]="params.datatag">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-2 col-lg-1">
+        <button class="btn btn-primary" (click)="query()">
+            Query
+        </button>
+    </div>
+    <div class="col-sm-10 col-lg-11">
+        <div [hidden]="!loadingStatus">
+            <label>Status:</label>
+            <span class="label"
+                  [ngClass]="loadingStatus === 'OK' ?
+                             'label-success' :
+                             (loadingStatus === 'WAITING' ?
+                             'label-info' :
+                             'label-danger')">
+                {{loadingStatus}}
+            </span>
+        </div>
+        <div class="hidden-xs-down"
+             [hidden]="!message || loadingProgress < 100">
+            <label>Message:</label> {{message}}
+        </div>
+    </div>
+</div>
+
+<div class="progress"
+     [hidden]="!loadingStatus"
+     [class.flash]="loadingProgress === 100 && loadingStatus === 'OK'"
+     [class.flash-danger]="loadingProgress === 100 && loadingStatus !== 'OK'"
+     [class.loop]="loadingProgress < 100">
+    <progress max="100" [value]="loadingProgress"></progress>
+</div>
