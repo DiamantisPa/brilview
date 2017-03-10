@@ -74,7 +74,11 @@ def brilcalcLumiHandler(commandargs={}):
 
     if commandargs.has_key('hltpath') and commandargs['hltpath']:
         cmdargs += [ '--hltpath', commandargs['hltpath'] ]
-    r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
+    try:
+        r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.returncode!=0:
+            return { 'status':'ERROR', 'message':e.output }
     result_strarray = [l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
     if not result_strarray: #no data found
         return { 'status':'ERROR', 'message':'No data found' }
@@ -132,7 +136,11 @@ def brilcalcBXLumiHandler(brilcalcargs, unit='/ub',cmmd=[]):
     xingMin = 0.001
     args += ['lumi'] + brilcalcargs
     args += ['-u', unit, '--xing', '--output-style', 'csv', '--without-checkjson','--tssec','--xingMin',str(xingMin)]
-    r = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    try:
+        r = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.returncode!=0:
+            return { 'status':'ERROR', 'data':e.output }
     result_strarray = [l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
     if not result_strarray: #no data found
         return { 'status':'ERROR', 'data':'No data found' }
