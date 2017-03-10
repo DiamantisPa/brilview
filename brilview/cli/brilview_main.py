@@ -138,8 +138,9 @@ def brilview_main(progname=sys.argv[0]):
             log.debug('Opening default browser at {}'.format(url))
             webbrowser.open(url)
     else:
-        after_start = None
-
+        def after_start():
+            pass
+        
     if 'use_cherrypy' in config and config['use_cherrypy']:
         run_in_cp_tree(app, after_start=after_start)
     else:

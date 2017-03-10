@@ -31,8 +31,12 @@ def brilcalcLumiHandler(commandargs={}):
                   'runnum': [],
                   'tssec': [],
                   'delivered': [],
-                   'recorded':[],
-                    'lsnum':[] or None }
+                  'recorded':[],
+                  'lsnum':[],
+                  'hltpathid':[],
+                  'hltpathid2name':{id:name},
+                  'hltpathname2id':{name:id},
+                }
     or {'message':str}
     }
 
@@ -60,7 +64,9 @@ def brilcalcLumiHandler(commandargs={}):
     if commandargs.has_key('byls') and commandargs['byls'] is True:
         byls = True
         cmdargs.append('--byls')
-
+        
+    hltpath = None
+    
     unit = '/ub'
     if commandargs.has_key('unit') and commandargs['unit'] :
         unit = commandargs['unit']
@@ -74,8 +80,15 @@ def brilcalcLumiHandler(commandargs={}):
 
     if commandargs.has_key('hltpath') and commandargs['hltpath']:
         cmdargs += [ '--hltpath', commandargs['hltpath'] ]
-    r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
+        hltpath = commandargs['hltpath']
+        
+    try:
+        r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.returncode!=0:
+            return { 'status':'ERROR', 'message':e.output }
     result_strarray = [l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
+
     if not result_strarray: #no data found
         return { 'status':'ERROR', 'message':'No data found' }
     iserror = False
@@ -85,32 +98,51 @@ def brilcalcLumiHandler(commandargs={}):
     tssecs = []
     delivereds = []
     recordeds = []
-
+    hltpathids = []
+    hltpathid2name = {}
+    hltpathname2id = {}
+    allpaths = []
     for line in result_strarray:
         items = line.split(',')
-        if items[0].find(':') == -1: #output is an error message
+        if items[0].find(':') == -1: #output is an error message because the first data field always n:m 
             iserror = True
-            break
+            break        
+                
         [runnum,fillnum] = [ int(x) for x in items[0].split(':') ]
-
+        
         fillnums.append(fillnum)
         runnums.append(runnum)
 
+        #special treat hltpathname field
+        if byls:            
+          if hltpath:
+             pathname = items[3]
+             if pathname not in allpaths:
+                allpaths.append(pathname)
+             hltpathid = allpaths.index(pathname)
+             hltpathids.append(hltpathid)
+             hltpathid2name[hltpathid] = pathname
+             hltpathname2id[pathname] = hltpathid
+             del items[3] # delete hltpath field
+          else:
+             del items[3:5] # delete beamstatus, E fields 
+        else:
+            del items[2:4] # delete nls,ncms or ncms,hltpath for hlt
+        
         if byls:
             tssecs.append( int(items[2]) )
-            delivereds.append( float(items[5]) )
-            recordeds.append( float(items[6]) )
             lsnum =  int(items[1].split(':')[0] )
             lsnums.append(lsnum)
+            delivereds.append( float(items[3]) )
+            recordeds.append( float(items[4]) )                
         else:
             tssecs.append( int(items[1]) )
-            delivereds.append( float(items[4]) )
-            recordeds.append( float(items[5]) )
+            delivereds.append( float(items[2]) )
+            recordeds.append( float(items[3]) )
 
     if iserror:
         return {'status':'ERROR', 'message': '\n'.join( result_strarray ) }
-
-    resultdata = {'fillnum':fillnums, 'runnum':runnums, 'lsnum':lsnums ,'tssec':tssecs, 'delivered':delivereds,'recorded':recordeds}
+    resultdata = { 'fillnum':fillnums, 'runnum':runnums, 'lsnum':lsnums ,'tssec':tssecs, 'delivered':delivereds,'recorded':recordeds, 'hltpathid':hltpathids, 'hltpathid2name':hltpathid2name, 'hltpathname2id':hltpathname2id  }
     return { 'status':'OK', 'data': resultdata}
 
 
@@ -132,7 +164,11 @@ def brilcalcBXLumiHandler(brilcalcargs, unit='/ub',cmmd=[]):
     xingMin = 0.001
     args += ['lumi'] + brilcalcargs
     args += ['-u', unit, '--xing', '--output-style', 'csv', '--without-checkjson','--tssec','--xingMin',str(xingMin)]
-    r = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    try:
+        r = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.returncode!=0:
+            return { 'status':'ERROR', 'data':e.output }
     result_strarray = [l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
     if not result_strarray: #no data found
         return { 'status':'ERROR', 'data':'No data found' }
@@ -152,7 +188,7 @@ def brilcalcBXLumiHandler(brilcalcargs, unit='/ub',cmmd=[]):
         bxid_array = bxlumi[0::3].astype(int)
         bxdelivered_array = bxlumi[1::3]
         bxrecorded_array =  bxlumi[2::3]
-        resultdata.append( [fillnum, runnum,lsnum,tssec,bxid_array.tolist(),bxdelivered_array.tolist(),bxrecorded_array.tolist() ] )
+        resultdata.append( [fillnum, runnum,lsnum,tssec,bxid_array.tolist(),bxdelivered_array.tolist(),bxrecorded_array.tolist() , ] )
     if iserror:
         return {'status':'ERROR', 'data': '\n'.join( result_strarray ) }
     return { 'status':'OK', 'data': resultdata}
