@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'li-form',
@@ -23,7 +24,7 @@ export class FormComponent implements OnInit {
         normtag: null,
         datatag: null,
         hltpath: null,
-        unit: 'hz/ub',
+        unit: 'hz/mb',
         type: 'Online',
         byls: true,
         // measurement: 'Recorded'
@@ -31,7 +32,7 @@ export class FormComponent implements OnInit {
     paramOptions = {
         timeunit: ['RUN', 'FILL', 'DATE'],
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PCC', 'DT', 'mixed'],
-        unit: ['hz/ub', '/ub', '/mb'],
+        unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         beamstatus: ['any beams', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
         // measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
     };

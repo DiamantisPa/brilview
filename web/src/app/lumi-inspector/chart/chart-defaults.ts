@@ -1,14 +1,24 @@
+export const seriesStyleName = 'line';
+
+export const seriesStyle: any = {
+    type: 'scatter',
+    mode: 'lines',
+    line: {
+        width: 1
+    }
+};
+
 export function getChartLayout() {
     return {
         margin: {
-            b: 30,
+            b: 0,
             l: 60,
             r: 10,
             t: 10
         },
         showlegend: true,
         legend: {
-            orientation: 'h'
+            orientation: 'h',
         },
         autosize: true,
         xaxis: {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/filter';
 
 export interface Alert {
     label: string;

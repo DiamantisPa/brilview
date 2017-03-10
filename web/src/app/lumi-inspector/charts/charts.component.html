@@ -2,12 +2,8 @@
 
 <div class="row" >
     <div [ngClass]="twoCharts ? 'col-md-6' : 'col-md-12'">
-        <div style="height:600px; width: 100%; overflow: hidden">
-            <div #mainChart style="width: 100%; height:100%;"></div>
-        </div>
-        <li-common-chart-controls
-            [chart]="mainChart">
-        </li-common-chart-controls>
+
+        <li-chart #mainChart></li-chart>
 
         <form>
             <div class="form-group">
@@ -32,22 +28,22 @@
     </div>
 
 
-    <div [hidden]="!twoCharts" class="col-md-6">
-        <div style="height:600px; width: 100%; overflow: hidden">
-            <div #secondaryChart style="width: 100%; height: 100%;"></div>
-        </div>
-        <li-common-chart-controls
-            [chart]="secondaryChart">
-        </li-common-chart-controls>
-    </div>
+    <!-- <div [hidden]="!twoCharts" class="col-md-6"> -->
+    <!-- <div style="height:600px; width: 100%; overflow: hidden"> -->
+    <!-- <div #secondaryChart style="width: 100%; height: 100%;"></div> -->
+    <!-- </div> -->
+    <!-- <li-common-chart-controls -->
+    <!-- [chart]="secondaryChart"> -->
+    <!-- </li-common-chart-controls> -->
+    <!-- </div> -->
 </div>
 
-<form class="row" style="justify-content: center;">
-    <div class="toggle-switch">
-        <input name="twoChartsCheckbox"
-               type="checkbox"
-               id="li-two-charts-checkbox"
-               [(ngModel)]="twoCharts" />
-        <label for="li-two-charts-checkbox">Analysis chart</label>
-    </div>
-</form>
+<!-- <form class="row" style="justify-content: center;"> -->
+<!-- <div class="toggle-switch"> -->
+<!-- <input name="twoChartsCheckbox" -->
+<!-- type="checkbox" -->
+<!-- id="li-two-charts-checkbox" -->
+<!-- [(ngModel)]="twoCharts" /> -->
+<!-- <label for="li-two-charts-checkbox">Analysis chart</label> -->
+<!-- </div> -->
+<!-- </form> -->

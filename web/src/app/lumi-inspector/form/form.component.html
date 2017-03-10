@@ -32,14 +32,17 @@
                     </select>
                 </div>
             </div>
+
             <div class="li-form-group">
                 <label>Normtag</label>
                 <input type="text" [(ngModel)]="params.normtag">
             </div>
-            <div class="li-form-group">
-                <label>HLT path</label>
-                <input type="text" [(ngModel)]="params.hltpath">
-            </div>
+
+            <!-- <div class="li-form-group"> -->
+            <!-- <label>HLT path</label> -->
+            <!-- <input type="text" [(ngModel)]="params.hltpath"> -->
+            <!-- </div> -->
+
             <div class="li-form-group tooltip tooltip-bottom-left">
                 <label>By lumisection</label>
                 <clr-checkbox [(ngModel)]="params.byls">
@@ -49,17 +52,30 @@
                     Data point per lumisection. Otherwise per run.
                 </span>
             </div>
+
+            <!-- <div class="li-form-group tooltip tooltip-bottom-left"> -->
+            <!-- <label>Unit</label> -->
+            <!-- <div class="select"> -->
+            <!-- <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()"> -->
+            <!-- <option *ngFor="let opt of paramOptions.unit">{{opt}}</option> -->
+            <!-- </select> -->
+            <!-- </div> -->
+            <!-- <span class="tooltip-content" *ngIf="!validators.unit()"> -->
+            <!-- {{errors.unit}} -->
+            <!-- </span> -->
+            <!-- </div> -->
             <div class="li-form-group tooltip tooltip-bottom-left">
                 <label>Unit</label>
                 <div class="select">
                     <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()">
-                        <option *ngFor="let opt of paramOptions.unit">{{opt}}</option>
+                        <option *ngFor="let opt of paramOptions.unit" [value]="opt[0]">{{opt[1]}}</option>
                     </select>
                 </div>
                 <span class="tooltip-content" *ngIf="!validators.unit()">
                     {{errors.unit}}
                 </span>
             </div>
+
             <div class="li-form-group">
                 <label>Beam status</label>
                 <div class="select">
@@ -68,6 +84,7 @@
                     </select>
                 </div>
             </div>
+
             <!-- <div class="li-form-group"> -->
             <!-- <label>Measurement</label> -->
             <!-- <div class="select"> -->
@@ -76,10 +93,11 @@
             <!-- </select> -->
             <!-- </div> -->
             <!-- </div> -->
-            <div class="li-form-group">
-                <label>Datatag</label>
-                <input type="text" [(ngModel)]="params.datatag">
-            </div>
+
+            <!-- <div class="li-form-group"> -->
+            <!-- <label>Datatag</label> -->
+            <!-- <input type="text" [(ngModel)]="params.datatag"> -->
+            <!-- </div> -->
         </div>
     </div>
 

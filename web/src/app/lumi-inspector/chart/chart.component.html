@@ -1,0 +1,41 @@
+<div class="li-chart-container">
+
+    <div #chart class="li-chart"></div>
+
+    <div class="li-chart-controls">
+        <div class="li-form-controls li-compact-form-controls">
+            <div class="li-form-group">
+                <label>Chart height</label>
+                <div class="select">
+                    <select [(ngModel)]="chartHeight">
+                        <option *ngFor="let opt of chartHeightOptions">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="li-form-group">
+                <label>Chart type</label>
+                <div class="select">
+                    <select [(ngModel)]="chartType">
+                        <option *ngFor="let opt of chartTypeOptions">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="li-form-element form-group">
+                <clr-checkbox [(ngModel)]="logarithmicY" [clrInline]="true">
+                    Log Y axis
+                </clr-checkbox>
+            </div>
+
+            <div class="li-form-element">
+                <button class="btn btn-warning-outline" (click)="clearChart()">
+                    Clear chart
+                </button>
+                <button class="btn btn-warning-outline" (click)="popSeries()">
+                    Pop series
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
