@@ -13,6 +13,7 @@ import { ChartsComponent } from './charts/charts.component';
 import { StorageComponent } from './storage/storage.component';
 import { ChartComponent } from './chart/chart.component';
 import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
+import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
         ChartComponent,
         ChartComponent,
         LumiChartComponent,
+        CumulativeChartComponent,
     ],
     providers: [
         DataService

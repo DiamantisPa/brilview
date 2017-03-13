@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import * as LumiUnits from '../../lumi-units';
 import { DataService } from '../../data.service';
+import * as LumiUnits from '../../lumi-units';
 
 @Component({
-  selector: 'li-lumi-chart',
-  templateUrl: './lumi-chart.component.html',
-  styleUrls: ['./lumi-chart.component.css']
+  selector: 'app-cumulative-chart',
+  templateUrl: './cumulative-chart.component.html',
+  styleUrls: ['./cumulative-chart.component.css']
 })
-export class LumiChartComponent implements OnInit {
+export class CumulativeChartComponent implements OnInit {
 
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
@@ -18,15 +18,10 @@ export class LumiChartComponent implements OnInit {
     constructor(private dataService: DataService) {}
 
     ngOnInit() {
-        this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
         this.lumiData = this.dataService.lumiData;
     }
 
     ngAfterViewInit() {
-    }
-
-    onNewData(event) {
-        this.addSeriesFromMemory(event.data, 'recorded');
     }
 
     addSeriesFromMemory(dataid, yfield) {
@@ -57,12 +52,17 @@ export class LumiChartComponent implements OnInit {
     }
 
     protected _addSeries(data, yfield, name) {
-        const x = [];
+        const x = [], y = [];
+        let lastY = 0;
         for (const xval of data['tssec']) {
             // Conversion to string needed for Plotly to not use local timezone
             x.push(new Date(xval * 1000).toISOString());
         }
-        this.chart.addSeries(name, x, data[yfield]);
+        for (const yval of data[yfield]) {
+            y.push(lastY + yval);
+            lastY += yval;
+        }
+        this.chart.addSeries(name, x, y);
     }
 
     updateYAxisTitle() {
