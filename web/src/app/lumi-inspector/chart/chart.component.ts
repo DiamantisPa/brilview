@@ -18,7 +18,6 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('chart') chart;
     chartData: any = [];
-    seriesStyle = ChartDefaults.seriesStyle;
     _chartType = ChartDefaults.seriesStyleName;
     set chartType(value: string) {
         this._chartType = value;
@@ -27,8 +26,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
     get chartType(): string {
         return this._chartType;
     }
-    chartTypeOptions = [
-        'line', 'stepline', 'scatter', 'bar', 'barstack', 'area', 'steparea'];
+    seriesStyle = ChartDefaults.getSeriesStyle(this.chartType);
+    chartTypeOptions = ChartDefaults.seriesStyleNames;
     _logarithmicY: boolean = false;
     set logarithmicY(value: boolean) {
         this._logarithmicY = value;
@@ -38,7 +37,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
         return this._logarithmicY;
     }
     chartHeightOptions = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400];
-    _chartHeight = 500;
+    _chartHeight = 400;
     set chartHeight(newValue) {
         this._chartHeight = newValue;
         this.onResize(null);
@@ -108,11 +107,19 @@ export class ChartComponent implements OnInit, AfterViewInit {
         });
     }
 
+    getYAxisTitle() {
+        return this.chart.nativeElement.layout.yaxis.title;
+    }
+
     setXAxisTitle(newTitle) {
         Plotly.relayout(this.chart.nativeElement, {
             'xaxis.title': newTitle,
             'xaxis.autorange': true
         });
+    }
+
+    getXAxisTitle() {
+        return this.chart.nativeElement.layout.xaxis.title;
     }
 
     onLogarithmicYChange() {
@@ -127,76 +134,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     onChartTypeChange() {
-        const chartTypeLow = this.chartType.toLowerCase();
-        let layout = null;
-        if (chartTypeLow === 'line') {
-            this.seriesStyle = {
-                'mode': 'lines',
-                'type': 'scatter',
-                'line': {
-                    'width': 1,
-                    'shape': 'linear'
-                },
-                'fill': 'none'
-            };
-        } else if (chartTypeLow === 'stepline') {
-            this.seriesStyle = {
-                'mode': 'lines',
-                'type': 'scatter',
-                'line': {
-                    'width': 1,
-                    'shape': 'hv'
-                },
-                'fill': 'none'
-            };
-        } else if (chartTypeLow === 'scatter') {
-            this.seriesStyle = {
-                'mode': 'markers',
-                'type': 'scatter',
-                'marker': {
-                    'size': 5
-                },
-                'fill': 'none'
-            };
-        } else if (chartTypeLow === 'area') {
-            this.seriesStyle = {
-                'mode': 'lines',
-                'type': 'scatter',
-                'line': {
-                    'width': 2,
-                    'shape': 'linear'
-                },
-                'fill': 'tozeroy'
-            };
-        } else if (chartTypeLow === 'steparea') {
-            this.seriesStyle = {
-                'mode': 'lines',
-                'type': 'scatter',
-                'line': {
-                    'width': 2,
-                    'shape': 'hv'
-                },
-                'fill': 'tozeroy'
-            };
-        } else if (chartTypeLow === 'bar') {
-            this.seriesStyle = {
-                'type': 'bar',
-            };
-            layout = {
-                'barmode': 'group',
-                'bargap': 0,
-                'bargroupgap': 0
-            };
-        } else if (chartTypeLow === 'barstack') {
-            this.seriesStyle = {
-                'type': 'bar',
-            };
-            layout = {
-                'barmode': 'stack',
-                'bargap': 0,
-                'bargroupgap': 0
-            };
-        }
+        this.seriesStyle = ChartDefaults.getSeriesStyle(this.chartType);
+        const layout = ChartDefaults.getLayoutSettings(this.chartType);
         for (const series of this.chartData) {
             Object.assign(series, this.seriesStyle);
         }
@@ -204,6 +143,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
         if (layout) {
             Plotly.relayout(this.chart.nativeElement, layout);
         }
+    }
+
+    getChartData() {
+        return this.chartData;
     }
 
     getNativeChartElement() {
