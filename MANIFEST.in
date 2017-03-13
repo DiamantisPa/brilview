@@ -1,6 +1,6 @@
 include README.md
 recursive-include brilview/data *
-recursive-include web/dist *
+recursive-include brilview/web/dist *
 global-exclude *.pyo
 global-exclude *.pyc
 global-exclude *~

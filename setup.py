@@ -27,7 +27,7 @@ class BuildStatic(Command):
 
     def run(self):
         log.info("running [npm install --quiet]")
-        subprocess.check_output( ['npm', 'install', '--quiet'], cwd='web' )
+        subprocess.check_output( ['npm', 'install', '--quiet'], cwd='brilview/web' )
 
     
 with open("README.md", "rb") as f:
@@ -52,7 +52,7 @@ setup(
     entry_points = {
         "console_scripts" : ['brilview = brilview.cli.brilview_main:brilview_main']
         },
-    package_data = {'data':['brilview/data/*.yaml'],'web':['../web/dist/*']},
+    package_data = {'data':['brilview/data/*.yaml'],'web':['brilview/web/dist/*']},
     include_package_data = True,
     cmdclass={
         'build_static': BuildStatic, #add a build_static command
