@@ -2,10 +2,26 @@
 
 ## Setup
 
-1. Upload `web` directory contents to https://dfs.cern.ch/dfs/websites/b/brilview (DFS).
-2. Start server on `vocms063`:
+1. build source distribution
+   ```
+   python setup.py sdist
+   ```
+   or 
+   ```
+   python setup.py sdist upload
+   ```
+2. installation
 
+   locally
+   
     ```
-    cd brilview
-    cherryd -c brilview.cherryd.config -i brilview_flask_app -d
+    python setup.py install
     ```
+   
+   or from pip repository
+   
+    ```
+    pip install brilview
+    ```
+    
+3. deployment 
