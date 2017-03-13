@@ -48,11 +48,11 @@ setup(
     version = version,
     description = "bril data viewer",
     long_description = long_desc,
-    packages = ['brilview', 'brilview.cli','brilview.handlers','web'],
+    packages = ['brilview', 'brilview.cli','brilview.handlers'],
     entry_points = {
         "console_scripts" : ['brilview = brilview.cli.brilview_main:brilview_main']
         },
-    package_data = {'data':['brilview/data/*.yaml'],},
+    package_data = {'data':['brilview/data/*.yaml'],'web':['../web/dist/*']},
     include_package_data = True,
     cmdclass={
         'build_static': BuildStatic, #add a build_static command
