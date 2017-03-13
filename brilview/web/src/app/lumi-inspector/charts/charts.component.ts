@@ -8,13 +8,10 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 })
 export class ChartsComponent implements OnInit, AfterViewInit {
 
-    _twoCharts = false;
-    set twoCharts(newVal: boolean) {
-        this._twoCharts = newVal;
-    }
-    get twoCharts(): boolean {
-        return this._twoCharts;
-    }
+    lumiChartVisible = true;
+    cumulativeChartVisible = false;
+    ratiosChartVisible = false;
+    correlationChartVisible = false;
 
     constructor() {}
 
@@ -24,5 +21,8 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
     }
 
+    dispatchResize() {
+        window.dispatchEvent(new Event('resize'));
+    }
 
 }

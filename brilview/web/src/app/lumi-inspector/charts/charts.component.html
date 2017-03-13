@@ -1,24 +1,31 @@
 <div class="row" >
-    <div [ngClass]="twoCharts ? 'col-md-6' : 'col-md-12'">
+    <div class="col-xs-12 li-chart-wrap-container" [hidden]="!lumiChartVisible">
+        <div class="li-chart-wrap-container-title">Luminosity values</div>
         <li-lumi-chart></li-lumi-chart>
     </div>
 
-    <!-- <div [hidden]="!twoCharts" class="col-md-6"> -->
-    <!-- <div style="height:600px; width: 100%; overflow: hidden"> -->
-    <!-- <div #secondaryChart style="width: 100%; height: 100%;"></div> -->
-    <!-- </div> -->
-    <!-- <li-common-chart-controls -->
-    <!-- [chart]="secondaryChart"> -->
-    <!-- </li-common-chart-controls> -->
-    <!-- </div> -->
+    <div class="col-xs-12 li-chart-wrap-container" [hidden]="!cumulativeChartVisible">
+        <div class="li-chart-wrap-container-title">Cummulative luminosity</div>
+        <li-cumulative-chart></li-cumulative-chart>
+    </div>
+
 </div>
 
-<!-- <form class="row" style="justify-content: center;"> -->
-<!-- <div class="toggle-switch"> -->
-<!-- <input name="twoChartsCheckbox" -->
-<!-- type="checkbox" -->
-<!-- id="li-two-charts-checkbox" -->
-<!-- [(ngModel)]="twoCharts" /> -->
-<!-- <label for="li-two-charts-checkbox">Analysis chart</label> -->
-<!-- </div> -->
-<!-- </form> -->
+<form class="row li-charts-toggle-form">
+    <div class="toggle-switch">
+        <input name="lumiChartCheckbox"
+               type="checkbox"
+               id="lumi-chart-checkbox"
+               (change)="dispatchResize()"
+               [(ngModel)]="lumiChartVisible" />
+        <label for="lumi-chart-checkbox">Luminosity chart</label>
+    </div>
+    <div class="toggle-switch">
+        <input name="cumulativeChartCheckbox"
+               type="checkbox"
+               id="cumulative-chart-checkbox"
+               (change)="dispatchResize()"
+               [(ngModel)]="cumulativeChartVisible" />
+        <label for="cumulative-chart-checkbox">Cumulative chart</label>
+    </div>
+</form>

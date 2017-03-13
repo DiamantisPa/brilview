@@ -15,7 +15,7 @@ export class LumiChartComponent implements OnInit {
     lumiData: Array<Array<any>>;
     chartUnit = null;
 
-    constructor(private dataService: DataService) {}
+    constructor(protected dataService: DataService) {}
 
     ngOnInit() {
         this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
