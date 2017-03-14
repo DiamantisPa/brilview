@@ -4,9 +4,10 @@ import * as LumiUnits from '../../lumi-units';
 import { DataService } from '../../data.service';
 
 @Component({
-  selector: 'li-lumi-chart',
-  templateUrl: './lumi-chart.component.html',
-  styleUrls: ['./lumi-chart.component.css']
+    selector: 'li-lumi-chart',
+    templateUrl: './lumi-chart.component.html',
+    styleUrls: ['../../lumi-inspector.component.css',
+                './lumi-chart.component.css']
 })
 export class LumiChartComponent implements OnInit {
 

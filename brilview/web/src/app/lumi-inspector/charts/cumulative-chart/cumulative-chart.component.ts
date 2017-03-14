@@ -4,9 +4,10 @@ import * as LumiUnits from '../../lumi-units';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
 
 @Component({
-  selector: 'li-cumulative-chart',
-  templateUrl: './cumulative-chart.component.html',
-  styleUrls: ['./cumulative-chart.component.css']
+    selector: 'li-cumulative-chart',
+    templateUrl: '../lumi-chart/lumi-chart.component.html',
+    styleUrls: ['../../lumi-inspector.component.css',
+                '../lumi-chart/lumi-chart.component.css']
 })
 export class CumulativeChartComponent extends LumiChartComponent implements OnInit {
 

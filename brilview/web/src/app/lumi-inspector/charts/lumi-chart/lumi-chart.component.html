@@ -3,19 +3,26 @@
 <form>
     <div class="form-group">
         <label>Add series</label>
-        <div class="select">
-            <select #lumiDataSelect>
-                <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
-            </select>
+        <div class="li-form-subgroup">
+            <label>Data</label>
+            <div class="select">
+                <select #lumiDataSelect>
+                    <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                </select>
+            </div>
         </div>
-        <div class="select">
-            <select #measurementSelect>
-                <option>recorded</option>
-                <option>delivered</option>
-            </select>
+
+        <div class="li-form-subgroup">
+            <label>Measurement</label>
+            <div class="select">
+                <select #measurementSelect>
+                    <option>recorded</option>
+                    <option>delivered</option>
+                </select>
+            </div>
         </div>
     </div>
-    <button class="btn"
+    <button class="btn btn-primary" type="submit"
             (click)="addSeriesFromMemory(lumiDataSelect.value, measurementSelect.value)">
         Add series
     </button>

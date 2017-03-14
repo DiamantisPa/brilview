@@ -53,6 +53,15 @@
     width: 120px;
 }
 
+.li-form-subgroup {
+    display: flex;
+    flex-direction: row;
+}
+
+.li-form-subgroup + .li-form-subgroup {
+    margin-left: 24px;
+}
+
 input {
     width: 100%;
 }
