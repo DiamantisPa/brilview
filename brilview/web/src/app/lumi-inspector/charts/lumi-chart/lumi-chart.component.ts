@@ -63,7 +63,16 @@ export class LumiChartComponent implements OnInit {
             // Conversion to string needed for Plotly to not use local timezone
             x.push(new Date(xval * 1000).toISOString());
         }
-        this.chart.addSeries(name, x, data[yfield]);
+        this.chart.addSeries(name, x, data[yfield], this.makeTextLabels(data));
+    }
+
+    makeTextLabels(data) {
+        const text = [];
+        for (let i = 0; i < data['runnum'].length; ++i) {
+            text.push(data['fillnum'][i] + ':' + data['runnum'][i] + ':' +
+                      data['lsnum'][i]);
+        }
+        return text;
     }
 
     updateYAxisTitle() {

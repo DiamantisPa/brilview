@@ -14,7 +14,6 @@ export class RatioChartComponent implements OnInit {
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
     lumiData: Array<Array<any>>;
-    chartUnit = null;
 
     constructor(protected dataService: DataService) {}
 

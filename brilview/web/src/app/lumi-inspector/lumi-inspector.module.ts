@@ -37,7 +37,7 @@ import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component'
         ChartComponent,
         LumiChartComponent,
         CumulativeChartComponent,
-        RatioChartComponent,
+        RatioChartComponent
     ],
     providers: [
         DataService
