@@ -4,6 +4,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/do';
 
 export interface LumiDataEvent {
@@ -42,7 +43,7 @@ export class DataService {
                     }
                     throw data;
                 }
-            });
+            }).share();
         request.subscribe(data => {
             const id = this.addToStorage(params, data.data);
             this.onNewLumiData.next({type: 'new', data: id});
