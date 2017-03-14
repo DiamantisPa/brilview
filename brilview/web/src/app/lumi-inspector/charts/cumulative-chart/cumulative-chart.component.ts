@@ -26,6 +26,8 @@ export class CumulativeChartComponent extends LumiChartComponent implements OnIn
             y.push(lastY + yval);
             lastY += yval;
         }
-        this.chart.addSeries(name, x, y, this.makeTextLabels(data));
+        this.chart.addSeries(
+            name, x, y, this.makeTextLabels(data),
+            {runnum: data['runnum'], fillnum: data['fillnum']});
     }
 }

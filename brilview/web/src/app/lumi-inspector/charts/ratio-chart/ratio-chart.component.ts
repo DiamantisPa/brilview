@@ -42,6 +42,7 @@ export class RatioChartComponent implements OnInit {
         const text = [];
         const x = [];
         const y = [];
+        const meta = {runnum: [], fillnum: []};
         for (let j = 0; j < data2['runnum'].length; ++j) {
             const data1Index = data1TimeIndex[
                 data2['runnum'][j] * 10000 + data2['lsnum'][j]
@@ -54,6 +55,8 @@ export class RatioChartComponent implements OnInit {
             text.push(data1['fillnum'][data1Index] + ':' +
                       data1['runnum'][data1Index] + ':' +
                       data1['lsnum'][data1Index]);
+            meta.runnum.push(data1['runnum'][data1Index]);
+            meta.fillnum.push(data1['fillnum'][data1Index]);
         }
         if (x.length <= 0) {
             this.alerts.alert({
@@ -63,7 +66,7 @@ export class RatioChartComponent implements OnInit {
             });
             return;
         }
-        this.chart.addSeries(name, x, y, text);
+        this.chart.addSeries(name, x, y, text, meta);
     }
 
     makeSeriesName(params1, yfield1, params2, yfield2) {
