@@ -26,7 +26,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     seriesStyle = ChartDefaults.getSeriesStyle(this.chartType);
     chartTypeOptions = ChartDefaults.seriesStyleNames;
     showRunLines = false;
-    showFillLines = true;
+    showFillLines = false;
     logarithmicY: boolean = false;
     chartHeightOptions = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400];
     chartHeight = 400;

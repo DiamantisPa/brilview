@@ -67,6 +67,9 @@ export function stepUnit(unit, direction) {
 }
 
 export function unitForData(maxValue, currentUnit) {
+    if (!Number.isFinite(maxValue)) {
+        return currentUnit;
+    }
     const inst = isInstantaneousUnit(currentUnit);
     let newUnit = currentUnit;
     while (maxValue > 1000) {
