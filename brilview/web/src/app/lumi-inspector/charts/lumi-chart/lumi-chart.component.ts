@@ -52,7 +52,6 @@ export class LumiChartComponent implements OnInit {
             params['hltpath'], params['datatag'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
-        name.push('(' + params['unit'] + ')');
 
         this._addSeries(newData, yfield, name.join('_'), params);
         this.rescaleChartValues();
