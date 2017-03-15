@@ -18,35 +18,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('chart') chart;
     chartData: any = [];
+
+    beforeRemoveData = null;
+    afterRemoveData = null;
+
     chartType = ChartDefaults.seriesStyleName;
-    // set chartType(value: string) {
-    //     this._chartType = value;
-    //     this.onChartTypeChange();
-    // }
-    // get chartType(): string {
-    //     return this._chartType;
-    // }
     seriesStyle = ChartDefaults.getSeriesStyle(this.chartType);
     chartTypeOptions = ChartDefaults.seriesStyleNames;
     showRunLines = false;
     showFillLines = true;
     logarithmicY: boolean = false;
-    // set logarithmicY(value: boolean) {
-    //     this._logarithmicY = value;
-    //     this.onLogarithmicYChange();
-    // }
-    // get logarithmicY(): boolean {
-    //     return this._logarithmicY;
-    // }
     chartHeightOptions = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400];
     chartHeight = 400;
-    // set chartHeight(newValue) {
-    //     this._chartHeight = newValue;
-    //     this.onResize(null);
-    // };
-    // get chartHeight() {
-    //     return this._chartHeight;
-    // }
 
     constructor() { }
 
@@ -62,6 +45,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
         Observable.fromEvent(window, 'resize')
             .debounceTime(900)
             .subscribe(this.onResize.bind(this));
+    }
+
+    redraw() {
+        Plotly.redraw(this.chart.nativeElement);
     }
 
     onResize(event) {
@@ -90,16 +77,28 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     clearChart() {
+        if (typeof this.beforeRemoveData === 'function') {
+            this.beforeRemoveData();
+        }
         if (this.chartData.length > 0) {
             this.chartData.length = 0;
             Plotly.redraw(this.chart.nativeElement);
         }
+        if (typeof this.afterRemoveData === 'function') {
+            this.afterRemoveData();
+        }
     }
 
     popSeries() {
+        if (typeof this.beforeRemoveData === 'function') {
+            this.beforeRemoveData();
+        }
         if (this.chartData.length > 0) {
             this.chartData.pop();
             Plotly.redraw(this.chart.nativeElement);
+        }
+        if (typeof this.afterRemoveData === 'function') {
+            this.afterRemoveData();
         }
     }
 
@@ -148,12 +147,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
         }
     }
 
-    getChartData() {
-        return this.chartData;
-    }
-
     getNativeChartElement() {
-        console.log(this.chart.nativeElement);
         return this.chart.nativeElement;
     }
 
