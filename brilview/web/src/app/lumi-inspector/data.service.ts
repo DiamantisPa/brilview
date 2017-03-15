@@ -47,7 +47,7 @@ export class DataService {
         request.subscribe(data => {
             const id = this.addToStorage(params, data.data);
             this.onNewLumiData.next({type: 'new', data: id});
-        });
+        }, error => {});
         return request;
     }
 
