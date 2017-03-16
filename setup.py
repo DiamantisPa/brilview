@@ -33,8 +33,8 @@ class BuildStatic(Command):
         pass
 
     def run(self):
-        log.info("running [npm install ]")
-        subprocess.check_output( ['npm', 'install'], cwd='brilview/web' )
+        log.info("running [npm install --unsafe-perm]")
+        subprocess.check_output( ['npm', 'install','--unsafe-perm'], cwd='brilview/web' )
 
     
 with open("README.md", "rb") as f:
