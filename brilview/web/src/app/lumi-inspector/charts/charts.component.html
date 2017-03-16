@@ -9,6 +9,10 @@
         <li-cumulative-chart></li-cumulative-chart>
     </div>
 
+    <div class="col-xs-12 li-chart-wrap-container" [hidden]="!ratioChartVisible">
+        <div class="li-chart-wrap-container-title">Luminosity ratios</div>
+        <li-ratio-chart></li-ratio-chart>
+    </div>
 </div>
 
 <form class="row li-charts-toggle-form">
@@ -27,5 +31,13 @@
                (change)="dispatchResize()"
                [(ngModel)]="cumulativeChartVisible" />
         <label for="cumulative-chart-checkbox">Cumulative chart</label>
+    </div>
+    <div class="toggle-switch">
+        <input name="ratioChartCheckbox"
+               type="checkbox"
+               id="ratio-chart-checkbox"
+               (change)="dispatchResize()"
+               [(ngModel)]="ratioChartVisible" />
+        <label for="ratio-chart-checkbox">Ratio chart</label>
     </div>
 </form>

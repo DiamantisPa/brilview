@@ -4,9 +4,10 @@ import * as LumiUnits from '../../lumi-units';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
 
 @Component({
-  selector: 'li-cumulative-chart',
-  templateUrl: './cumulative-chart.component.html',
-  styleUrls: ['./cumulative-chart.component.css']
+    selector: 'li-cumulative-chart',
+    templateUrl: '../lumi-chart/lumi-chart.component.html',
+    styleUrls: ['../../lumi-inspector.component.css',
+                '../lumi-chart/lumi-chart.component.css']
 })
 export class CumulativeChartComponent extends LumiChartComponent implements OnInit {
 
@@ -14,8 +15,9 @@ export class CumulativeChartComponent extends LumiChartComponent implements OnIn
         this.lumiData = this.dataService.lumiData;
     }
 
-    protected _addSeries(data, yfield, name) {
-        const x = [], y = [];
+    protected _addSeries(data, yfield, name, params) {
+        const x = [];
+        let y = [];
         let lastY = 0;
         for (const xval of data['tssec']) {
             // Conversion to string needed for Plotly to not use local timezone
@@ -25,6 +27,9 @@ export class CumulativeChartComponent extends LumiChartComponent implements OnIn
             y.push(lastY + yval);
             lastY += yval;
         }
-        this.chart.addSeries(name, x, y);
+        y = this.scaleValues(y, params['unit'], this.chartUnit);
+        this.chart.addSeries(
+            name, x, y, this.makeTextLabels(data),
+            {runnum: data['runnum'], fillnum: data['fillnum']});
     }
 }

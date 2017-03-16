@@ -18,33 +18,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('chart') chart;
     chartData: any = [];
-    _chartType = ChartDefaults.seriesStyleName;
-    set chartType(value: string) {
-        this._chartType = value;
-        this.onChartTypeChange();
-    }
-    get chartType(): string {
-        return this._chartType;
-    }
+
+    beforeRemoveData = null;
+    afterRemoveData = null;
+
+    chartType = ChartDefaults.seriesStyleName;
     seriesStyle = ChartDefaults.getSeriesStyle(this.chartType);
     chartTypeOptions = ChartDefaults.seriesStyleNames;
-    _logarithmicY: boolean = false;
-    set logarithmicY(value: boolean) {
-        this._logarithmicY = value;
-        this.onLogarithmicYChange();
-    }
-    get logarithmicY(): boolean {
-        return this._logarithmicY;
-    }
+    showRunLines = false;
+    showFillLines = false;
+    logarithmicY: boolean = false;
     chartHeightOptions = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400];
-    _chartHeight = 400;
-    set chartHeight(newValue) {
-        this._chartHeight = newValue;
-        this.onResize(null);
-    };
-    get chartHeight() {
-        return this._chartHeight;
-    }
+    chartHeight = 400;
 
     constructor() { }
 
@@ -60,6 +45,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
         Observable.fromEvent(window, 'resize')
             .debounceTime(900)
             .subscribe(this.onResize.bind(this));
+    }
+
+    redraw() {
+        Plotly.redraw(this.chart.nativeElement);
     }
 
     onResize(event) {
@@ -83,20 +72,33 @@ export class ChartComponent implements OnInit, AfterViewInit {
         };
         Object.assign(newSeries, this.seriesStyle);
         this.chartData.push(newSeries);
+        this.updateFillRunLines();
         Plotly.redraw(this.chart.nativeElement);
     }
 
     clearChart() {
+        if (typeof this.beforeRemoveData === 'function') {
+            this.beforeRemoveData();
+        }
         if (this.chartData.length > 0) {
             this.chartData.length = 0;
             Plotly.redraw(this.chart.nativeElement);
         }
+        if (typeof this.afterRemoveData === 'function') {
+            this.afterRemoveData();
+        }
     }
 
     popSeries() {
+        if (typeof this.beforeRemoveData === 'function') {
+            this.beforeRemoveData();
+        }
         if (this.chartData.length > 0) {
             this.chartData.pop();
             Plotly.redraw(this.chart.nativeElement);
+        }
+        if (typeof this.afterRemoveData === 'function') {
+            this.afterRemoveData();
         }
     }
 
@@ -145,13 +147,110 @@ export class ChartComponent implements OnInit, AfterViewInit {
         }
     }
 
-    getChartData() {
-        return this.chartData;
-    }
-
     getNativeChartElement() {
-        console.log(this.chart.nativeElement);
         return this.chart.nativeElement;
     }
 
+    updateFillRunLines() {
+        const layout = this.chart.nativeElement.layout;
+        let annotations = [];
+        let shapes = [];
+        if (this.showRunLines) {
+            const runChange = this.makeRUNChangeShapesAndAnnotations();
+            annotations = annotations.concat(runChange['annotations']);
+            shapes = shapes.concat(runChange['shapes']);
+        }
+        if (this.showFillLines) {
+            const fillChange = this.makeFILLChangeShapesAndAnnotations();
+            annotations = annotations.concat(fillChange['annotations']);
+            shapes = shapes.concat(fillChange['shapes']);
+        }
+        layout['annotations'] = annotations;
+        layout['shapes'] = shapes;
+        Plotly.relayout(this.chart.nativeElement, layout);
+    }
+
+    getFieldChangeTime(field) {
+        const changes = {};
+        for (const series of this.chartData) {
+            let last = null;
+            for (let i = 0; i < series['_other'][field].length; ++i) {
+                if (last === series['_other'][field][i]) {
+                    continue;
+                }
+                last = series['_other'][field][i];
+                if (!changes.hasOwnProperty(last) || (changes[last] > series.x[i])) {
+                    changes[last] = series.x[i];
+                }
+            }
+        }
+        return changes;
+    }
+
+    makeRUNChangeShapesAndAnnotations() {
+        const changes = this.getFieldChangeTime('runnum');
+        const shapes = [];
+        const annotations = [];
+        for (const run of Object.keys(changes)) {
+            shapes.push({
+                type: 'line',
+                xref: 'x',
+                yref: 'paper',
+                x0: changes[run],
+                y0: 0,
+                x1: changes[run],
+                y1: 1,
+                line: {
+                    color: '#000000',
+                    width: 2,
+                    dash: 'dot'
+                }
+            });
+            annotations.push({
+                xref: 'x',
+                yref: 'paper',
+                x: changes[run],
+                xanchor: 'left',
+                y: 1,
+                yanchor: 'top',
+                text: 'RUN ' + run,
+                textangle: -90,
+                showarrow: false
+            });
+        }
+        return {shapes: shapes, annotations: annotations};
+    }
+
+    makeFILLChangeShapesAndAnnotations() {
+        const changes = this.getFieldChangeTime('fillnum');
+        const shapes = [];
+        const annotations = [];
+        for (const fill of Object.keys(changes)) {
+            shapes.push({
+                type: 'line',
+                xref: 'x',
+                yref: 'paper',
+                x0: changes[fill],
+                y0: 0,
+                x1: changes[fill],
+                y1: 1,
+                line: {
+                    color: '#660092',
+                    width: 3,
+                    dash: 'dash'
+                }
+            });
+            annotations.push({
+                xref: 'x',
+                yref: 'paper',
+                x: changes[fill],
+                xanchor: 'left',
+                y: 0.6,
+                yanchor: 'top',
+                text: 'FILL<br>' + fill,
+                showarrow: false
+            });
+        }
+        return {shapes: shapes, annotations: annotations};
+    }
 }

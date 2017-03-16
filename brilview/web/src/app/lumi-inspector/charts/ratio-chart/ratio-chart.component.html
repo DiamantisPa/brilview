@@ -1,0 +1,53 @@
+<li-chart #chart></li-chart>
+<bv-alerts #alerts></bv-alerts>
+<form>
+    <div class="form-group">
+        <label>Antecedent term</label>
+        <div class="li-form-subgroup">
+            <label>Data</label>
+            <div class="select">
+                <select #lumiDataSelect1>
+                    <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="li-form-subgroup">
+            <label>Measurement</label>
+            <div class="select">
+                <select #measurementSelect1>
+                    <option>recorded</option>
+                    <option>delivered</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Consequent term</label>
+        <div class="li-form-subgroup">
+            <label>Data</label>
+            <div class="select">
+                <select #lumiDataSelect2>
+                    <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="li-form-subgroup">
+            <label>Measurement</label>
+            <div class="select">
+                <select #measurementSelect2>
+                    <option>recorded</option>
+                    <option>delivered</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit"
+            (click)="addRatio(
+                     lumiDataSelect1.value, measurementSelect1.value,
+                     lumiDataSelect2.value, measurementSelect2.value)">
+        Add Ratio
+    </button>
+</form>

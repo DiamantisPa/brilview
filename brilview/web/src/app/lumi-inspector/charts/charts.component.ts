@@ -10,7 +10,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
 
     lumiChartVisible = true;
     cumulativeChartVisible = false;
-    ratiosChartVisible = false;
+    ratioChartVisible = false;
     correlationChartVisible = false;
 
     constructor() {}
