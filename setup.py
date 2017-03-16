@@ -10,8 +10,15 @@ from setuptools import setup
 from setuptools.command.sdist import sdist as _sdist
 
 class SdistWithBuildStatic(_sdist):
+    '''
+        Custom sdist, checks if build_static has run and web/dist directory exists
+    '''
     def make_distribution(self):
-        self.run_command('build_static')
+        #self.run_command('build_static')
+        thispath = os.path.dirname(os.path.realpath(__file__))
+        distpath = os.path.join(thispath,'brilview','web','dist')
+        if not os.path.isdir(distpath) or not os.path.exists(distpath):
+	    raise RuntimeError( 'Prerequisite directory %s does not exist, run python setup.py build_static to create it\n'%distpath )
         return _sdist.make_distribution(self)
 
 class BuildStatic(Command):
