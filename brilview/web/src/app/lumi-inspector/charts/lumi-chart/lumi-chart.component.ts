@@ -24,9 +24,6 @@ export class LumiChartComponent implements OnInit {
         this.chart.afterRemoveData = this.rescaleChartValues.bind(this);
     }
 
-    ngAfterViewInit() {
-    }
-
     onNewData(event) {
         this.addSeriesFromMemory(event.data, 'recorded');
     }
