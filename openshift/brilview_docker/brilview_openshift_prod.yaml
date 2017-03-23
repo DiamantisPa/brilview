@@ -1,5 +1,5 @@
 #application server port
-port: 1495
+port: 9000
 
 #application server host
 host: 0.0.0.0
@@ -39,7 +39,7 @@ pid_file: /opt/app-root/brilview_tmp/brilview.pid   #none or file name
 
 flask:
   #folder for static file
-  static_folder: '/opt/app-root/src/brilview/web/' #TO DO none or path
+  static_folder: '/opt/app-root/src/brilview/web/dist' #TO DO none or path
 
 handlers: [brilcommandhandler,dbhandler]
 
