@@ -65,7 +65,7 @@
             <!-- </span> -->
             <!-- </div> -->
             <div class="li-form-group tooltip tooltip-bottom-left">
-                <label>Unit</label>
+                <label>Unit type</label>
                 <div class="select">
                     <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()">
                         <option *ngFor="let opt of paramOptions.unit" [value]="opt[0]">{{opt[1]}}</option>

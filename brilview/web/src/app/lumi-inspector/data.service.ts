@@ -4,6 +4,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/do';
 
@@ -31,7 +32,12 @@ export class DataService {
     }
 
     query(params) {
-        const _params = this.normalizeQueryParams(params);
+        let _params = null;
+        try {
+            _params = this.normalizeQueryParams(params);
+        } catch (e) {
+            return Observable.throw(e.message);
+        }
         const request = this.http.post('/api/query', _params, DataService.postOptions)
             .map((data) => {
                 return data.json();
@@ -56,12 +62,19 @@ export class DataService {
         _params['query_type'] = 'timelumi';
         if (_params['type']) {
             const lumitype = _params['type'].toLowerCase() || null;
-            if (lumitype === 'online' || lumitype === 'mixed') {
+            if (lumitype === 'online' || lumitype === '-normtag-') {
                 _params['type'] = null;
+            }
+            if (lumitype === '-normtag-') {
+                if (!_params['normtag']) {
+                    throw Error('Normtag cannot be none when luminosity source is set to -normtag-');
+                }
+            } else {
+                _params['normtag'] = null;
             }
         }
         if (_params['beamstatus']) {
-            if (_params['beamstatus'].toLowerCase() === 'any beams') {
+            if (_params['beamstatus'].toLowerCase() === '-anybeams-') {
                 _params['beamstatus'] = null;
             }
         }

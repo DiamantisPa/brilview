@@ -43,7 +43,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
                     ChartDefaults.getChartConfig());
 
         Observable.fromEvent(window, 'resize')
-            .debounceTime(900)
+            .debounceTime(500)
             .subscribe(this.onResize.bind(this));
     }
 
