@@ -46,7 +46,9 @@ export class LumiChartComponent implements OnInit {
 
         const name = [
             (params['type'] === '-normtag-' ? null : params['type']),
-            yfield, params['normtag'], params['beamstatus'],
+            yfield,
+            (params['without_correction'] ? 'raw' : null),
+            params['normtag'], params['beamstatus'],
             params['hltpath'], params['datatag'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string

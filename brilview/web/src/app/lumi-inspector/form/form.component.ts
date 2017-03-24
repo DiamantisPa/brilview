@@ -27,6 +27,7 @@ export class FormComponent implements OnInit {
         unit: 'hz/mb',
         type: 'Online',
         byls: true,
+        without_correction: false,
         // measurement: 'Recorded'
     };
     paramOptions = {

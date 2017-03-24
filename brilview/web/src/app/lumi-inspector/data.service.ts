@@ -21,7 +21,7 @@ export class DataService {
 
 
     onNewLumiData: Subject<LumiDataEvent>;
-    lumiDataLimit = 20;
+    lumiDataLimit = 10;
     lumiData = [];
     protected storage = {};
     protected lastStorageID = -1;
@@ -101,8 +101,10 @@ export class DataService {
         return [
             params['begin'], params['end'], params['type'],
             (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
+            (params['without_correction'] ? 'raw' : null),
             params['normtag'], params['hltpath'], params['datatag'],
-            params['unit'], data['tssec'].length + ' data points'].filter(Boolean).join(', ');
+            params['unit'], data['tssec'].length + ' data points'
+        ].filter(Boolean).join(', ');
     }
 
     getLumiDataFromStorage(id) {

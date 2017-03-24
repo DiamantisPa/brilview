@@ -6,18 +6,18 @@
     width: 100%;
 }
 
-.li-form-controls::after {
-    content: "";
-    flex: 1 0 312px;
-    margin-right: 24px;
-}
+/* .li-form-controls::after { */
+/*     content: ""; */
+/*     flex: 0 0 360px; */
+/*     margin-right: 24px; */
+/* } */
 
 .li-compact-form-controls::after {
     display: none;
 }
 
 .li-form-group {
-    flex: 1 0 312px;
+    flex: 0 0 348px;
     margin-right: 24px;
     position: relative;
     padding-left: 144px;
