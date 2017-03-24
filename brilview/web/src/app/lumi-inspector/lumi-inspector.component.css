@@ -2,18 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    justify-content: center;
+    justify-content: left;
     width: 100%;
 }
 
-/* .li-form-controls::after { */
-/*     content: ""; */
-/*     flex: 0 0 360px; */
-/*     margin-right: 24px; */
-/* } */
-
-.li-compact-form-controls::after {
-    display: none;
+.li-form-controls.li-compact-form-controls {
+    /* both classes */
+    justify-content: center;
 }
 
 .li-form-group {
