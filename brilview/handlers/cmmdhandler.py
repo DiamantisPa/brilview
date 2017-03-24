@@ -1,6 +1,7 @@
 import subprocess
 import re
 import numpy as np
+import os
 from brilview import bvconfig
 
 
@@ -84,6 +85,12 @@ def brilcalcLumiHandler(commandargs={}):
 
     if 'type' in commandargs and commandargs['type']:
         cmdargs += ['--type', commandargs['type']]
+
+    if 'normtag' in commandargs and commandargs['normtag']:
+        normtag = str(commandargs['normtag']).replace('.', '').replace('/', '')
+        if normtag == '' or os.path.isfile(normtag):
+            return {'status': 'ERROR', 'message': 'Bad normtag: ' + normtag}
+        cmdargs += ['--normtag', normtag]
 
     if 'beamstatus' in commandargs and commandargs['beamstatus']:
         cmdargs += ['-b', commandargs['beamstatus'].upper()]
