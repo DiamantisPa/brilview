@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ClarityModule } from 'clarity-angular';
 import { AlertsModule } from '../alerts/alerts.module';
 
+import { LumiInspectorRouting } from './lumi-inspector.routing';
+
 import { DataService } from './data.service';
 
 import { FormComponent } from './form/form.component';
@@ -21,6 +23,7 @@ import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component'
         CommonModule,
         HttpModule,
         FormsModule,
+        LumiInspectorRouting,
         ClarityModule.forChild(),
         AlertsModule
     ],

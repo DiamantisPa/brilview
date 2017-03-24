@@ -1,0 +1,7 @@
+.bv-header-button {
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 0 1em;
+    cursor: pointer;
+}

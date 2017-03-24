@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+    sidenavOpen: boolean = false;
+
+    sidenavToggle() {
+        this.sidenavOpen = !this.sidenavOpen;
+        window.dispatchEvent(new Event('resize'));
+    }
 }

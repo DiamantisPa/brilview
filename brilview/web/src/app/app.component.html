@@ -1,8 +1,26 @@
 <div class="main-container">
-    <bv-header></bv-header>
+    <bv-header (burgerClick)="sidenavToggle()"></bv-header>
     <div class="content-container">
-        <div class="content-area">
-            <bv-lumi-inspector></bv-lumi-inspector>
+
+        <div class="sidenav-backdrop"
+             [hidden]="!sidenavOpen"
+             (click)="sidenavOpen = false">
         </div>
+
+        <div class="content-area">
+            <router-outlet></router-outlet>
+        </div>
+
+        <nav class="sidenav" [hidden]="!sidenavOpen">
+            <section class="sidenav-content">
+                <section class="nav-group">
+                    <ul class="nav-list">
+                        <li><a class="nav-link" routerLink="/home">Home</a></li>
+                        <li><a class="nav-link" routerLink="/avglumi">Average luminosity</a></li>
+                    </ul>
+                </section>
+            </section>
+        </nav>
+
     </div>
 </div>
