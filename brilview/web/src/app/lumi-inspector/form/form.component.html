@@ -1,23 +1,26 @@
 <div class="row">
     <div class="col-lg-3 col-md-5 col-sm-12">
         <h4>Time range</h4>
-        <div class="li-form-group">
-            <label>Time unit</label>
-            <div class="select">
-                <select [(ngModel)]="params.timeunit">
-                    <option *ngFor="let opt of paramOptions.timeunit">{{opt}}</option>
-                </select>
-            </div>
-        </div>
+
+        <!-- <div class="li-form-group"> -->
+        <!-- <label>Time unit</label> -->
+        <!-- <div class="select disabled"> -->
+        <!-- <select [(ngModel)]="params.timeunit" disabled> -->
+        <!-- <option *ngFor="let opt of paramOptions.timeunit">{{opt}}</option> -->
+        <!-- </select> -->
+        <!-- </div> -->
+        <!-- </div> -->
 
         <div class="li-form-group">
             <label>Begin</label>
-            <input type="text" placeholder="Starting from" [(ngModel)]="params.begin">
+            <input type="text" placeholder="Starting from (RUN/FILL/DATE)"
+                   [(ngModel)]="params.begin">
         </div>
 
         <div class="li-form-group">
             <label>End</label>
-            <input type="text" placeholder="Ending at" [(ngModel)]="params.end">
+            <input type="text" placeholder="Ending at (RUN/FILL/DATE)"
+                   [(ngModel)]="params.end">
         </div>
     </div>
 
@@ -53,17 +56,6 @@
                 </span>
             </div>
 
-            <!-- <div class="li-form-group tooltip tooltip-bottom-left"> -->
-            <!-- <label>Unit</label> -->
-            <!-- <div class="select"> -->
-            <!-- <select [(ngModel)]="params.unit" [class.bg-danger]="!validators.unit()"> -->
-            <!-- <option *ngFor="let opt of paramOptions.unit">{{opt}}</option> -->
-            <!-- </select> -->
-            <!-- </div> -->
-            <!-- <span class="tooltip-content" *ngIf="!validators.unit()"> -->
-            <!-- {{errors.unit}} -->
-            <!-- </span> -->
-            <!-- </div> -->
             <div class="li-form-group tooltip tooltip-bottom-left">
                 <label>Unit type</label>
                 <div class="select">
@@ -91,15 +83,6 @@
                     Without correction
                 </clr-checkbox>
             </div>
-
-            <!-- <div class="li-form-group"> -->
-            <!-- <label>Measurement</label> -->
-            <!-- <div class="select"> -->
-            <!-- <select [(ngModel)]="params.measurement"> -->
-            <!-- <option *ngFor="let opt of paramOptions.measurement">{{opt}}</option> -->
-            <!-- </select> -->
-            <!-- </div> -->
-            <!-- </div> -->
 
             <!-- <div class="li-form-group"> -->
             <!-- <label>Datatag</label> -->

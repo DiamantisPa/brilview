@@ -19,7 +19,8 @@ export class FormComponent implements OnInit {
     params = {
         begin: null,
         end: null,
-        timeunit: 'RUN',
+        // FIXME: timeunit is currntly useless: nothing done in backend
+        timeunit: null,
         beamstatus: '-anybeams-',
         normtag: null,
         datatag: null,
@@ -28,14 +29,12 @@ export class FormComponent implements OnInit {
         type: 'Online',
         byls: true,
         without_correction: false,
-        // measurement: 'Recorded'
     };
     paramOptions = {
-        timeunit: ['RUN', 'FILL', 'DATE'],
+        timeunit: ['RUN/FILL', 'DATE'],
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PXL', 'DT', '-normtag-'],
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         beamstatus: ['-anybeams-', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
-        // measurement: ['Delivered & Recorded', 'Delivered', 'Recorded']
     };
     validators = {
         unit: () =>  true
@@ -47,8 +46,6 @@ export class FormComponent implements OnInit {
     constructor(private dataService: DataService) { }
 
     ngOnInit() {
-        this.params.begin = '275309';
-        this.params.end = '275309';
     }
 
     query() {
