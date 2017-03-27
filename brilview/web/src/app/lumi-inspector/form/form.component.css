@@ -1,3 +1,14 @@
+.datepicker-toggle {
+    position: absolute;
+    right: 0;
+    bottom: 0.5em;
+    cursor: pointer;
+}
+
+.input-with-datepicker {
+    padding-right: 1em;
+}
+
 .progress {
     margin-top: 3px;
     line-height: 0px;
@@ -11,4 +22,18 @@
 
 input {
     width: 100%;
+}
+
+:host /deep/ .picker-dropdown {
+    max-height: 482px;
+}
+
+:host /deep/ .picker-dropdown > .picker-box {
+    font-family: inherit;
+    line-height: initial;
+}
+
+:host /deep/ .picker-dropdown > .picker-box > .picker-banner > .picker-banner-moment > .moment-date,
+.picker-dropdown > .picker-box > .picker-banner > .picker-banner-moment > .moment-time {
+    padding: 0;
 }

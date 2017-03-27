@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from 'clarity-angular';
+import { DateTimePickerModule } from 'ng2-date-time-picker';
 import { AlertsModule } from '../alerts/alerts.module';
 
 import { LumiInspectorRouting } from './lumi-inspector.routing';
@@ -24,8 +25,9 @@ import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component'
         HttpModule,
         FormsModule,
         LumiInspectorRouting,
+        AlertsModule,
         ClarityModule.forChild(),
-        AlertsModule
+        DateTimePickerModule
     ],
     exports: [
         LumiInspectorComponent

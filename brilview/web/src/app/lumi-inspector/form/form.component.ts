@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { DataService } from '../data.service';
 import 'rxjs/add/operator/finally';
 
@@ -16,10 +17,14 @@ export class FormComponent implements OnInit {
     loadingStatus = '';
     loadingProgress = 100;
     lastQueryParams = {};
+
+    beginDate: Date;
+    endDate: Date;
+    datePipe: DatePipe;
     params = {
         begin: null,
         end: null,
-        // FIXME: timeunit is currntly useless: nothing done in backend
+        // timeunit is currntly useless: nothing done in backend
         timeunit: null,
         beamstatus: '-anybeams-',
         normtag: null,
@@ -46,6 +51,31 @@ export class FormComponent implements OnInit {
     constructor(private dataService: DataService) { }
 
     ngOnInit() {
+        this.datePipe = new DatePipe('en-US');
+        this.beginDate = new Date();
+        this.beginDate.setHours(0, 0, 0, 0);
+        this.endDate = new Date();
+        this.endDate.setHours(0, 0, 0, 0);
+    }
+
+    setTimeRangeDate(event, which) {
+        console.log(event);
+        const datestr = this.datePipe.transform(event, 'MM/dd/yy HH:mm:ss');
+        if (which.toLowerCase() === 'begin') {
+            this.beginDate = event;
+            this.params.begin = datestr;
+            this.autoFillParamsEnd();
+        } else {
+            this.endDate = event;
+            this.params.end = datestr;
+        }
+    }
+
+    autoFillParamsEnd() {
+        if (!this.params.end) {
+            this.params.end = this.params.begin;
+            this.endDate = this.beginDate;
+        }
     }
 
     query() {

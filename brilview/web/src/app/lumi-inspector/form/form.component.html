@@ -1,30 +1,36 @@
-<div class="row">
-    <div class="col-lg-3 col-md-5 col-sm-12">
+<div class="li-form">
+    <div class="li-form-block-fixed">
         <h4>Time range</h4>
 
-        <!-- <div class="li-form-group"> -->
-        <!-- <label>Time unit</label> -->
-        <!-- <div class="select disabled"> -->
-        <!-- <select [(ngModel)]="params.timeunit" disabled> -->
-        <!-- <option *ngFor="let opt of paramOptions.timeunit">{{opt}}</option> -->
-        <!-- </select> -->
-        <!-- </div> -->
-        <!-- </div> -->
+        <div class="li-form-controls">
+            <div class="li-form-group">
+                <label>Begin</label>
+                <input type="text" class="input-with-datepicker"
+                       placeholder="RUN/FILL/DATE"
+                       (blur)="autoFillParamsEnd()"
+                       [(ngModel)]="params.begin" />
+                <clr-icon
+                    shape="calendar" class="datepicker-toggle"
+                    [dateTimePicker]="beginDate"
+                    (dateTimePickerChange)="setTimeRangeDate($event, 'begin')"
+                    [mode]="'dropdown'"></clr-icon>
+            </div>
 
-        <div class="li-form-group">
-            <label>Begin</label>
-            <input type="text" placeholder="Starting from (RUN/FILL/DATE)"
-                   [(ngModel)]="params.begin">
-        </div>
-
-        <div class="li-form-group">
-            <label>End</label>
-            <input type="text" placeholder="Ending at (RUN/FILL/DATE)"
-                   [(ngModel)]="params.end">
+            <div class="li-form-group">
+                <label>End</label>
+                <input type="text" class="input-with-datepicker"
+                       placeholder="RUN/FILL/DATE"
+                       [(ngModel)]="params.end" />
+                <clr-icon
+                    shape="calendar" class="datepicker-toggle"
+                    [dateTimePicker]="endDate"
+                    (dateTimePickerChange)="setTimeRangeDate($event, 'end')"
+                    [mode]="'dropdown'"></clr-icon>
+            </div>
         </div>
     </div>
 
-    <div class="col-lg-9 col-md-7 col-sm-12">
+    <div class="li-form-block-free">
         <h4>Options</h4>
         <div class="li-form-controls">
             <div class="li-form-group">
