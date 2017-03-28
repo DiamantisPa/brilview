@@ -99,6 +99,7 @@ def brilcalcLumiHandler(commandargs={}):
         cmdargs += ['--hltpath', commandargs['hltpath']]
         hltpath = commandargs['hltpath']
 
+    print cmdargs
     try:
         r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:

@@ -175,6 +175,13 @@ items:
       type: Binary
       binary:
         asFile: ""
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+      requests:
+        cpu: 800m
+        memory: 1.3Gi
     strategy:
       type: Docker
     output:

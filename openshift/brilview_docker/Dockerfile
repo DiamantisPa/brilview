@@ -6,14 +6,17 @@ RUN yum install -y epel-release && \
   bash ./Brilconda-1.1.7-Linux-x86_64.sh -b -p /opt/brilconda && \
   rm ./Brilconda-1.1.7-Linux-x86_64.sh && \
   /opt/brilconda/bin/pip install brilws && \
-  /opt/brilconda/bin/pip install -i https://testpypi.python.org/pypi brilview && \
-  mkdir -p /opt/app-root/brilview_tmp 
+  git clone https://github.com/jonasdaugalas/brilview.git &> /dev/null && \
+  cd brilview && \
+  /opt/brilconda/bin/python ./setup.py install && \
+  cd .. && \
+  mkdir -p /opt/app-root/brilview_tmp
 EXPOSE 9000
 # RUN groupadd -r brilview -g 1000 && useradd -u 1000 -g brilview -r -M -p \* -s /sbin/nologin brilview
 RUN useradd -u 1000 -g root -r -M -p \* -s /sbin/nologin brilview
-COPY brilview_openshift_prod.yaml /opt/app-root/brilview_tmp 
+COPY brilview_openshift_prod.yaml /opt/app-root/brilview_tmp
 COPY frontier_config.xml /opt/app-root/brilview_tmp
 RUN chown -R brilview:root /opt/app-root/brilview_tmp
 RUN chmod -R 775 /opt/app-root/brilview_tmp
 USER 1000
-CMD ["/opt/brilconda/bin/brilview","--config","/opt/app-root/brilview_tmp/brilview_openshift_prod.yaml"] 
+CMD ["/opt/brilconda/bin/brilview","--config","/opt/app-root/brilview_tmp/brilview_openshift_prod.yaml"]

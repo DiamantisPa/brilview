@@ -78,10 +78,11 @@ export class RatioChartComponent implements OnInit {
             // 3) join with '_'
             name.push([
                 (s[0]['type'] === '-normtag-' ? null : s[0]['type']),
+                (s[0]['type'] === '-normtag-' ? s[0]['normtag'] : null),
                 s[1],
                 (s[0]['without_correction'] ? 'raw' : null),
-                s[0]['normtag'], s[0]['hltpath'],
-                s[0]['datatag'], (s[0]['byls'] ? 'byLS' : 'byRUN'),
+                s[0]['hltpath'], s[0]['datatag'],
+                (s[0]['byls'] ? 'byLS' : 'byRUN'),
                 (LumiUnits.isInstantaneousUnit(s[0]['unit']) ? 'inst.' : 'integr.')
             ].filter(Boolean).join('_'));
         }
