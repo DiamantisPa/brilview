@@ -37,3 +37,11 @@ input {
 .picker-dropdown > .picker-box > .picker-banner > .picker-banner-moment > .moment-time {
     padding: 0;
 }
+
+:host /deep/ .ngui-datetime-picker .days {
+    width: 230px;
+}
+
+:host /deep/ .ngui-datetime-picker input {
+    width: 100%;
+}

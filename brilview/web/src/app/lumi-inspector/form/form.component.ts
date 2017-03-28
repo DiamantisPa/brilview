@@ -17,10 +17,9 @@ export class FormComponent implements OnInit {
     loadingStatus = '';
     loadingProgress = 100;
     lastQueryParams = {};
-
-    beginDate: Date;
-    endDate: Date;
     datePipe: DatePipe;
+    beginFieldIsDate = false;
+    endFieldIsDate = false;
     params = {
         begin: null,
         end: null,
@@ -52,33 +51,17 @@ export class FormComponent implements OnInit {
 
     ngOnInit() {
         this.datePipe = new DatePipe('en-US');
-        this.beginDate = new Date();
-        this.beginDate.setHours(0, 0, 0, 0);
-        this.endDate = new Date();
-        this.endDate.setHours(0, 0, 0, 0);
-    }
-
-    setTimeRangeDate(event, which) {
-        console.log(event);
-        const datestr = this.datePipe.transform(event, 'MM/dd/yy HH:mm:ss');
-        if (which.toLowerCase() === 'begin') {
-            this.beginDate = event;
-            this.params.begin = datestr;
-            this.autoFillParamsEnd();
-        } else {
-            this.endDate = event;
-            this.params.end = datestr;
-        }
     }
 
     autoFillParamsEnd() {
         if (!this.params.end) {
+            this.endFieldIsDate = this.beginFieldIsDate;
             this.params.end = this.params.begin;
-            this.endDate = this.beginDate;
         }
     }
 
     query() {
+        this.parseDates();
         if (!this.formIsValid()) {
             this.loadingStatus = 'WILL NOT QUERY';
             this.message = 'Form is invalid';
@@ -94,6 +77,15 @@ export class FormComponent implements OnInit {
                 this.handleQuerySuccess.bind(this),
                 this.handleQueryFailure.bind(this)
             );
+    }
+
+    parseDates() {
+        if (this.params.begin instanceof Date) {
+            this.params.begin = this.datePipe.transform(this.params.begin, 'MM/dd/yy HH:mm:ss');
+        }
+        if (this.params.end instanceof Date) {
+            this.params.end = this.datePipe.transform(this.params.end, 'MM/dd/yy HH:mm:ss');
+        }
     }
 
     handleQuerySuccess(data) {

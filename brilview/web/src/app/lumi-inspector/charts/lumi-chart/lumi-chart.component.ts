@@ -102,11 +102,9 @@ export class LumiChartComponent implements OnInit {
 
     scaleValues(values: Array<number>, currentUnit, newUnit) {
         if (currentUnit === newUnit) {
-            console.log('not scaling', values, currentUnit, newUnit);
             return values;
         }
         const scale = LumiUnits.scaleUnit(currentUnit, newUnit);
-        console.log('scaling', values, currentUnit, newUnit, scale);
         return values.map((val) => val * scale);
     }
 
