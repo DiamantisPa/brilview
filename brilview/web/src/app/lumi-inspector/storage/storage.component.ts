@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { DataService } from '../data.service';
 
+import * as FileSaver from 'file-saver';
+
 @Component({
     selector: 'li-storage',
     templateUrl: './storage.component.html',
@@ -54,6 +56,25 @@ export class StorageComponent implements OnInit {
         }
         const popup = window.open('', 'csv', '');
         popup.document.body.innerHTML = '<pre>' + csv + '</pre>';
+    }
+
+    saveLumiDataCSV(id) {
+        const data = this.dataService.getLumiDataFromStorage(id)['data'];
+        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
+        const len = data[keys[0]].length;
+        let csv = keys.join(',') + '\r\n';
+        for (let i = 0; i < len; ++i) {
+            let line = '';
+            for (const k of keys) {
+                if (line) {
+                    line += ',';
+                }
+                line += data[k][i];
+            }
+            csv += line + '\r\n';
+        }
+        const blob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
+        FileSaver.saveAs(blob, this.lumiData[id][1]);
     }
 
 }

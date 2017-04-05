@@ -29,7 +29,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     showFillLines = false;
     logarithmicY: boolean = false;
     chartHeightOptions = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1400];
-    chartHeight = 400;
+    chartHeight = 300;
 
     constructor() { }
 
