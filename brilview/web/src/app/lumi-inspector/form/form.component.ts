@@ -107,4 +107,10 @@ export class FormComponent implements OnInit {
         return true;
     }
 
+    timeoutFocus(element, interval: Number) {
+        setTimeout(() => {
+            element.focus();
+        }, interval);
+    }
+
 }

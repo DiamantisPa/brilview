@@ -8,6 +8,7 @@
                 <label>Begin</label>
 
                 <input [hidden]="!beginFieldIsDate"
+                       #beginDateField
                        type="text" class="input-with-datepicker"
                        placeholder="DATE"
                        (blur)="autoFillParamsEnd()"
@@ -15,6 +16,7 @@
                        ngui-datetime-picker
                        date-format="MM/DD/YY HH:mm:ss"
                        parse-format="MM/DD/YY HH:mm:ss"
+                       [close-on-select]="false"
                        [(ngModel)]="params.begin" />
 
                 <input [hidden]="beginFieldIsDate"
@@ -26,7 +28,7 @@
                 <clr-icon
                     shape="calendar" class="datepicker-toggle"
                     [class.is-success]="beginFieldIsDate"
-                    (click)="beginFieldIsDate = !beginFieldIsDate; params.begin = null">
+                    (click)="beginFieldIsDate = !beginFieldIsDate; params.begin = null; timeoutFocus(beginDateField, 100)">
                 </clr-icon>
             </div>
 
@@ -34,11 +36,13 @@
                 <label>End</label>
 
                 <input [hidden]="!endFieldIsDate"
+                       #endDateField
                        type="text" class="input-with-datepicker"
                        placeholder="DATE"
                        ngui-datetime-picker
                        date-format="MM/DD/YY HH:mm:ss"
                        parse-format="MM/DD/YY HH:mm:ss"
+                       [close-on-select]="false"
                        [(ngModel)]="params.end" />
 
                 <input [hidden]="endFieldIsDate"
@@ -49,7 +53,7 @@
                 <clr-icon
                     shape="calendar" class="datepicker-toggle"
                     [class.is-success]="endFieldIsDate"
-                    (click)="endFieldIsDate = !endFieldIsDate; params.end = null">
+                    (click)="endFieldIsDate = !endFieldIsDate; params.end = null; timeoutFocus(endDateField, 100)">
                 </clr-icon>
             </div>
         </div>
