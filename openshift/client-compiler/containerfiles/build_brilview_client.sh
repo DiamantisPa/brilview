@@ -13,7 +13,7 @@ rm /client_files_for_serving/*
 cp dist/* /client_files_for_serving/
 
 echo "Finished. Going to sleep."
-echo "To update client again: scale to down to 0 pods, then scale up to 1"
+echo "To update client again: scale down to 0 pods, then scale up to 1"
 
 trap 'trap - TERM; kill -s TERM -- -$$' TERM
 tail -f /dev/null & wait
