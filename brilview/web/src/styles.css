@@ -5,3 +5,7 @@
     padding-left: 12px;
     padding-right: 12px;
 }
+
+.main-container .content-container {
+    position: relative;
+}
