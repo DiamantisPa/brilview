@@ -1,27 +1,9 @@
 # BRIL data inspector with web GUI
 
-## Setup
+Documentation [http://brilview.readthedocs.io](http://brilview.readthedocs.io)
 
-1. build source distribution
-   ```
-   python setup.py sdist
-   ```
-   or 
-   ```
-   python setup.py sdist upload
-   ```
-2. installation
+## Run
 
-   locally
-   
-    ```
-    python setup.py install
-    ```
-   
-   or from pip repository
-   
-    ```
-    pip install brilview
-    ```
-    
-3. deployment 
+```
+python run-brilview.py --config brilview/data/brilview_dev.yaml
+```

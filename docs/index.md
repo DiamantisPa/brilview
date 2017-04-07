@@ -1,3 +1,0 @@
-# Brilview
-
-Hello docs.
