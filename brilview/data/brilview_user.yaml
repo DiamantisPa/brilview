@@ -1,36 +1,35 @@
-#application server port
-port: 8765
+# application server port
+port: 8008
 
-#application server host
-host: 127.0.0.1
+# application server host
+host: localhost
 
 open_browser: true
 
-#use cherrypy container or not
-use_cherrypy: true     #true of false
+# use cherrypy container or not
+use_cherrypy: false  # true of false
 
-#base directory for files, considered only when no absolute path provided
-instance_path:            #none or absolute path
+# base directory for files, considered only when no absolute path provided
+instance_path:  # none or absolute path
 
-#log level
-log_level: DEBUG       #ERROR INFO WARNING DEBUG
+# log level
+log_level: INFO # ERROR WARNING INFO DEBUG
 
-#log to screen
-log_to_screen: true          #true or false
+# log to screen
+log_to_screen: true  # true or false
 
-#unified log file
-log_file:                       #none or file name
+# unified log file
+log_file:  # none or file name
 
-#pid file
-pid_file:                       #none or file name
+# pid file
+pid_file:  # none or file name
 
 flask:
-  #folder for static file
-  static_folder: './web/dist' #none of path
+  # folder for static file
+  static_folder: './web/dist' # none of path
 
 handlers: [brilcommandhandler,dbhandler]
 
 brilcommandhandler:
-  command:                 #none or command path
- # command: /home/zhen/work/brilws/brilcalc-run.py
-  webcacheconfig: /afs/cern.ch/cms/SITECONF/CERN/JobConfig/site-local-config.xml #none or config file
+  command:  # none or command path
+  webcacheconfig: /afs/cern.ch/cms/SITECONF/CERN/JobConfig/site-local-config.xml  # none or config file
