@@ -8,8 +8,14 @@ const appRoutes: Routes = [
     // { path: '', component: HomeComponent, pathMatch: 'full'},
     { path: '', redirectTo: 'totlumi', pathMatch: 'full'},
     { path: 'avglumi', redirectTo: 'totlumi', pathMatch: 'full'},
-    { path: 'home', component: HomeComponent},
-    { path: 'totlumi', loadChildren: 'app/lumi-inspector/lumi-inspector.module#LumiInspectorModule'},
+    {
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'totlumi',
+        loadChildren: 'app/lumi-inspector/lumi-inspector.module#LumiInspectorModule'
+    },
     { path: '**', component: RouteNotFoundComponent},
 ];
 

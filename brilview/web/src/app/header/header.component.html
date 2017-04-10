@@ -7,4 +7,20 @@
             <span class="title">Brilview</span>
         </a>
     </div>
+
+    <div class="header-actions">
+        <clr-dropdown class="dropdown" clrMenuPosition="bottom-right">
+            <button class="nav-text" clrDropdownToggle>
+                <clr-icon shape="help"></clr-icon>
+            </button>
+            <clr-dropdown-menu>
+                <a [href]="helpLink"
+                   target="_blank"
+                   clrDropdownItem>
+                    Read docs
+                </a>
+            </clr-dropdown-menu>
+        </clr-dropdown>
+    </div>
+
 </header>
