@@ -58,7 +58,7 @@ export class StorageComponent implements OnInit {
         popup.document.body.innerHTML = '<pre>' + csv + '</pre>';
     }
 
-    saveLumiDataCSV(id) {
+    saveLumiDataCSV(id, name) {
         const data = this.dataService.getLumiDataFromStorage(id)['data'];
         const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
         const len = data[keys[0]].length;
@@ -74,7 +74,7 @@ export class StorageComponent implements OnInit {
             csv += line + '\r\n';
         }
         const blob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
-        FileSaver.saveAs(blob, this.lumiData[id][1]);
+        FileSaver.saveAs(blob, name);
     }
 
 }
