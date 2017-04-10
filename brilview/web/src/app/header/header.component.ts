@@ -10,7 +10,7 @@ import { docURLFromRouteURL } from '../doc-urls';
 export class HeaderComponent implements OnInit {
 
     @Output('burgerClick') burgerClick = new EventEmitter();
-    protected helpLink = docURLFromRouteURL(null);
+    public helpLink = docURLFromRouteURL(null);
 
     constructor(private router: Router) {
         this.router.events.subscribe((val) => {

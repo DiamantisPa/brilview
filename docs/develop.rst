@@ -25,5 +25,6 @@ Distribute
 
 Build source distribution and upload to `pypi <https://pypi.python.org/pypi>`_ index::
 
+  python setup.py build_static
   python setup.py sdist
   python setup.py sdist upload -r https://pypi.python.org/pypi
