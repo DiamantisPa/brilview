@@ -1,12 +1,12 @@
 Luminosity inspector
 ====================
 
-Brilview application has a total luminosity inspector component (further: total
-lumi) for plotting total luminosity values. This component is currently the
-default view you see when you visit Brilview application.
+Brilview application has a total luminosity inspector component for plotting
+total luminosity values. This component is currently the default view you see
+when you visit Brilview application.
 
-Total lumi is meant for querying total luminosity from brilcalc and visualising
-it in 3 types of charts:
+Total luminosity component is meant for querying total luminosity from brilcalc
+and visualizing it in 3 types of charts:
 
 * Luminosity values - :ref:`lumi-values`
 * Cumulative luminosity - :ref:`cumulative`
@@ -86,8 +86,8 @@ slightly modified to align lumisections.
 Common chart controls
 ---------------------
 
-For all charts in this total lumi component there are few common controls. The
-common controls are placed immediately bellow each chart (see image bellow).
+For all charts in this total luminosity component there are few common controls.
+The common controls are placed immediately bellow each chart (see image bellow).
 
 .. image:: _static/img/totlumi/common.png
 
