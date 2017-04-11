@@ -45,6 +45,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
         Observable.fromEvent(window, 'resize')
             .debounceTime(500)
             .subscribe(this.onResize.bind(this));
+
+        this.onResize(null);
     }
 
     redraw() {
@@ -100,6 +102,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
         if (typeof this.afterRemoveData === 'function') {
             this.afterRemoveData();
         }
+    }
+
+    getTitle() {
+        return this.chart.nativeElement.layout.title;
+    }
+
+    setTitle(newTitle) {
+        console.log('in set title', newTitle);
+        Plotly.relayout(this.chart.nativeElement, {
+            'title': newTitle
+        });
+        console.log('end set title', this.chart.nativeElement);
     }
 
     setYAxisTitle(newTitle) {

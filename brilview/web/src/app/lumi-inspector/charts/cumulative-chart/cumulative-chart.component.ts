@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import * as LumiUnits from '../../lumi-units';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
@@ -10,7 +10,8 @@ import { DataService } from '../../data.service';
     styleUrls: ['../../lumi-inspector.component.css',
                 '../lumi-chart/lumi-chart.component.css']
 })
-export class CumulativeChartComponent extends LumiChartComponent implements OnInit {
+export class CumulativeChartComponent extends LumiChartComponent
+implements OnInit, AfterViewInit {
 
     constructor(protected dataService: DataService) {
         super(dataService);
@@ -19,6 +20,10 @@ export class CumulativeChartComponent extends LumiChartComponent implements OnIn
     ngOnInit() {
         console.log(this.dataService);
         this.lumiData = this.dataService.lumiData;
+    }
+
+    ngAfterViewInit() {
+        this.chart.setTitle('Cummulative luminosity');
     }
 
     protected _addSeries(data, yfield, name, params) {

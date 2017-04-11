@@ -1,3 +1,5 @@
+declare var Plotly: any;
+
 export const seriesStyleName = 'line';
 export const seriesStyleNames = [
     'line', 'stepline', 'scatter', 'bar', 'barstack', 'area', 'steparea'
@@ -5,15 +7,26 @@ export const seriesStyleNames = [
 
 export function getChartLayout() {
     return {
+        titlefont: {
+            size: 18,
+            family: 'Metropolis, sans-serif'
+        },
         margin: {
-            b: 0,
-            l: 60,
-            r: 10,
-            t: 10
+            b: 48,
+            l: 48,
+            r: 6,
+            t: 32
         },
         showlegend: true,
         legend: {
             orientation: 'h',
+            x: 0,
+            y: -0.17,
+            xanchor: 'left',
+            yanchor: 'top',
+            bgcolor: '#FFFFFFE0',
+            bordercolor: '#C0C0C0',
+            borderwidth: 1
         },
         autosize: true,
         xaxis: {
@@ -25,11 +38,25 @@ export function getChartLayout() {
 
 export function getChartConfig() {
     return {
+        editable: true,
         displaylogo: false,
         showTips: false,
-        modeBarButtonsToRemove: ['sendDataToCloud', 'lasso2d']
+        modeBarButtonsToRemove: ['sendDataToCloud', 'lasso2d', 'toImage'],
+        modeBarButtonsToAdd: [{
+            name: 'toImage',
+            title: 'Download plot as a png',
+            icon: Plotly.Icons.camera,
+            click: function(gd) {
+                const opts = {
+                    format: 'png',
+                    width: 1200,
+                    height: 700
+                };
+                Plotly.downloadImage(gd, opts);
+            }
+        }]
     };
-}
+};
 
 export function getSeriesStyle(styleName): any {
     const styleNameLow = styleName.toLowerCase();

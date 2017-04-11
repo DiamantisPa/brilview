@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import * as LumiUnits from '../../lumi-units';
 
@@ -9,7 +9,7 @@ import * as LumiUnits from '../../lumi-units';
     styleUrls: ['../../lumi-inspector.component.css',
                 './ratio-chart.component.css']
 })
-export class RatioChartComponent implements OnInit {
+export class RatioChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
@@ -22,6 +22,7 @@ export class RatioChartComponent implements OnInit {
     }
 
     ngAfterViewInit() {
+        this.chart.setTitle('Luminosity ratios');
         this.chart.setYAxisTitle('Ratio');
     }
 

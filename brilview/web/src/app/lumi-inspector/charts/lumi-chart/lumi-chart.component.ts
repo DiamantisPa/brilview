@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import * as LumiUnits from '../../lumi-units';
 import { DataService } from '../../data.service';
@@ -9,7 +9,7 @@ import { DataService } from '../../data.service';
     styleUrls: ['../../lumi-inspector.component.css',
                 './lumi-chart.component.css']
 })
-export class LumiChartComponent implements OnInit {
+export class LumiChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
@@ -22,6 +22,10 @@ export class LumiChartComponent implements OnInit {
         this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
         this.lumiData = this.dataService.lumiData;
         this.chart.afterRemoveData = this.rescaleChartValues.bind(this);
+    }
+
+    ngAfterViewInit() {
+        this.chart.setTitle('Luminosity values');
     }
 
     onNewData(event) {
