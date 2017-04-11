@@ -23,7 +23,7 @@ implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.chart.setTitle('Cummulative luminosity');
+        this.chart.setTitle('Cumulative luminosity');
     }
 
     protected _addSeries(data, yfield, name, params) {
