@@ -1,0 +1,27 @@
+<div class="table-container">
+    <table class="table table-compact">
+        <thead>
+            <tr>
+                <th>Series</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Mean</th>
+                <th>Variance</th>
+                <th>Std. deviation</th>
+                <th>RMS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of stats">
+                <td><div class="series-name-col">{{s.name}}</div></td>
+                <td>{{s.min.toExponential(4)}}</td>
+                <td>{{s.max.toExponential(4)}}</td>
+                <td>{{s.mean.toExponential(4)}}</td>
+                <td>{{s.variance.toExponential(4)}}</td>
+                <td>{{s.std.toExponential(4)}}</td>
+                <td>{{s.rms.toExponential(4)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<button class="btn btn-primary" (click)="recalculate()">Recalculate</button>

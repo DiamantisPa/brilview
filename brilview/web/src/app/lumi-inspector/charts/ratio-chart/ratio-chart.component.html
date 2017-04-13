@@ -1,53 +1,66 @@
 <li-chart #chart></li-chart>
 <bv-alerts #alerts></bv-alerts>
-<form>
-    <div class="form-group">
-        <label>Numerator</label>
-        <div class="li-form-subgroup">
-            <label>Data</label>
-            <div class="select">
-                <select #lumiDataSelect1>
-                    <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
-                </select>
-            </div>
-        </div>
+<clr-tabs>
+    <clr-tab-link>Add data</clr-tab-link>
 
-        <div class="li-form-subgroup">
-            <label>Measurement</label>
-            <div class="select">
-                <select #measurementSelect1>
-                    <option>recorded</option>
-                    <option>delivered</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    <clr-tab-link>Stats</clr-tab-link>
 
-    <div class="form-group">
-        <label>Denominator</label>
-        <div class="li-form-subgroup">
-            <label>Data</label>
-            <div class="select">
-                <select #lumiDataSelect2>
-                    <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="li-form-subgroup">
-            <label>Measurement</label>
-            <div class="select">
-                <select #measurementSelect2>
-                    <option>recorded</option>
-                    <option>delivered</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    <clr-tab-content>
+        <form>
+            <div class="form-group">
+                <label>Numerator</label>
+                <div class="li-form-subgroup">
+                    <label>Data</label>
+                    <div class="select">
+                        <select #lumiDataSelect1>
+                            <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                        </select>
+                    </div>
+                </div>
 
-    <button class="btn btn-primary" type="submit"
-            (click)="addRatio(
-                     lumiDataSelect1.value, measurementSelect1.value,
-                     lumiDataSelect2.value, measurementSelect2.value)">
-        Add Ratio
-    </button>
-</form>
+                <div class="li-form-subgroup">
+                    <label>Measurement</label>
+                    <div class="select">
+                        <select #measurementSelect1>
+                            <option>recorded</option>
+                            <option>delivered</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Denominator</label>
+                <div class="li-form-subgroup">
+                    <label>Data</label>
+                    <div class="select">
+                        <select #lumiDataSelect2>
+                            <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="li-form-subgroup">
+                    <label>Measurement</label>
+                    <div class="select">
+                        <select #measurementSelect2>
+                            <option>recorded</option>
+                            <option>delivered</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit"
+                    (click)="addRatio(
+                             lumiDataSelect1.value, measurementSelect1.value,
+                             lumiDataSelect2.value, measurementSelect2.value)">
+                Add Ratio
+            </button>
+        </form>
+    </clr-tab-content>
+
+    <clr-tab-content>
+        <li-stats [chart]="chart"></li-stats>
+    </clr-tab-content>
+</clr-tabs>

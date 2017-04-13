@@ -20,6 +20,7 @@ import { ChartComponent } from './chart/chart.component';
 import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
 import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component'
         ChartComponent,
         LumiChartComponent,
         CumulativeChartComponent,
-        RatioChartComponent
+        RatioChartComponent,
+        StatsComponent
     ],
     providers: [
         DataService

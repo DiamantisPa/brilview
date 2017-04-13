@@ -1,0 +1,10 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.series-name-col {
+    min-width: 120px;
+    overflow: hidden;
+    word-break: break-all;
+}
