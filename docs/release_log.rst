@@ -1,8 +1,18 @@
 Release log
 ===========
 
-1.0.0
+1.0
 -----
+
+1.0.1
+^^^^^
+
+2017-04-11
+
+Fix csv download after some data is removed from memory
+
+1.0.0
+^^^^^
 
 2017-04-10
 
