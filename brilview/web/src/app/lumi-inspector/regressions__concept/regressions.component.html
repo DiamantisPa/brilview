@@ -1,0 +1,30 @@
+<div class="li-table-container">
+    <table class="table table-compact">
+        <thead>
+            <tr>
+                <th>Series</th>
+                <th>Regression type</th>
+                <th>Coefficients</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let r of regressions">
+                <td><div class="li-series-name-col">{{r.name}}</div></td>
+                <td>{{r.type}}</td>
+                <td>{{r.strcoefs}}</td>
+                <td>
+                    <button class="btn btn-sm" (click)="draw(r)">
+                        Add series
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="select">
+    <select [(ngModel)]="selectedType">
+        <option *ngFor="let opt of typeOptions">{{opt}}</option>
+    </select>
+</div>
+<button class="btn btn-primary" (click)="recalculate()">Recalculate</button>

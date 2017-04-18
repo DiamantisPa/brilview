@@ -1,0 +1,102 @@
+import { Component, OnInit, Input } from '@angular/core';
+import regression from 'regression';
+
+@Component({
+    selector: 'li-regressions',
+    templateUrl: './regressions.component.html',
+    styleUrls: [
+        '../lumi-inspector.component.css',
+        './regressions.component.css']
+})
+export class RegressionsComponent implements OnInit {
+
+    @Input('chart') chart;
+    regressions = [];
+    selectedType = 'linear';
+    typeOptions = ['linear', 'exponential', 'power', 'logarithmic'];
+    _sampleCount = 1800;
+    get sampleCount(): number {
+        return this._sampleCount;
+    }
+    set sampleCount(newVal: number) {
+        if (newVal < 10) {
+            this._sampleCount = 10;
+        } else {
+            this._sampleCount = newVal;
+        }
+    }
+
+    constructor() { }
+
+    ngOnInit() {
+    }
+
+    protected getSeries() {
+        return this.chart.getNativeChartElement().data;
+    }
+
+    //
+    // FIXME: I am not sure if it makes sense to calculate regressions, because
+    // x axis is time and every run/fill is starting at different time
+    //
+
+    recalculate() {
+        const series = this.getSeries();
+        const new_regr = [];
+        let data = null;
+        for (const s of series) {
+            data = s.x.map((element, index) => {
+                return [Date.parse(element), s.y[index]];
+            });
+            console.log(data);
+            const r = regression(this.selectedType, data);
+            console.log(r);
+            new_regr.push({
+                name: s.name,
+                type: this.selectedType,
+                string: r['string'],
+                coefs: r['equation'],
+                strcoefs: r['equation']
+                    .map((element) => element.toExponential(4))
+                    .join(', '),
+                xmin: Date.parse(s.x[0]),
+                xmax: Date.parse(s.x[s.x.length - 1])
+            });
+        }
+        this.regressions = new_regr;
+    }
+
+    draw(reg) {
+        const x = [];
+        const y = [];
+        const range = reg['xmax'] - reg['xmin'];
+        let step = range / this.sampleCount;
+        if (range < this.sampleCount) {
+            step = 1;
+        }
+        console.log(reg);
+        const yCalc = this.makeYCalculator(reg['type'], reg['coefs']);
+        for (let i = 0; i < this.sampleCount; ++i) {
+            x[i] = reg['xmin'] + step * i;
+            y[i] = yCalc(x[i]);
+            x[i] = new Date(x[i]).toISOString();
+        }
+        console.log(x, y);
+        this.chart.addSeries(reg['type'], x, y);
+    }
+
+    makeYCalculator(regType: string, coefs: Array<number>) {
+        switch (regType) {
+        case 'linear':
+            return (x) => x * coefs[0] + coefs[1];
+        case 'exponential':
+            return (x) => coefs[0] * Math.exp(coefs[1] * x);
+        case 'power':
+            return (x) => coefs[0] * Math.pow(x, coefs[1]);
+        case 'logarithmic':
+            return (x) => coefs[0] + coefs[1] * Math.log(x);
+        default:
+            return (x) => x;
+        }
+    }
+}
