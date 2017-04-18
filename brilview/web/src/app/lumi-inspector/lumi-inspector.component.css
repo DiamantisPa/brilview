@@ -75,3 +75,14 @@
 input {
     width: 100%;
 }
+
+.li-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.li-series-name-col {
+    min-width: 120px;
+    overflow: hidden;
+    word-break: break-all;
+}

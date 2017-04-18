@@ -2,9 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as ArrStat from '../../utils/arr-stat';
 
 @Component({
-  selector: 'li-stats',
-  templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.css']
+    selector: 'li-stats',
+    templateUrl: './stats.component.html',
+    styleUrls: [
+        '../lumi-inspector.component.css',
+        './stats.component.css']
 })
 export class StatsComponent implements OnInit {
 

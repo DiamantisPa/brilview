@@ -1,4 +1,4 @@
-<div class="table-container">
+<div class="li-table-container">
     <table class="table table-compact">
         <thead>
             <tr>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let s of stats">
-                <td><div class="series-name-col">{{s.name}}</div></td>
+                <td><div class="li-series-name-col">{{s.name}}</div></td>
                 <td>{{s.min.toExponential(4)}}</td>
                 <td>{{s.max.toExponential(4)}}</td>
                 <td>{{s.mean.toExponential(4)}}</td>
