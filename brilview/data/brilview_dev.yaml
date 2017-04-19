@@ -29,10 +29,14 @@ flask:
   # static_folder: './web/'
   static_folder: './web/dist/' #none of path
 
-handlers: [brilcommandhandler,dbhandler]
+handlers: [brilcommandhandler, lumidbhandler]
 
 brilcommandhandler:
   # command for commandhandler: none or command path
   command: brilcalc
   # web cache configuration path: none or config file path
   webcacheconfig: /home/data/frontier_config.xml
+
+lumidbhandler:
+  connection: online
+  authfile: brilview/data/db_read.ini

@@ -1,11 +1,11 @@
-from handlers import cmmdhandler
+from handlers import cmmdhandler, lumidbhandler
 
 
 def query(options):
     """Choose appropriate handler and call it with options.
 
     :param options: dict query options
-    :returns: chart data
+    :returns: result
     :rtype: dict
 
     """
@@ -27,20 +27,34 @@ def get_handler_fn(options):
 
     t = str(options['query_type']).lower()
     if t == 'timelumi':
-        return _call_cmmdhandler
+        return _call_cmmdhandler_lumi
+    elif t == 'iovtags':
+        return _call_lumidbhandler_iovtags
     elif t == 'dummy':
         raise NotImplementedError('No dummy handler yet.')
 
     raise KeyError('Query type did not match any handler name.')
 
 
-def _call_cmmdhandler(options):
+def _call_cmmdhandler_lumi(options):
     """cmmdhandler executor - call to query cmmdhandler
 
     :param options: dict query options
-    :returns: chart data
+    :returns: luminosity chart data
     :rtype: dict
 
     """
 
     return cmmdhandler.brilcalcLumiHandler(options)
+
+
+def _call_lumidbhandler_iovtags(options):
+    """lumidbhandler executor - call to query lumidb
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return lumidbhandler.get_iovtags()
