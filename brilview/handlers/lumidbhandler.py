@@ -1,6 +1,11 @@
 from brilview import bvconfig
 from ConfigParser import SafeConfigParser
+from distutils.spawn import find_executable
 import sqlalchemy as sql
+import os
+
+
+DEFAULT_ENGINE = None
 
 
 def parseservicemap(authfile):
@@ -31,8 +36,10 @@ def create_engine(servicemap, servicename):
     return sql.create_engine(connurl)
 
 
-def get_engine():
-    authfile = '../data/db_read.ini'
+def get_engine(use_cached=True):
+    if use_cached and DEFAULT_ENGINE is not None:
+        return DEFAULT_ENGINE
+    authfile = None
     servicename = 'online'
     if hasattr(bvconfig, 'lumidbhandler'):
         if (
@@ -45,6 +52,14 @@ def get_engine():
                 bvconfig.lumidbhandler['connection']
         ):
             servicename = bvconfig.lumidbhandler['connection']
+    if authfile is None:
+        whichbrilcalc = find_executable('brilcalc')
+        if whichbrilcalc is not None:
+            authfile = os.path.join(
+                os.path.dirname(whichbrilcalc), '..',
+                'lib/python2.7/site-packages/brilws/data/readdb3.ini')
+    if authfile is None:
+        raise RuntimeError('Cannot create SQL engine without authfile path')
     servicemap = parseservicemap(authfile)
     print(servicemap)
     return create_engine(servicemap, servicename)

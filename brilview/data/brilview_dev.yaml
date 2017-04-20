@@ -4,7 +4,7 @@ port: 9001
 # application server host: none or hostname
 host: localhost
 
-open_browser: true
+open_browser: false
 
 # use cherrypy container or not: true/false
 use_cherrypy: false
@@ -39,4 +39,4 @@ brilcommandhandler:
 
 lumidbhandler:
   connection: online
-  authfile: brilview/data/db_read.ini
+  authfile:
