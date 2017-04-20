@@ -9,7 +9,7 @@
 
                 <input [hidden]="!beginFieldIsDate"
                        #beginDateField
-                       type="text" class="input-with-datepicker"
+                       type="text" class="input-with-icon"
                        placeholder="DATE"
                        (blur)="autoFillParamsEnd()"
                        (popupClosed)="autoFillParamsEnd()"
@@ -20,7 +20,7 @@
                        [(ngModel)]="params.begin" />
 
                 <input [hidden]="beginFieldIsDate"
-                       type="text" class="input-with-datepicker"
+                       type="text" class="input-with-icon"
                        placeholder="RUN/FILL/DATE"
                        (blur)="autoFillParamsEnd()"
                        [(ngModel)]="params.begin" />
@@ -37,7 +37,7 @@
 
                 <input [hidden]="!endFieldIsDate"
                        #endDateField
-                       type="text" class="input-with-datepicker"
+                       type="text" class="input-with-icon"
                        placeholder="DATE"
                        ngui-datetime-picker
                        date-format="MM/DD/YY HH:mm:ss"
@@ -46,7 +46,7 @@
                        [(ngModel)]="params.end" />
 
                 <input [hidden]="endFieldIsDate"
-                       type="text" class="input-with-datepicker"
+                       type="text" class="input-with-icon"
                        placeholder="RUN/FILL/DATE"
                        [(ngModel)]="params.end" />
 
@@ -71,9 +71,22 @@
                 </div>
             </div>
 
+            <!-- <div class="li-form-group"> -->
+            <!-- <label>Normtag</label> -->
+            <!-- <input type="text" [(ngModel)]="params.normtag"> -->
+            <!-- </div> -->
             <div class="li-form-group">
                 <label>Normtag</label>
-                <input type="text" [(ngModel)]="params.normtag">
+                <ng2-completer
+                    completer-patch
+                    [(ngModel)]="params.normtag"
+                    [datasource]="paramOptions.normtag"
+                    [overrideSuggested]="true"
+                    [pause]="0"
+                    [textNoResults]="''"
+                    [textSearching]="''"
+                    [minSearchLength]="1">
+                </ng2-completer>
             </div>
 
             <!-- <div class="li-form-group"> -->

@@ -5,7 +5,7 @@
     cursor: pointer;
 }
 
-.input-with-datepicker {
+.input-with-icon {
     padding-right: 1em;
 }
 
@@ -21,6 +21,10 @@
 }
 
 input {
+    width: 100%;
+}
+
+:host /deep/ .completer-input {
     width: 100%;
 }
 

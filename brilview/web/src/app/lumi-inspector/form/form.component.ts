@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../data.service';
 import 'rxjs/add/operator/finally';
@@ -39,7 +39,9 @@ export class FormComponent implements OnInit {
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PXL', 'DT', '-normtag-'],
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         beamstatus: ['-anybeams-', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
+        normtag: []
     };
+
     validators = {
         unit: () =>  true
     };

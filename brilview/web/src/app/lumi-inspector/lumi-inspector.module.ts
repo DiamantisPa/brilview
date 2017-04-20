@@ -3,13 +3,10 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from 'clarity-angular';
-
+import { Ng2CompleterModule } from "ng2-completer";
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
-
 import { AlertsModule } from '../alerts/alerts.module';
-
 import { LumiInspectorRouting } from './lumi-inspector.routing';
-
 import { DataService } from './data.service';
 
 import { FormComponent } from './form/form.component';
@@ -21,6 +18,7 @@ import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
 import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
 import { StatsComponent } from './stats/stats.component';
+import { CompleterPatchDirective } from '../utils/completer-patch.directive';
 
 @NgModule({
     imports: [
@@ -30,7 +28,8 @@ import { StatsComponent } from './stats/stats.component';
         LumiInspectorRouting,
         AlertsModule,
         ClarityModule.forChild(),
-        NguiDatetimePickerModule
+        NguiDatetimePickerModule,
+        Ng2CompleterModule
     ],
     exports: [
         LumiInspectorComponent
@@ -46,7 +45,8 @@ import { StatsComponent } from './stats/stats.component';
         LumiChartComponent,
         CumulativeChartComponent,
         RatioChartComponent,
-        StatsComponent
+        StatsComponent,
+        CompleterPatchDirective
     ],
     providers: [
         DataService
