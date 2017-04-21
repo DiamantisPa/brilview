@@ -119,3 +119,14 @@ Controls:
 * **RUN separators**: put vertical lines on RUN number change
 * **CLEAR CHART**: remove all series from chart
 * **POP SERIES**: remove single last series from chart
+
+
+.. _chart-edit:
+
+Editable charts
+---------------
+
+Chart title, axis titles, and series names can be modified by clicking on them
+and typing new text (see image bellow).
+
+.. image:: _static/img/totlumi/chart-edit.png
