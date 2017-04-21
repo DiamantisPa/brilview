@@ -46,3 +46,7 @@ handlers: [brilcommandhandler,dbhandler]
 brilcommandhandler:
   command: /opt/brilconda/bin/brilcalc    #none or command path
   webcacheconfig: /brilview_tmp/frontier_config.xml      #none or config file
+
+lumidbhandler:
+  connection: online
+  authfile: /opt/brilconda/lib/python2.7/site-packages/brilws/data/readdb3.ini

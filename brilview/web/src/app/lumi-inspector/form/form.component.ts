@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DataService } from '../data.service';
+import { LumiDataService } from '../data.service';
+import { NormtagService } from '../normtag.service';
+import { CompleterService } from 'ng2-completer';
 import 'rxjs/add/operator/finally';
 
 @Component({
@@ -23,7 +25,6 @@ export class FormComponent implements OnInit {
     params = {
         begin: null,
         end: null,
-        // timeunit is currntly useless: nothing done in backend
         timeunit: null,
         beamstatus: '-anybeams-',
         normtag: null,
@@ -39,7 +40,13 @@ export class FormComponent implements OnInit {
         type: ['Online', 'PLTZERO', 'HFOC', 'BCM1F', 'PXL', 'DT', '-normtag-'],
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         beamstatus: ['-anybeams-', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
-        normtag: []
+        normtag: null
+    };
+    paramOptionsLoading = {
+        normtag: false
+    };
+    protected paramOptionsShouldLoad = {
+        normtag: true
     };
 
     validators = {
@@ -49,17 +56,14 @@ export class FormComponent implements OnInit {
         unit: null
     };
 
-    constructor(private dataService: DataService) { }
+    constructor(protected lumiDataService: LumiDataService,
+                protected normtagService: NormtagService,
+                protected completerService: CompleterService) {
+        this.paramOptions.normtag = completerService.local([]);
+    }
 
     ngOnInit() {
         this.datePipe = new DatePipe('en-US');
-    }
-
-    autoFillParamsEnd() {
-        if (!this.params.end) {
-            this.endFieldIsDate = this.beginFieldIsDate;
-            this.params.end = this.params.begin;
-        }
     }
 
     query() {
@@ -73,12 +77,12 @@ export class FormComponent implements OnInit {
         this.message = null;
         this.loadingProgress = 0;
         this.lastQueryParams = Object.assign({}, this.params);
-        this.dataService.query(this.lastQueryParams)
+        this.lumiDataService.query(this.lastQueryParams)
             .finally(() => this.loadingProgress = 100)
-            .subscribe(
-                this.handleQuerySuccess.bind(this),
-                this.handleQueryFailure.bind(this)
-            );
+                .subscribe(
+                    this.handleQuerySuccess.bind(this),
+                    this.handleQueryFailure.bind(this)
+                );
     }
 
     parseDates() {
@@ -113,6 +117,26 @@ export class FormComponent implements OnInit {
         setTimeout(() => {
             element.focus();
         }, interval);
+    }
+
+    autoFillParamsEnd() {
+        if (!this.params.end) {
+            this.endFieldIsDate = this.beginFieldIsDate;
+            this.params.end = this.params.begin;
+        }
+    }
+
+    checkNormtags() {
+        if (!this.paramOptionsShouldLoad.normtag) {
+            return;
+        }
+        this.paramOptionsLoading.normtag = true;
+        this.normtagService.getIOVTags()
+            .finally(() => {
+                this.paramOptionsLoading.normtag = false;
+                this.paramOptionsShouldLoad.normtag = false;
+            })
+                .subscribe((result) => this.paramOptions.normtag.data(result));
     }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
+import { LumiDataService } from './data.service';
 
 @Component({
     selector: 'bv-lumi-inspector',
@@ -9,10 +9,10 @@ import { DataService } from './data.service';
 export class LumiInspectorComponent implements OnInit {
 
     lumiData = [];
-    constructor(private dataService: DataService) { }
+    constructor(private lumiDataService: LumiDataService) { }
 
     ngOnInit() {
-        this.lumiData = this.dataService.lumiData;
+        this.lumiData = this.lumiDataService.lumiData;
     }
 
 }

@@ -17,7 +17,7 @@ user: brilview
 use_cherrypy: true    #true of false
 
 #base directory for files, considered only when no absolute path provided
-instance_path: /home/data/web                   
+instance_path: /home/data/web
 
 #log level
 log_level: WARNING                     #ERROR INFO WARNING DEBUG
@@ -41,8 +41,12 @@ pid_file: /tmp/brilview.pid   #none or file name
   #folder for static file
   #static_folder: '../web/' #TO DO none or path
 
-handlers: [brilcommandhandler,dbhandler]
+handlers: [brilcommandhandler, lumidbhandler]
 
 brilcommandhandler:
   command: /home/data/brilconda/bin/brilcalc    #none or command path
   webcacheconfig: /home/data/frontier_config.xml      #none or config file
+
+lumidbhandler:
+  connection: online
+  authfile:

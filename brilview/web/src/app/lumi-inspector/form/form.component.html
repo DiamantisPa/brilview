@@ -26,7 +26,7 @@
                        [(ngModel)]="params.begin" />
 
                 <clr-icon
-                    shape="calendar" class="datepicker-toggle"
+                    shape="calendar" class="input-icon"
                     [class.is-success]="beginFieldIsDate"
                     (click)="beginFieldIsDate = !beginFieldIsDate; params.begin = null; timeoutFocus(beginDateField, 100)">
                 </clr-icon>
@@ -51,7 +51,7 @@
                        [(ngModel)]="params.end" />
 
                 <clr-icon
-                    shape="calendar" class="datepicker-toggle"
+                    shape="calendar" class="input-icon"
                     [class.is-success]="endFieldIsDate"
                     (click)="endFieldIsDate = !endFieldIsDate; params.end = null; timeoutFocus(endDateField, 100)">
                 </clr-icon>
@@ -71,22 +71,24 @@
                 </div>
             </div>
 
-            <!-- <div class="li-form-group"> -->
-            <!-- <label>Normtag</label> -->
-            <!-- <input type="text" [(ngModel)]="params.normtag"> -->
-            <!-- </div> -->
             <div class="li-form-group">
                 <label>Normtag</label>
                 <ng2-completer
                     completer-patch
+                    (focus)="checkNormtags()"
+                    (blur)="params.normtag ? params.type = '-normtag-' : undefined"
                     [(ngModel)]="params.normtag"
                     [datasource]="paramOptions.normtag"
-                    [overrideSuggested]="true"
+                    [fillHighlighted]="false"
                     [pause]="0"
                     [textNoResults]="''"
                     [textSearching]="''"
                     [minSearchLength]="1">
                 </ng2-completer>
+
+                <span class="input-icon spinner spinner-inline"
+                      [hidden]="!paramOptionsLoading.normtag">
+                </span>
             </div>
 
             <!-- <div class="li-form-group"> -->

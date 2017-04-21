@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from '../data.service';
+import { LumiDataService } from '../data.service';
 
 import * as FileSaver from 'file-saver';
 
@@ -14,10 +14,10 @@ export class StorageComponent implements OnInit {
     lumiData = [];
     hiddenStorageTable = true;
 
-    constructor(private dataService: DataService) { }
+    constructor(private lumiDataService: LumiDataService) { }
 
     ngOnInit() {
-        this.lumiData = this.dataService.lumiData;
+        this.lumiData = this.lumiDataService.lumiData;
     }
 
     // openLumiDataJSON(id) {
@@ -32,15 +32,15 @@ export class StorageComponent implements OnInit {
     // }
 
     removeLumiData(id) {
-        this.dataService.removeLumiDataFromStorage(id);
+        this.lumiDataService.removeLumiDataFromStorage(id);
     }
 
     clearAllLumiData() {
-        this.dataService.clearLumiDataStorage();
+        this.lumiDataService.clearLumiDataStorage();
     }
 
     openLumiDataCSV(id) {
-        const data = this.dataService.getLumiDataFromStorage(id)['data'];
+        const data = this.lumiDataService.getLumiDataFromStorage(id)['data'];
         const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
         const len = data[keys[0]].length;
         let csv = keys.join(',') + '\r\n';
@@ -59,7 +59,7 @@ export class StorageComponent implements OnInit {
     }
 
     saveLumiDataCSV(id, name) {
-        const data = this.dataService.getLumiDataFromStorage(id)['data'];
+        const data = this.lumiDataService.getLumiDataFromStorage(id)['data'];
         const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
         const len = data[keys[0]].length;
         let csv = keys.join(',') + '\r\n';

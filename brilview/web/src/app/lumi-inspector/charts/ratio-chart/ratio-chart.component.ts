@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { DataService } from '../../data.service';
+import { LumiDataService } from '../../data.service';
 import * as LumiUnits from '../../lumi-units';
 
 
@@ -15,7 +15,7 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
     @ViewChild('chart') chart;
     lumiData: Array<Array<any>>;
 
-    constructor(protected dataService: DataService) {}
+    constructor(protected dataService: LumiDataService) {}
 
     ngOnInit() {
         this.lumiData = this.dataService.lumiData;

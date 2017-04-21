@@ -14,10 +14,10 @@ export interface LumiDataEvent {
 }
 
 @Injectable()
-export class DataService {
+export class LumiDataService {
 
     static postHeaders = new Headers({'Content-Type': 'application/json'});
-    static postOptions = new RequestOptions({ headers: DataService.postHeaders });
+    static postOptions = new RequestOptions({ headers: LumiDataService.postHeaders });
 
 
     onNewLumiData: Subject<LumiDataEvent>;
@@ -38,7 +38,7 @@ export class DataService {
         } catch (e) {
             return Observable.throw(e.message);
         }
-        const request = this.http.post('/api/query', _params, DataService.postOptions)
+        const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
             .map((data) => {
                 return data.json();
             })

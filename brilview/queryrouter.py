@@ -21,7 +21,7 @@ def get_handler_fn(options):
     :rtype: function
 
     """
-    if 'type' not in options:
+    if 'query_type' not in options:
         raise KeyError(
             'Query type is missing. Could not determine handlername.')
 

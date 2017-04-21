@@ -7,7 +7,8 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AlertsModule } from '../alerts/alerts.module';
 import { LumiInspectorRouting } from './lumi-inspector.routing';
-import { DataService } from './data.service';
+import { LumiDataService } from './data.service';
+import { NormtagService } from './normtag.service';
 
 import { FormComponent } from './form/form.component';
 import { LumiInspectorComponent } from './lumi-inspector.component';
@@ -49,7 +50,8 @@ import { CompleterPatchDirective } from '../utils/completer-patch.directive';
         CompleterPatchDirective
     ],
     providers: [
-        DataService
+        LumiDataService,
+        NormtagService
     ]
 })
 export class LumiInspectorModule { }

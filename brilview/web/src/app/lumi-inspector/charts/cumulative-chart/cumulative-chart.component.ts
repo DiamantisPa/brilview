@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import * as LumiUnits from '../../lumi-units';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
-import { DataService } from '../../data.service';
+import { LumiDataService } from '../../data.service';
 
 @Component({
     selector: 'li-cumulative-chart',
@@ -13,7 +13,7 @@ import { DataService } from '../../data.service';
 export class CumulativeChartComponent extends LumiChartComponent
 implements OnInit, AfterViewInit {
 
-    constructor(protected dataService: DataService) {
+    constructor(protected dataService: LumiDataService) {
         super(dataService);
     }
 

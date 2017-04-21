@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import * as LumiUnits from '../../lumi-units';
-import { DataService } from '../../data.service';
+import { LumiDataService } from '../../data.service';
 
 @Component({
     selector: 'li-lumi-chart',
@@ -16,7 +16,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
     lumiData: Array<Array<any>>;
     chartUnit = null;
 
-    constructor(protected dataService: DataService) {}
+    constructor(protected dataService: LumiDataService) {}
 
     ngOnInit() {
         this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
