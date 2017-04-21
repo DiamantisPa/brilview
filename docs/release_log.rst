@@ -1,6 +1,18 @@
 Release log
 ===========
 
+1.1
+-----
+
+1.1.0
+^^^^^
+
+2017-04-21
+
+* Add stats calculator for chart series
+* Add normtag autocomplete
+* Make chart editable (titles, legends)
+
 1.0
 -----
 

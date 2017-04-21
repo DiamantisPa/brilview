@@ -17,6 +17,7 @@ Charts can be shown/hidden by toggling the switches at the bottom of the page
 
 .. image:: _static/img/totlumi/toggles.png
 
+
 Querying
 --------
 
@@ -28,6 +29,7 @@ Fill in fields in "Time range" and "Options" sections, and hit "QUERY" button.
 Next to the button there is a status indicator which also shows error messages
 in case of failed queries. After successful query, new data is stored in memory
 (see :ref:`memory`).
+
 
 .. _memory:
 
@@ -50,6 +52,7 @@ From this "Memory" tab you have ability to:
 
 * download CSV file for each result by clicking "csv" button next to it
 
+
 .. _lumi-values:
 
 Luminosity values chart
@@ -57,10 +60,11 @@ Luminosity values chart
 
 This chart displays plain queried data values. In contrast to other charts, this
 one is automatically populated (if possible) with recorded luminosity data after
-successful query. You can also add series manually from memory using form at the
-bottom of chart container.
+successful query. You can also add series manually from memory using form in the
+"Add series" tab at the bottom of chart container.
 
 .. image:: _static/img/totlumi/plain.png
+
 
 .. _cumulative:
 
@@ -69,8 +73,9 @@ Cumulative luminosity chart
 
 This chart works almost the same as plain luminosity chart (see
 :ref:`lumi-values`) and the only difference is that it recalculates values to
-add up with time for each series. Use form at the bottom of chart container to
-add series.
+add up with time for each series. Use form in the "Add series" tab at the bottom
+of chart container to add series.
+
 
 .. _ratios:
 
@@ -82,6 +87,20 @@ bottom of chart container choose two data series from memory to make ratio and
 click "ADD RATIO" button. When adding series, timestamps of data points might be
 slightly modified to align lumisections.
 
+
+.. _stats:
+
+Stats
+-----
+
+Few statistical numbers for data of each chart can be calculated by clicking
+"RECALCULATE" button in "Stats" tab at the bottom of chart container (see image
+below).
+
+.. image:: _static/img/totlumi/stats.png
+
+
+.. _common:
 
 Common chart controls
 ---------------------
