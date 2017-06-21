@@ -23,7 +23,6 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this.chart.setTitle('Luminosity ratios');
-        this.chart.setYAxisTitle('Ratio');
     }
 
     addRatio(dataid1, yfield1, dataid2, yfield2) {
@@ -68,6 +67,7 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
             return;
         }
         this.chart.addSeries(name, x, y, text, meta);
+        this.chart.setYAxisTitle('Ratio');
     }
 
     makeSeriesName(params1, yfield1, params2, yfield2) {

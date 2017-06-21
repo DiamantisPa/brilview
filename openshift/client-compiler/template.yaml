@@ -43,7 +43,7 @@ items:
               memory: 2Gi
             requests:
               cpu: 1
-              memory: 1.3Gi
+              memory: 1.6Gi
           volumeMounts:
             - mountPath: "/client_files_for_serving"
               name: "pvol1"
