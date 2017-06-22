@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { LumiDataService } from '../../data.service';
 import * as LumiUnits from '../../lumi-units';
 
-
 @Component({
     selector: 'li-ratio-chart',
     templateUrl: './ratio-chart.component.html',
