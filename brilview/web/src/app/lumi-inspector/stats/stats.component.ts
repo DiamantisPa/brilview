@@ -29,7 +29,7 @@ export class StatsComponent implements OnInit {
     protected getVisibleRanges() {
         const layout = this.chart.getNativeChartElement().layout;
         // x - array of two Date objects or infinities. If xrange from chart
-        // comes as two strings, then they need to be treated as UTC
+        // comes as strings, then they need to be treated as UTC
         return {
             x: (layout.xaxis && layout.xaxis.range
                 ? layout.xaxis.range
@@ -56,7 +56,6 @@ export class StatsComponent implements OnInit {
     recalculate() {
         const series = this.getSeries();
         const visibleRanges = this.getVisibleRanges();
-        console.log(visibleRanges);
         const visible = series.map(s => {
             return {
                 name: s.name + ' * in view',
