@@ -24,4 +24,13 @@
         </tbody>
     </table>
 </div>
+
+*in view:
+<div style="display: inline-block; vertical-align: top;">
+    {{toISOStringNoThrow(visibleRanges.x[0])}} <= X <= {{toISOStringNoThrow(visibleRanges.x[1])}},
+    <br />
+    {{visibleRanges.y[0].toExponential(4)}}    <= Y <= {{visibleRanges.y[1].toExponential(4)}}
+</div>
+
+<br />
 <button class="btn btn-primary" (click)="recalculate()">Recalculate</button>
