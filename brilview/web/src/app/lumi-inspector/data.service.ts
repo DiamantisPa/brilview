@@ -20,7 +20,8 @@ export class LumiDataService {
     static postOptions = new RequestOptions({ headers: LumiDataService.postHeaders });
 
 
-    onNewLumiData: Subject<LumiDataEvent>;
+    onNewLumiData$: Subject<LumiDataEvent>;
+    onRemoveLumiData$: Subject<void>;
     lumiDataLimit = 10;
     lumiData = [];
     protected storage = {};
@@ -28,7 +29,8 @@ export class LumiDataService {
 
 
     constructor(private http: Http) {
-        this.onNewLumiData = new Subject();
+        this.onNewLumiData$ = new Subject();
+        this.onRemoveLumiData$ = new Subject<void>();
     }
 
     query(params) {
@@ -52,7 +54,7 @@ export class LumiDataService {
             }).share();
         request.subscribe(data => {
             const id = this.addToStorage(params, data.data);
-            this.onNewLumiData.next({type: 'new', data: id});
+            this.onNewLumiData$.next({type: 'new', data: id});
         }, error => {});
         return request;
     }
@@ -120,6 +122,7 @@ export class LumiDataService {
             }
         }
         delete this.storage[id];
+        this.onRemoveLumiData$.next();
     }
 
     clearLumiDataStorage() {
@@ -128,6 +131,7 @@ export class LumiDataService {
         for (const id of ids) {
             delete this.storage[id];
         }
+        this.onRemoveLumiData$.next();
     }
 
     removeLumiDataOverLimit() {
@@ -136,6 +140,7 @@ export class LumiDataService {
             id = this.lumiData[0][0];
             this.removeLumiDataFromStorage(id);
         }
+        this.onRemoveLumiData$.next();
     }
 
 }

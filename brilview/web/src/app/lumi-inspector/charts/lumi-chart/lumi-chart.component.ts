@@ -19,7 +19,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
     constructor(protected dataService: LumiDataService) {}
 
     ngOnInit() {
-        this.dataService.onNewLumiData.subscribe(this.onNewData.bind(this));
+        this.dataService.onNewLumiData$.subscribe(this.onNewData.bind(this));
         this.lumiData = this.dataService.lumiData;
         this.chart.afterRemoveData = this.rescaleChartValues.bind(this);
     }

@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/debounce';
 import { LumiDataService } from '../../data.service';
 import * as LumiUnits from '../../lumi-units';
 
@@ -6,17 +9,31 @@ import * as LumiUnits from '../../lumi-units';
     selector: 'li-ratio-chart',
     templateUrl: './ratio-chart.component.html',
     styleUrls: ['../../lumi-inspector.component.css',
-                './ratio-chart.component.css']
+                './ratio-chart.component.css'],
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RatioChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
-    lumiData: Array<Array<any>>;
+    @ViewChild('lumiDataSelect1') lumiDataSelect1;
+    @ViewChild('lumiDataSelect2') lumiDataSelect2;
+    lumiData: Array<Array<any>> = [[]];
+    lumiDataStorageUpdates$: Observable<any>;
+    currentPermutationIdx = 0;
+    permutations = [];
 
-    constructor(protected dataService: LumiDataService) {}
+    constructor(protected dataService: LumiDataService) {
+        this.lumiDataStorageUpdates$ = this.dataService.onNewLumiData$
+            .merge(this.dataService.onRemoveLumiData$);
+    }
 
     ngOnInit() {
+        console.log(this.lumiDataStorageUpdates$);
+        this.lumiDataStorageUpdates$
+            .subscribe(() => {
+                this.makePermutations();
+            });
         this.lumiData = this.dataService.lumiData;
     }
 
@@ -87,6 +104,35 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
             ].filter(Boolean).join('_'));
         }
         return name.join('/');
+    }
+
+    makePermutations() {
+        const newPermutations = [];
+        this.lumiData.forEach((a, idxa) => {
+            this.lumiData.forEach((b, idxb) => {
+                newPermutations.push([idxa, idxb]);
+            });
+        });
+        this.currentPermutationIdx = 0;
+        this.permutations = newPermutations;
+    }
+
+    permute(step) {
+        const s1 = this.lumiDataSelect1.nativeElement;
+        const s2 = this.lumiDataSelect2.nativeElement;
+        if (!this.permutations.length) {
+            s1.selectedIndex = s2.selectedIndex = -1;
+            return;
+        }
+        if (this.permutations.length == 1) {
+            s1.selectedIndex = s2.selectedIndex = 0;
+            return;
+        }
+        const n = this.permutations.length;
+        const i = this.currentPermutationIdx + step;
+        this.currentPermutationIdx = ((i % n) + n) % n;
+        s1.selectedIndex = this.permutations[this.currentPermutationIdx][0];
+        s2.selectedIndex = this.permutations[this.currentPermutationIdx][1];
     }
 
 }

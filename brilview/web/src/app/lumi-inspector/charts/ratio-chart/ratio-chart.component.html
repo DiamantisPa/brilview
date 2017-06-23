@@ -51,6 +51,19 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Permutations</label>
+                <div class="btn-group btn-outline-primary btn-sm">
+                    <button class="btn" (click)="permute(-1)">
+                        <clr-icon shape="caret left"></clr-icon>
+                    </button>
+
+                    <button class="btn" (click)="permute(1)">
+                        <clr-icon shape="caret right"></clr-icon>
+                    </button>
+                </div>
+            </div>
+
             <button class="btn btn-primary" type="submit"
                     (click)="addRatio(
                              lumiDataSelect1.value, measurementSelect1.value,
