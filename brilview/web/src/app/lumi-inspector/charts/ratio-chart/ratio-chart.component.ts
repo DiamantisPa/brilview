@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/debounce';
+import 'rxjs/add/operator/debounceTime';
 import { LumiDataService } from '../../data.service';
 import * as LumiUnits from '../../lumi-units';
 
@@ -25,11 +25,11 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
 
     constructor(protected dataService: LumiDataService) {
         this.lumiDataStorageUpdates$ = this.dataService.onNewLumiData$
-            .merge(this.dataService.onRemoveLumiData$);
+            .merge(this.dataService.onRemoveLumiData$)
+            .debounceTime(100);
     }
 
     ngOnInit() {
-        console.log(this.lumiDataStorageUpdates$);
         this.lumiDataStorageUpdates$
             .subscribe(() => {
                 this.makePermutations();
