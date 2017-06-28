@@ -89,7 +89,6 @@ export class FormComponent implements OnInit {
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
         }
-        console.log(requests);
         requests.finally(() => this.loadingProgress = 100)
             .subscribe(
                 this.handleQuerySuccess.bind(this),
