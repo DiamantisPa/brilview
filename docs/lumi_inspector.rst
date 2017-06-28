@@ -30,6 +30,9 @@ Next to the button there is a status indicator which also shows error messages
 in case of failed queries. After successful query, new data is stored in memory
 (see :ref:`memory`).
 
+.. note:: Normtag field accepts single iovtag, or multiple comma separated
+          iovtags.
+
 
 .. _memory:
 
@@ -83,9 +86,10 @@ Luminosity ratios chart
 -----------------------
 
 This chart is for plotting ratios between two series of data. Using form at the
-bottom of chart container choose two data series from memory to make ratio and
-click "ADD RATIO" button. When adding series, timestamps of data points might be
-slightly modified to align lumisections.
+bottom of chart container choose (manually from dropdowns, or by cycling
+permutations with two arrow buttons) two data series from memory to make ratio
+and click "ADD RATIO" button. When adding series, timestamps of data points
+might be slightly modified to align lumisections.
 
 
 .. _stats:
@@ -95,7 +99,8 @@ Stats
 
 Few statistical numbers for data of each chart can be calculated by clicking
 "RECALCULATE" button in "Stats" tab at the bottom of chart container (see image
-below).
+below). Numbers are calculated twice per each series: for whole series data, and
+for data only falling in visible (zoomed) chart area.
 
 .. image:: _static/img/totlumi/stats.png
 
@@ -119,6 +124,24 @@ Controls:
 * **RUN separators**: put vertical lines on RUN number change
 * **CLEAR CHART**: remove all series from chart
 * **POP SERIES**: remove single last series from chart
+
+In chart navigation
+^^^^^^^^^^^^^^^^^^^
+
+.. image:: _static/img/totlumi/chart-nav.gif
+
+Useful chart navigation methods:
+
+* **Mode bar "Zoom Y axis 0;3" button**: shortcut to set Y axis range 0-3
+  (useful for ratios)
+* **Mode bar "Zoom in"/"Zoom out" buttons**: zoom in/out
+* **Click and drag with "Zoom" tool selected**: zoom to region
+* **Double click axis scale**: auto reset zoom for the axis
+* **Click and drag axis scale edge**: zoom by by "squashing"/"expanding" from
+  the edge
+* **Click and drag axis scale (center)**: pan horizontally/vertically
+* **Click and drag with "Pan" tool selected**: pan freely
+* **Double click on chart canvas**: auto reset zoom to fit everything
 
 
 .. _chart-edit:
