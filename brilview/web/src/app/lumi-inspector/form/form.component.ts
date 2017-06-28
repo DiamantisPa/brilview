@@ -3,6 +3,8 @@ import { DatePipe } from '@angular/common';
 import { LumiDataService } from '../data.service';
 import { NormtagService } from '../normtag.service';
 import { CompleterService } from 'ng2-completer';
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/finally';
 
 @Component({
@@ -18,7 +20,6 @@ export class FormComponent implements OnInit {
     message = '';
     loadingStatus = '';
     loadingProgress = 100;
-    lastQueryParams = {};
     datePipe: DatePipe;
     beginFieldIsDate = false;
     endFieldIsDate = false;
@@ -76,13 +77,24 @@ export class FormComponent implements OnInit {
         this.loadingStatus = 'WAITING';
         this.message = null;
         this.loadingProgress = 0;
-        this.lastQueryParams = Object.assign({}, this.params);
-        this.lumiDataService.query(this.lastQueryParams)
-            .finally(() => this.loadingProgress = 100)
-                .subscribe(
-                    this.handleQuerySuccess.bind(this),
-                    this.handleQueryFailure.bind(this)
-                );
+        let requests = null;
+        if (this.params.normtag && this.params.type === '-normtag-') {
+            requests = Observable.from(this.params.normtag.split(','))
+                .concatMap((val: string) => {
+                    const params = Object.assign({}, this.params);
+                    params['normtag'] = val.trim();
+                    return this.lumiDataService.query(params);
+                });
+        } else {
+            const params = Object.assign({}, this.params);
+            requests = this.lumiDataService.query(params);
+        }
+        console.log(requests);
+        requests.finally(() => this.loadingProgress = 100)
+            .subscribe(
+                this.handleQuerySuccess.bind(this),
+                this.handleQueryFailure.bind(this)
+            );
     }
 
     parseDates() {
