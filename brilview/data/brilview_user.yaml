@@ -33,6 +33,7 @@ handlers: [brilcommandhandler, lumidbhandler]
 brilcommandhandler:
   command:  # none or command path
   webcacheconfig: /afs/cern.ch/cms/SITECONF/CERN/JobConfig/site-local-config.xml  # none or config file
+  normtag_directory: /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags
 
 lumidbhandler:
   connection: online

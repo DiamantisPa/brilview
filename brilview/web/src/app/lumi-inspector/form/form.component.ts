@@ -142,7 +142,7 @@ export class FormComponent implements OnInit {
             return;
         }
         this.paramOptionsLoading.normtag = true;
-        this.normtagService.getIOVTags()
+        this.normtagService.getAllTags()
             .finally(() => {
                 this.paramOptionsLoading.normtag = false;
                 this.paramOptionsShouldLoad.normtag = false;

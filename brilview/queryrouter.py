@@ -9,8 +9,8 @@ def query(options):
     :rtype: dict
 
     """
-    hanlerfn = get_handler_fn(options)
-    return hanlerfn(options)
+    hadnlerfn = get_handler_fn(options)
+    return hadnlerfn(options)
 
 
 def get_handler_fn(options):
@@ -27,16 +27,18 @@ def get_handler_fn(options):
 
     t = str(options['query_type']).lower()
     if t == 'timelumi':
-        return _call_cmmdhandler_lumi
+        return _handlerfn_cmmd_lumi
     elif t == 'iovtags':
-        return _call_lumidbhandler_iovtags
+        return _handlerfn_lumidb_iovtags
+    elif t == 'normtags':
+        return _handlerfn_cmmd_normtags
     elif t == 'dummy':
         raise NotImplementedError('No dummy handler yet.')
 
     raise KeyError('Query type did not match any handler name.')
 
 
-def _call_cmmdhandler_lumi(options):
+def _handlerfn_cmmd_lumi(options):
     """cmmdhandler executor - call to query cmmdhandler
 
     :param options: dict query options
@@ -45,10 +47,10 @@ def _call_cmmdhandler_lumi(options):
 
     """
 
-    return cmmdhandler.brilcalcLumiHandler(options)
+    return cmmdhandler.get_brilcalc_lumi(options)
 
 
-def _call_lumidbhandler_iovtags(options):
+def _handlerfn_lumidb_iovtags(options):
     """lumidbhandler executor - call to query lumidb
 
     :param options: dict query options
@@ -58,3 +60,15 @@ def _call_lumidbhandler_iovtags(options):
     """
 
     return lumidbhandler.get_iovtags()
+
+
+def _handlerfn_cmmd_normtags(options):
+    """cmmdhandler executor - call to list normtag files
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return cmmdhandler.get_normtag_filenames()

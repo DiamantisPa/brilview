@@ -5,7 +5,44 @@ import os
 from brilview import bvconfig
 
 
-def brilcalcLumiHandler(commandargs={}):
+RE_FILENAME_ALLOWED_CHARS = re.compile(r'^([a-zA-Z0-9]|_|-|\.)+$')
+
+
+def get_normtag_filenames():
+    if (
+            hasattr(bvconfig, 'brilcommandhandler') and
+            'normtag_directory' in bvconfig.brilcommandhandler and
+            bvconfig.brilcommandhandler['normtag_directory']
+    ):
+        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
+    else:
+        return []
+    filenames = os.listdir(normtag_directory)
+    jsons = [x for x in filenames if x.endswith('.json')]
+    normtags = [x for x in jsons if x.startswith('normtag')]
+    return normtags
+
+
+def make_normtag_filepath(normtag):
+    if (
+            hasattr(bvconfig, 'brilcommandhandler') and
+            'normtag_directory' in bvconfig.brilcommandhandler and
+            bvconfig.brilcommandhandler['normtag_directory']
+    ):
+        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
+    else:
+        return None
+    if re.match(RE_FILENAME_ALLOWED_CHARS, normtag) is None:
+        return None
+    fpath = os.path.join(normtag_directory, normtag)
+    fpath = os.path.normpath(fpath)
+    if fpath.startswith(normtag_directory):
+        return fpath
+    else:
+        return None
+
+
+def get_brilcalc_lumi(commandargs={}):
     '''
     brilcalcargs: arguments for brilcalc lumi
 
@@ -87,9 +124,12 @@ def brilcalcLumiHandler(commandargs={}):
         cmdargs += ['--type', commandargs['type']]
 
     if 'normtag' in commandargs and commandargs['normtag']:
-        normtag = str(commandargs['normtag']).replace('.', '').replace('/', '')
-        if normtag == '' or os.path.isfile(normtag):
-            return {'status': 'ERROR', 'message': 'Bad normtag: ' + normtag}
+        normtag = commandargs['normtag']
+        if normtag == '':
+            return {'status': 'ERROR', 'message': 'Empty normtag'}
+        normtag_file = make_normtag_filepath(normtag)
+        if normtag_file is not None and os.path.isfile(normtag_file):
+            normtag = normtag_file
         cmdargs += ['--normtag', normtag]
 
     if 'beamstatus' in commandargs and commandargs['beamstatus']:
@@ -104,7 +144,8 @@ def brilcalcLumiHandler(commandargs={}):
         r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
-            return {'status': 'ERROR', 'message': e.output}
+            out = re.sub('File ".*?"', '<FILE>', e.output)
+            return {'status': 'ERROR', 'message': out}
     result_strarray = [
         l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
 
@@ -175,7 +216,7 @@ def brilcalcLumiHandler(commandargs={}):
     return {'status': 'OK', 'data': resultdata}
 
 
-def brilcalcBXLumiHandler(brilcalcargs, unit='/ub', cmmd=[]):
+def get_brilcalc_bxlumi(brilcalcargs, unit='/ub', cmmd=[]):
     '''
     output:
        {'status':'OK'/'ERROR',
@@ -231,23 +272,5 @@ def brilcalcBXLumiHandler(brilcalcargs, unit='/ub', cmmd=[]):
     return {'status': 'OK', 'data': resultdata}
 
 
-def brilcalcBeamHandler(brilcalcargs, cmmd=[]):
-    pass
-
-
-def brilcalcBXBeamHandler(brilcalcargs, cmmd=[]):
-    pass
-
-
 if __name__ == '__main__':
-    # from project root run python -m brilview.handlers.cmmdhandler
-    # print brilcalcLumiHandler(
-    #    ['-r', '284077'], unit='/mb',cmmd=['/home/zhen/work/brilws/brilcalc-run.py'])
-    # print brilcalcBXLumiHandler(
-    #    ['-r', '284077'], unit='/mb',cmmd=['/home/zhen/work/brilws/brilcalc-run.py'])
-    # print brilcalcLumiHandler(
-    #    ['-r', '284077'],
-    #    cmmd=['/home/data/brilws/brilcalc-run.py'])
-    bvconfig.update({"brilcommandhandler": {}})
-    bvconfig.brilcommandhandler['command'] = '/home/zhen/work/brilws/brilcalc-run.py'
-    print brilcalcLumiHandler({'begin': 284077, 'end': 284077, 'byls': True})
+    print('normtag files', get_normtag_filenames())

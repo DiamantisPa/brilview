@@ -30,8 +30,8 @@ Next to the button there is a status indicator which also shows error messages
 in case of failed queries. After successful query, new data is stored in memory
 (see :ref:`memory`).
 
-.. note:: Normtag field accepts single iovtag, or multiple comma separated
-          iovtags.
+.. note:: Normtag field accepts single iovtag/normtag, or multiple comma
+          separated iovtags/normtags.
 
 
 .. _memory:
