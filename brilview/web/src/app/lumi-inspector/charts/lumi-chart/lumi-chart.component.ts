@@ -29,7 +29,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
     }
 
     onNewData(event) {
-        this.addSeriesFromMemory(event.data, 'recorded');
+        this.addSeriesFromMemory(event.data, 'delivered');
     }
 
     addSeriesFromMemory(dataid, yfield) {

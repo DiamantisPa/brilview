@@ -1,0 +1,32 @@
+<li-chart #chart></li-chart>
+<bv-alerts #alerts></bv-alerts>
+<clr-tabs>
+    <clr-tab-link>Add data</clr-tab-link>
+
+    <clr-tab-link>Stats</clr-tab-link>
+
+    <clr-tab-content>
+        <form>
+            <div class="form-group">
+                <label>New series</label>
+                <div class="li-form-subgroup">
+                    <label>Data</label>
+                    <div class="select">
+                        <select #lumiDataSelect1>
+                            <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit"
+                    (click)="addSeries(lumiDataSelect1.value)">
+                Add series
+            </button>
+        </form>
+    </clr-tab-content>
+
+    <clr-tab-content>
+        <li-stats [chart]="chart"></li-stats>
+    </clr-tab-content>
+</clr-tabs>

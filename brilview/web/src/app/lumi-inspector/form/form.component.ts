@@ -35,6 +35,8 @@ export class FormComponent implements OnInit {
         type: 'Online',
         byls: true,
         without_correction: false,
+        pileup: false,
+        minbiasxsec: 80000
     };
     paramOptions = {
         timeunit: ['RUN/FILL', 'DATE'],

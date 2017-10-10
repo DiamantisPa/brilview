@@ -1,11 +1,26 @@
 import subprocess
+import traceback
 import re
 import numpy as np
 import os
-from brilview import bvconfig
+import csv
+from brilview import bvconfig, bvlogging
 
 
 RE_FILENAME_ALLOWED_CHARS = re.compile(r'^([a-zA-Z0-9]|_|-|\.)+$')
+
+
+def return_error_on_exception(func):
+    def decorated(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            bvlogging.get_logger().warn(traceback.format_exc())
+            return {
+                'status': 'ERROR',
+                'message': e.message
+            }
+    return decorated
 
 
 def get_normtag_filenames():
@@ -42,167 +57,159 @@ def make_normtag_filepath(normtag):
         return None
 
 
-def get_brilcalc_lumi(commandargs={}):
+@return_error_on_exception
+def get_brilcalc_lumi(args={}):
     '''
-    brilcalcargs: arguments for brilcalc lumi
-
-    the handler decides if --byls is needed according to input time parameters
     input:
-         commandargs: arguments for command
-         {
-           begin: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
-           end: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
-           timeunit: run,fill,strdate
-           unit: str
-           beamstatus: str (must be in 'stable beams','squeeze','flat top','adjust')
-           normtag: str textbox or dropdown select
-           datatag: str
-           hltpath:  str //'^HLT_[\w\*\?\[\]\!]+$' reject wildcard patterns ??
-           type:  str or None
-           selectjson: jsonstr
-           byls: boolean
-           without_correction: boolean
-         }
-
-    output:
-    {'status':'OK'/'ERROR',
-    'data': {'fillnum': [],
-                  'runnum': [],
-                  'tssec': [],
-                  'delivered': [],
-                  'recorded':[],
-                  'lsnum':[],
-                  'hltpathid':[],
-                  'hltpathid2name':{id:name},
-                  'hltpathname2id':{name:id},
-                }
-    or {'message':str}
+      args: {
+          begin: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
+          end: str '^\d\d/\d\d/\d\d \d\d:\d\d:\d\d$|^\d{6}$|^\d{4}$'
+          unit: str
+          beamstatus: str ('stable beams' | 'squeeze' | 'flat top' | 'adjust')
+          normtag: str textbox or dropdown select
+          datatag: str
+          hltpath:  str //'^HLT_[\w\*\?\[\]\!]+$' reject wildcard patterns ??
+          type:  str or None
+          selectjson: jsonstr
+          byls: boolean
+          without_correction: boolean
+          pileup: boolean
+          minbiasxsec: float
+      }
+    output: {
+        'status':'OK'|'ERROR',
+        'data'?: {
+            'fillnum': [],
+            'runnum': [],
+            'tssec': [],
+            'delivered': [],
+            'recorded':[],
+            'lsnum':[],
+            'hltpathid':[],
+            'hltpathid2name':{id:name},
+            'hltpathname2id':{name:id},
+            'pileup': []
+        },
+        'message'?: str
     }
 
     '''
-    begin = ''
-    end = ''
-    selectjson = ''
 
-    cmd = 'brilcalc'
-    if (
-            hasattr(bvconfig, 'brilcommandhandler') and
-            'command' in bvconfig.brilcommandhandler and
-            bvconfig.brilcommandhandler['command']
-    ):
-        cmd = bvconfig.brilcommandhandler['command']
-
-    cmdargs = [
-        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec']
-    if 'selectjson' not in commandargs:
-        if 'begin' not in commandargs or 'end' not in commandargs:
-            return 'ERROR: parameters begin, end or selectjson are missing'
-        else:
-            begin = commandargs['begin']
-            end = commandargs['end']
-            cmdargs += ['--begin', str(begin), '--end', str(end)]
-    else:
-        selectjson = commandargs['selectjson']
-        cmdargs += ['-i', selectjson]
-
-    byls = commandargs.get('byls', False)
-    if byls:
-        cmdargs.append('--byls')
-
-    without_correction = commandargs.get('without_correction', False)
-    if without_correction:
-        cmdargs.append('--without-correction')
-
-    hltpath = None
+    cmd = get_total_lumi_command_template()
+    cmd.extend(parse_time_range_args(args))
+    byls = False
+    if args.get('byls', False):
+        cmd.append('--byls')
+        byls = True
+    if args.get('without_correction', False):
+        cmd.append('--without-correction')
 
     unit = '/ub'
-    if 'unit' in commandargs and commandargs['unit']:
-        unit = commandargs['unit']
-    cmdargs += ['-u', unit]
+    if 'unit' in args and args['unit']:
+        unit = args['unit']
+    cmd.extend(['-u', unit])
 
-    if 'type' in commandargs and commandargs['type']:
-        cmdargs += ['--type', commandargs['type']]
+    if 'type' in args and args['type']:
+        cmd.extend(['--type', args['type']])
 
-    if 'normtag' in commandargs and commandargs['normtag']:
-        normtag = commandargs['normtag']
+    if 'normtag' in args and args['normtag']:
+        normtag = args['normtag']
         if normtag == '':
             return {'status': 'ERROR', 'message': 'Empty normtag'}
         normtag_file = make_normtag_filepath(normtag)
         if normtag_file is not None and os.path.isfile(normtag_file):
             normtag = normtag_file
-        cmdargs += ['--normtag', normtag]
+        cmd.extend(['--normtag', normtag])
 
-    if 'beamstatus' in commandargs and commandargs['beamstatus']:
-        cmdargs += ['-b', commandargs['beamstatus'].upper()]
+    if 'beamstatus' in args and args['beamstatus']:
+        cmd.extend(['-b', args['beamstatus'].upper()])
 
-    if 'hltpath' in commandargs and commandargs['hltpath']:
-        cmdargs += ['--hltpath', commandargs['hltpath']]
-        hltpath = commandargs['hltpath']
+    pileup = False
+    if 'pileup' in args and args['pileup']:
+        if not byls:
+            raise ValueError('Pileup option must go with "byls"')
+        pileup = True
+        if 'minbiasxsec' in args:
+            cmd.extend(['--minBiasXsec', str(args['minbiasxsec'])])
 
-    print cmdargs
+    hltpath = None
+    if 'hltpath' in args and args['hltpath']:
+        cmd.extend(['--hltpath', args['hltpath']])
+        hltpath = args['hltpath']
+
+    bvlogging.get_logger().debug(cmd)
+
     try:
-        r = subprocess.check_output(cmdargs, stderr=subprocess.STDOUT)
+        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
             out = re.sub('File ".*?"', '<FILE>', e.output)
             return {'status': 'ERROR', 'message': out}
-    result_strarray = [
-        l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')]
 
-    if not result_strarray:  # no data found
-        return {'status': 'ERROR', 'message': 'No data found'}
-    iserror = False
+    result = {
+        'status': 'OK',
+        'data': parse_brilcalc_output(r, byls, pileup, hltpath)
+    }
+    return result
+
+
+def parse_brilcalc_output(result, byls, pileup, hltpath):
+    lines = [l for l in result.splitlines() if
+             len(l) and not l.startswith('#')]
+
+    if not len(lines):  # no data found
+        raise ValueError('Empty result')
+
+    reader = csv.reader(lines)
     fillnums = []
     runnums = []
     lsnums = []
     tssecs = []
     delivereds = []
     recordeds = []
+    pileups = []
     hltpathids = []
     hltpathid2name = {}
     hltpathname2id = {}
     allpaths = []
-    for line in result_strarray:
-        items = line.split(',')
-        if items[0].find(':') == -1:  # output is an error message because the first data field always n:m
-            iserror = True
-            break
+    for row in reader:
+        if row[0].find(':') == -1:
+            # output is an error - first data field always n:m
+            raise RuntimeError('/n'.join(lines))
 
-        [runnum, fillnum] = [int(x) for x in items[0].split(':')]
-
+        [runnum, fillnum] = [int(x) for x in row[0].split(':')]
         fillnums.append(fillnum)
         runnums.append(runnum)
 
-        # special treat hltpathname field
         if byls:
+            # special treat hltpathname field
             if hltpath:
-                pathname = items[3]
+                pathname = row[3]
                 if pathname not in allpaths:
                     allpaths.append(pathname)
                 hltpathid = allpaths.index(pathname)
                 hltpathids.append(hltpathid)
                 hltpathid2name[hltpathid] = pathname
                 hltpathname2id[pathname] = hltpathid
-                del items[3]  # delete hltpath field
+                # colbase = 4
+                del row[3]  # delete hltpath field
             else:
-                del items[3:5]  # delete beamstatus, E fields
+                # colbase = 5
+                del row[3:5]  # delete beamstatus, E fields
         else:
-            del items[2:4]  # delete nls,ncms or ncms,hltpath for hlt
+            # colbase = 4
+            del row[2:4]  # delete nls,ncms or ncms,hltpath for hlt
 
         if byls:
-            tssecs.append(int(items[2]))
-            lsnum = int(items[1].split(':')[0])
-            lsnums.append(lsnum)
-            delivereds.append(float(items[3]))
-            recordeds.append(float(items[4]))
-        else:
-            tssecs.append(int(items[1]))
-            delivereds.append(float(items[2]))
-            recordeds.append(float(items[3]))
+            lsnums.append(int(row[1].split(':')[0]))
+            del row[1]
+        tssecs.append(int(row[1]))
+        delivereds.append(float(row[2]))
+        recordeds.append(float(row[3]))
+        if pileup:
+            pileups.append(float(row[4]))
 
-    if iserror:
-        return {'status': 'ERROR', 'message': '\n'.join(result_strarray)}
-    resultdata = {
+    return {
         'fillnum': fillnums,
         'runnum': runnums,
         'lsnum': lsnums,
@@ -211,9 +218,33 @@ def get_brilcalc_lumi(commandargs={}):
         'recorded': recordeds,
         'hltpathid': hltpathids,
         'hltpathid2name': hltpathid2name,
-        'hltpathname2id': hltpathname2id
+        'hltpathname2id': hltpathname2id,
+        'pileup': pileups
     }
-    return {'status': 'OK', 'data': resultdata}
+
+
+def get_total_lumi_command_template():
+    if (
+            hasattr(bvconfig, 'brilcommandhandler') and
+            'command' in bvconfig.brilcommandhandler and
+            bvconfig.brilcommandhandler['command']
+    ):
+        cmd = bvconfig.brilcommandhandler['command']
+    else:
+        cmd = 'brilcalc'
+    return [
+        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec'
+    ]
+
+
+def parse_time_range_args(args):
+    if 'selectjson' in args:
+        return ['-i', args['selectjson']]
+    elif 'begin' in args and 'end' in args:
+        return ['--begin', str(args['begin']), '--end', str(args['end'])]
+    else:
+        raise KeyError(
+            'Cannot parse time range. Missing "begin", "end" or "selectjson"')
 
 
 def get_brilcalc_bxlumi(brilcalcargs, unit='/ub', cmmd=[]):

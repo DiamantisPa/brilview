@@ -18,6 +18,7 @@ import { ChartComponent } from './chart/chart.component';
 import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
 import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
+import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.component';
 import { StatsComponent } from './stats/stats.component';
 import { CompleterPatchDirective } from '../utils/completer-patch.directive';
 
@@ -46,6 +47,7 @@ import { CompleterPatchDirective } from '../utils/completer-patch.directive';
         LumiChartComponent,
         CumulativeChartComponent,
         RatioChartComponent,
+        PileupChartComponent,
         StatsComponent,
         CompleterPatchDirective
     ],

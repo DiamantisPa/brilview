@@ -36,6 +36,8 @@ After all builds and deployments are finished see section :ref:`update-client` t
 fetch client side code from git repository, run build process and populate
 shared volume for nginx to serve.
 
+Change website visibility from "Intranet" to "Internet": https://cern.service-now.com/service-portal/article.do?n=KB0004359
+
 .. _update-client:
 
 Updating client

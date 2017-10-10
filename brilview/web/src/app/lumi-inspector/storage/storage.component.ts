@@ -41,7 +41,7 @@ export class StorageComponent implements OnInit {
 
     openLumiDataCSV(id) {
         const data = this.lumiDataService.getLumiDataFromStorage(id)['data'];
-        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
+        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
         const len = data[keys[0]].length;
         let csv = keys.join(',') + '\r\n';
         for (let i = 0; i < len; ++i) {
@@ -50,7 +50,9 @@ export class StorageComponent implements OnInit {
                 if (line) {
                     line += ',';
                 }
-                line += data[k][i];
+                if (i < data[k].length) {
+                    line += data[k][i];
+                }
             }
             csv += line + '\r\n';
         }
@@ -60,7 +62,7 @@ export class StorageComponent implements OnInit {
 
     saveLumiDataCSV(id, name) {
         const data = this.lumiDataService.getLumiDataFromStorage(id)['data'];
-        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded'];
+        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
         const len = data[keys[0]].length;
         let csv = keys.join(',') + '\r\n';
         for (let i = 0; i < len; ++i) {
@@ -69,7 +71,9 @@ export class StorageComponent implements OnInit {
                 if (line) {
                     line += ',';
                 }
-                line += data[k][i];
+                if (i < data[k].length) {
+                    line += data[k][i];
+                }
             }
             csv += line + '\r\n';
         }

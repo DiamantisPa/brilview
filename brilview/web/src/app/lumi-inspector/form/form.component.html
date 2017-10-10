@@ -134,10 +134,18 @@
                 </clr-checkbox>
             </div>
 
-            <!-- <div class="li-form-group"> -->
-            <!-- <label>Datatag</label> -->
-            <!-- <input type="text" [(ngModel)]="params.datatag"> -->
-            <!-- </div> -->
+            <div class="li-form-group">
+                <label>Pileup</label>
+                <clr-checkbox [(ngModel)]="params.pileup">
+                    Query pileup
+                </clr-checkbox>
+            </div>
+
+            <div class="li-form-group" *ngIf="params.pileup">
+                <label>Min. bias cross sec.</label>
+                <input type="number" [(ngModel)]="params.minbiasxsec" />
+            </div>
+
         </div>
     </div>
 
