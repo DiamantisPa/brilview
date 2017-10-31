@@ -23,40 +23,6 @@ def return_error_on_exception(func):
     return decorated
 
 
-def get_normtag_filenames():
-    if (
-            hasattr(bvconfig, 'brilcommandhandler') and
-            'normtag_directory' in bvconfig.brilcommandhandler and
-            bvconfig.brilcommandhandler['normtag_directory']
-    ):
-        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
-    else:
-        return []
-    filenames = os.listdir(normtag_directory)
-    jsons = [x for x in filenames if x.endswith('.json')]
-    normtags = [x for x in jsons if x.startswith('normtag')]
-    return normtags
-
-
-def make_normtag_filepath(normtag):
-    if (
-            hasattr(bvconfig, 'brilcommandhandler') and
-            'normtag_directory' in bvconfig.brilcommandhandler and
-            bvconfig.brilcommandhandler['normtag_directory']
-    ):
-        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
-    else:
-        return None
-    if re.match(RE_FILENAME_ALLOWED_CHARS, normtag) is None:
-        return None
-    fpath = os.path.join(normtag_directory, normtag)
-    fpath = os.path.normpath(fpath)
-    if fpath.startswith(normtag_directory):
-        return fpath
-    else:
-        return None
-
-
 @return_error_on_exception
 def get_brilcalc_lumi(args={}):
     '''
@@ -94,9 +60,8 @@ def get_brilcalc_lumi(args={}):
     }
 
     '''
-
-    cmd = get_total_lumi_command_template()
-    cmd.extend(parse_time_range_args(args))
+    cmd = _get_total_lumi_command_template()
+    cmd.extend(_parse_time_range_args(args))
     byls = False
     if args.get('byls', False):
         cmd.append('--byls')
@@ -116,7 +81,7 @@ def get_brilcalc_lumi(args={}):
         normtag = args['normtag']
         if normtag == '':
             return {'status': 'ERROR', 'message': 'Empty normtag'}
-        normtag_file = make_normtag_filepath(normtag)
+        normtag_file = _make_normtag_filepath(normtag)
         if normtag_file is not None and os.path.isfile(normtag_file):
             normtag = normtag_file
         cmd.extend(['--normtag', normtag])
@@ -138,7 +103,6 @@ def get_brilcalc_lumi(args={}):
         hltpath = args['hltpath']
 
     bvlogging.get_logger().debug(cmd)
-
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
@@ -146,14 +110,131 @@ def get_brilcalc_lumi(args={}):
             out = re.sub('File ".*?"', '<FILE>', e.output)
             return {'status': 'ERROR', 'message': out}
 
-    result = {
+    return {
         'status': 'OK',
-        'data': parse_brilcalc_output(r, byls, pileup, hltpath)
+        'data': _parse_brilcalc_output(r, byls, pileup, hltpath)
     }
-    return result
 
 
-def parse_brilcalc_output(result, byls, pileup, hltpath):
+@return_error_on_exception
+def get_brilcalc_bxlumi(args={}):
+    '''
+    input:
+        args: {
+            'runnum': int,
+            'lsnum': int,
+            'normtag': str textbox or dropdown select,
+            'type':  str or None,
+            'without_correction': boolean,
+            'unit': str
+    }
+
+    output: {
+        'status':'OK'|'ERROR',
+        'data'?: {
+            'fillnum': int,
+            'runnum': int,
+            'lsnum': int,
+            'tssec': int,
+            'delivered': float[],
+            'recorded': float[]
+        },
+        'message'?: str
+    }
+    '''
+    cmd = _get_total_lumi_command_template()
+    cmd.append('--xing')
+    cmd.extend(_parse_run_ls_args(args))
+    if args.get('without_correction', False):
+        cmd.append('--without-correction')
+
+    unit = '/ub'
+    if 'unit' in args and args['unit']:
+        unit = args['unit']
+    cmd.extend(['-u', unit])
+
+    if 'type' in args and args['type']:
+        cmd.extend(['--type', args['type']])
+
+    if 'normtag' in args and args['normtag']:
+        cmd.extend(['--normtag', _parse_normtag(args['normtag'])])
+
+    bvlogging.get_logger().debug(cmd)
+    try:
+        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.returncode != 0:
+            out = re.sub('File ".*?"', '<FILE>', e.output)
+            return {'status': 'ERROR', 'message': out}
+
+    return {
+        'status': 'OK',
+        'data': _parse_brilcalc_bx_output(r)
+    }
+
+
+def _parse_brilcalc_bx_output(output):
+    lines = [l for l in output.splitlines() if
+             len(l) and not l.startswith('#')]
+
+    if len(lines) == 0:  # no data found
+        raise ValueError('Empty result')
+
+    items = lines[0].split(',')
+    if items[0].find(':') == -1:  # output is an error message
+        raise RuntimeError('/n'.join(lines))
+
+    [runnum, fillnum] = [int(x) for x in items[0].split(':')]
+    lsnum = items[1].split(':')[0]
+    bxlumi_str = items[9][1:-1]
+    bxlumi = np.fromstring(bxlumi_str, dtype='f4', sep=' ')
+    delivereds = bxlumi[1::3].astype(float)
+    recordeds = bxlumi[2::3].astype(float)
+    return {
+        'fillnum': fillnum,
+        'runnum': runnum,
+        'lsnum': lsnum,
+        'tssec': int(items[2]),
+        'delivered': delivereds.tolist(),
+        'recorded': recordeds.tolist(),
+    }
+
+
+def get_normtag_filenames():
+    if (
+            hasattr(bvconfig, 'brilcommandhandler') and
+            'normtag_directory' in bvconfig.brilcommandhandler and
+            bvconfig.brilcommandhandler['normtag_directory']
+    ):
+        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
+    else:
+        return []
+    filenames = os.listdir(normtag_directory)
+    jsons = [x for x in filenames if x.endswith('.json')]
+    normtags = [x for x in jsons if x.startswith('normtag')]
+    return normtags
+
+
+def _make_normtag_filepath(normtag):
+    if (
+            hasattr(bvconfig, 'brilcommandhandler') and
+            'normtag_directory' in bvconfig.brilcommandhandler and
+            bvconfig.brilcommandhandler['normtag_directory']
+    ):
+        normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
+    else:
+        return None
+    if re.match(RE_FILENAME_ALLOWED_CHARS, normtag) is None:
+        return None
+    fpath = os.path.join(normtag_directory, normtag)
+    fpath = os.path.normpath(fpath)
+    if fpath.startswith(normtag_directory):
+        return fpath
+    else:
+        return None
+
+
+def _parse_brilcalc_output(result, byls, pileup, hltpath):
     lines = [l for l in result.splitlines() if
              len(l) and not l.startswith('#')]
 
@@ -223,7 +304,7 @@ def parse_brilcalc_output(result, byls, pileup, hltpath):
     }
 
 
-def get_total_lumi_command_template():
+def _get_total_lumi_command_template():
     if (
             hasattr(bvconfig, 'brilcommandhandler') and
             'command' in bvconfig.brilcommandhandler and
@@ -237,7 +318,7 @@ def get_total_lumi_command_template():
     ]
 
 
-def parse_time_range_args(args):
+def _parse_time_range_args(args):
     if 'selectjson' in args:
         return ['-i', args['selectjson']]
     elif 'begin' in args and 'end' in args:
@@ -247,60 +328,27 @@ def parse_time_range_args(args):
             'Cannot parse time range. Missing "begin", "end" or "selectjson"')
 
 
-def get_brilcalc_bxlumi(brilcalcargs, unit='/ub', cmmd=[]):
-    '''
-    output:
-       {'status':'OK'/'ERROR',
-        'data': [ [fillnum,runnum,lsnum,tssec,bxid_array,bxdelivered_array,bxrecorded_array] ]
-        or 'errormessagestring'
-    }
-    '''
-    if not brilcalcargs:
-        return {'status': 'ERROR', 'data': 'Empty input command'}
-    args = []
-    if cmmd:
-        args = cmmd
+def _parse_run_ls_args(args):
+    if 'runnum' in args and 'lsnum' in args:
+        run = args['runnum']
+        ls = args['lsnum']
+        if type(run) is int and type(ls) is int:
+            inpstr = '{' + str(run) + ':[[' + str(ls) + ',' + str(ls) + ']]}'
+            return ['-i', inpstr]
+        else:
+            raise TypeError('"runnum" and/or "lsnum" is not integer.')
     else:
-        args = ['brilcalc']
-    xingMin = 0.001
-    args += ['lumi'] + brilcalcargs
-    args += [
-        '-u', unit, '--xing', '--output-style', 'csv', '--without-checkjson',
-        '--tssec', '--xingMin', str(xingMin)
-    ]
-    try:
-        r = subprocess.check_output(args, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as e:
-        if e.returncode != 0:
-            return {'status': 'ERROR', 'data': e.output}
-    result_strarray = [
-        l for l in r.split('\n') if len(l) > 0 and not l.startswith('#')
-    ]
-    if not result_strarray:  # no data found
-        return {'status': 'ERROR', 'data': 'No data found'}
-    resultdata = []
-    iserror = False
-    for line in result_strarray:
-        items = line.split(',')
-        if items[0].find(':') == -1:  # output is an error message
-            iserror = True
-            break
-        [runnum, fillnum] = [int(x) for x in items[0].split(':')]
-        [lsnum, cmsalive] = [int(x) for x in items[1].split(':')]
-        tssec = int(items[2])
-        bxlumi_str = items[9]
-        bxlumi_str = re.sub(r'\[|\]', '', bxlumi_str)
-        bxlumi = np.fromstring(bxlumi_str, dtype='f4', sep=' ')
-        bxid_array = bxlumi[0::3].astype(int)
-        bxdelivered_array = bxlumi[1::3]
-        bxrecorded_array = bxlumi[2::3]
-        resultdata.append([
-            fillnum, runnum, lsnum, tssec, bxid_array.tolist(),
-            bxdelivered_array.tolist(), bxrecorded_array.tolist()
-        ])
-    if iserror:
-        return {'status': 'ERROR', 'data': '\n'.join(result_strarray)}
-    return {'status': 'OK', 'data': resultdata}
+        raise KeyError(
+            'Missing "runnum" and/or "lsnum" in args.')
+
+
+def _parse_normtag(normtag):
+    if normtag == '':
+        raise ValueError('Empty normtag')
+    normtag_file = _make_normtag_filepath(normtag)
+    if normtag_file is not None and os.path.isfile(normtag_file):
+        normtag = normtag_file
+    return ['--normtag', normtag]
 
 
 if __name__ == '__main__':

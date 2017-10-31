@@ -28,6 +28,8 @@ def get_handler_fn(options):
     t = str(options['query_type']).lower()
     if t == 'timelumi':
         return _handlerfn_cmmd_lumi
+    if t == 'bxlumi':
+        return _handlerfn_cmmd_bxlumi
     elif t == 'iovtags':
         return _handlerfn_lumidb_iovtags
     elif t == 'normtags':
@@ -39,7 +41,7 @@ def get_handler_fn(options):
 
 
 def _handlerfn_cmmd_lumi(options):
-    """cmmdhandler executor - call to query cmmdhandler
+    """cmmdhandler executor - call to query luminosity over time
 
     :param options: dict query options
     :returns: luminosity chart data
@@ -50,8 +52,20 @@ def _handlerfn_cmmd_lumi(options):
     return cmmdhandler.get_brilcalc_lumi(options)
 
 
+def _handlerfn_cmmd_bxlumi(options):
+    """cmmdhandler executor - call to query per bx luminosity
+
+    :param options: dict query options
+    :returns: luminosity chart data
+    :rtype: dict
+
+    """
+
+    return cmmdhandler.get_brilcalc_bxlumi(options)
+
+
 def _handlerfn_lumidb_iovtags(options):
-    """lumidbhandler executor - call to query lumidb
+    """lumidbhandler executor - call to query iovtags
 
     :param options: dict query options
     :returns: data
