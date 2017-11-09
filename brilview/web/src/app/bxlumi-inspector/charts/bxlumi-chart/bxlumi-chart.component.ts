@@ -1,0 +1,111 @@
+import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
+import * as LumiUnits from '../../../shared/lumi-utils/lumi-units';
+import { DataCache } from '../../../shared/data-cache/data-cache';
+
+@Component({
+    selector: 'bxli-bxlumi-chart',
+    templateUrl: './bxlumi-chart.component.html',
+    styleUrls: ['./bxlumi-chart.component.css']
+})
+export class BXLumiChartComponent implements OnInit {
+
+    @Input('cache') cache: DataCache;
+    @ViewChild('alerts') alerts;
+    @ViewChild('chart') chart;
+    lumiData: Array<Array<any>>;
+    chartUnit = null;
+
+    constructor() { }
+
+    ngOnInit() {
+        this.chart.afterRemoveData = this.rescaleChartValues.bind(this);
+    }
+
+    ngAfterViewInit() {
+        this.chart.setTitle('Per bunch luminosity');
+    }
+
+    addSeriesFromCache(key, yfield) {
+        const newData = this.cache.getData(key);
+        const lumi = newData.data;
+        const params = newData.params;
+
+        if (this.chart.chartData.length <= 0) {
+            this.chartUnit = params['unit'];
+        } else if (LumiUnits.unitsConflict(this.chartUnit, params['unit'])) {
+            this.alerts.alert({
+                label: '',
+                message: 'Cannot add series from data "' + newData.name +
+                    '". Conflicting data units.'
+            });
+            return;
+        }
+
+        const name = [
+            (params['type'] === '-normtag-' ? null : params['type']),
+            (params['type'] === '-normtag-' ? params['normtag'] : null),
+            yfield,
+            (params['without_correction'] ? 'raw' : null)
+        ].filter(Boolean); // filter out null, undefined, 0, false, empty string
+
+        this._addSeries(newData, yfield, name.join('_'), params);
+        this.rescaleChartValues();
+    }
+
+    protected _addSeries(data, yfield, name, params) {
+        const x = [];
+        for (let i = 0; i < data[yfield].length; ++i) {
+            x.push(i+1);
+        }
+        this.chart.addSeries(
+            name,
+            x,
+            this.scaleValues(data[yfield], params['unit'], this.chartUnit),
+        );
+    }
+
+    updateYAxisTitle() {
+        const newTitle = (LumiUnits.isInstantaneousUnit(this.chartUnit) ?
+                          'Instantaneous' :
+                          'Integrated')
+            + ' luminosity (' + this.chartUnit + ')';
+        const currentTitle = this.chart.getYAxisTitle();
+        if (currentTitle !== newTitle) {
+            this.chart.setYAxisTitle(newTitle);
+        }
+    }
+
+    getMaxValue(data) {
+        let max = -Infinity;
+        for (const series of data) {
+            for (const val of series.y) {
+                if (val > max) {
+                    max = val;
+                }
+            }
+        }
+        return max;
+    }
+
+    scaleValues(values: Array<number>, currentUnit, newUnit) {
+        if (currentUnit === newUnit) {
+            return values;
+        }
+        const scale = LumiUnits.scaleUnit(currentUnit, newUnit);
+        return values.map((val) => val * scale);
+    }
+
+    rescaleChartValues() {
+        const currentChartMax = this.getMaxValue(this.chart.chartData);
+        const newUnit = LumiUnits.unitForData(currentChartMax, this.chartUnit);
+        if (newUnit !== this.chartUnit) {
+            for (const series of this.chart.chartData) {
+                series.y = this.scaleValues(series.y, this.chartUnit, newUnit);
+            }
+            this.chart.redraw();
+            this.chartUnit = newUnit;
+        }
+        this.updateYAxisTitle();
+    }
+
+}

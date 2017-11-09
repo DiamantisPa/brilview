@@ -1,0 +1,23 @@
+<div class="bxli-chart-container">
+
+    <div #chart class="bxli-chart"></div>
+
+    <div class="bxli-chart-controls">
+        <div class="bv-form-controls bv-compact-form-controls">
+            <div class="bv-form-group">
+                <label>Chart height</label>
+                <div class="select">
+                    <select [(ngModel)]="chartHeight" (change)="onResize(null)">
+                        <option *ngFor="let opt of chartHeightOptions">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bv-form-element">
+                <button class="btn btn-warning-outline" (click)="clearChart()">
+                    Clear chart
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
