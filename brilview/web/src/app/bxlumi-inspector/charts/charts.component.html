@@ -1,3 +1,33 @@
-<p>
-  charts works!
-</p>
+<div class="row" >
+    <div class="col-xs-12" [hidden]="!lumiChartVisible">
+        <div class="bv-chart-wrap-container">
+            <bxli-bxlumi-chart [cache]="cache"></bxli-bxlumi-chart>
+        </div>
+    </div>
+
+    <div class="col-xs-12" [hidden]="!ratioChartVisible">
+        <div class="bv-chart-wrap-container">
+            <bxli-ratio-chart [cache]="cache"></bxli-ratio-chart>
+        </div>
+    </div>
+
+</div>
+
+<form class="row bv-charts-toggle-form">
+    <div class="toggle-switch">
+        <input name="lumiChartCheckbox"
+               type="checkbox"
+               id="lumi-chart-checkbox"
+               (change)="dispatchResize()"
+               [(ngModel)]="lumiChartVisible" />
+        <label for="lumi-chart-checkbox">Luminosity chart</label>
+    </div>
+    <div class="toggle-switch">
+        <input name="ratioChartCheckbox"
+               type="checkbox"
+               id="ratio-chart-checkbox"
+               (change)="dispatchResize()"
+               [(ngModel)]="ratioChartVisible" />
+        <label for="ratio-chart-checkbox">Ratio chart</label>
+    </div>
+</form>

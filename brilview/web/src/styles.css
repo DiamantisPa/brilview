@@ -87,3 +87,22 @@
 input {
     width: 100%;
 }
+
+.bv-chart-wrap-container {
+    background: white;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 0 12px -6px grey;
+    margin-top: 12px;
+    padding: 12px;
+}
+
+.bv-chart-wrap-container-title {
+    text-align: center;
+    font-size: 1.5em;
+    padding: 0 0 0.3em 0;
+}
+
+.bv-charts-toggle-form {
+    justify-content: center;
+    padding-top: 48px;
+}
