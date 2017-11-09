@@ -1,0 +1,14 @@
+<div [hidden]="!status" style="line-height: 1em">
+    <div>
+        <label>Status:</label>
+
+        <span class="label"
+              [ngClass]="'label-' + getStatusClass()" >
+            {{status}}
+        </span>
+    </div>
+
+    <div [hidden]="!message">
+        <label>Message:</label> {{message}}
+    </div>
+</div>

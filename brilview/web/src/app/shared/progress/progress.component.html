@@ -1,0 +1,7 @@
+<div class="progress"
+     [hidden]="!status"
+     [class.flash]="progress === 100 && status === 'success'"
+     [class.flash-danger]="progress === 100 && status !== 'success'"
+     [class.loop]="progress < 100">
+    <progress max="100" [value]="progress"></progress>
+</div>

@@ -9,3 +9,81 @@
 .main-container .content-container {
     position: relative;
 }
+
+.bv-form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.bv-form-block-free {
+    flex: 1 0 336px;
+}
+
+.bv-form-block-fixed {
+    flex: 0 0 336px;
+}
+
+.bv-form-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: left;
+    width: 100%;
+}
+
+.bv-form-controls.bv-compact-form-controls {
+    /* both classes */
+    justify-content: center;
+}
+
+.bv-form-group {
+    flex: 0 0 324px;
+    margin-right: 12px;
+    position: relative;
+    padding-left: 144px;
+    padding-bottom: 3px;
+    /* overflow: hidden; cannot use yet because of Clarity tooltip visibility */
+}
+
+.bv-form-element {
+    flex: 0 0 auto;
+    padding-left: 12px;
+    margin-right: 24px;
+    position: relative;
+    padding-bottom: 3px;
+}
+
+.bv-compact-form-controls > .bv-form-group {
+    flex: 0 0 216px;
+    padding-left: 120px;
+    margin-right: 12px;
+}
+
+.bv-form-group > label:first-child {
+    font-weight: bold;
+    position: absolute;
+    padding-right: 6px;
+    text-align: right;
+    white-space: nowrap;
+    width: 144px;
+    left: 0px
+}
+
+.bv-compact-form-controls > .bv-form-group > label:first-child {
+    width: 120px;
+}
+
+.bv-form-subgroup {
+    display: flex;
+    flex-direction: row;
+}
+
+.bv-form-subgroup + .bv-form-subgroup {
+    margin-left: 24px;
+}
+
+input {
+    width: 100%;
+}
