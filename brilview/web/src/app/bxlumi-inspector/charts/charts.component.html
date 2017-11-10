@@ -1,7 +1,10 @@
 <div class="row" >
     <div class="col-xs-12" [hidden]="!lumiChartVisible">
         <div class="bv-chart-wrap-container">
-            <bxli-bxlumi-chart [cache]="cache"></bxli-bxlumi-chart>
+            <bxli-bxlumi-chart
+                #bxlumiChart
+                [cache]="cache">
+            </bxli-bxlumi-chart>
         </div>
     </div>
 

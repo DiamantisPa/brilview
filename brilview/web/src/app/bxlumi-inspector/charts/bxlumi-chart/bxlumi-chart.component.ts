@@ -48,7 +48,7 @@ export class BXLumiChartComponent implements OnInit {
             (params['without_correction'] ? 'raw' : null)
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
 
-        this._addSeries(newData, yfield, name.join('_'), params);
+        this._addSeries(lumi, yfield, name.join('_'), params);
         this.rescaleChartValues();
     }
 

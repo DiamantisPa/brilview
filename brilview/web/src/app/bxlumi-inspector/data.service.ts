@@ -43,8 +43,8 @@ export class BXLumiDataService {
                     throw data;
                 }
             }).share();
-        request.subscribe(data => {
-            this.onNewLumiData$.next(data);
+        request.subscribe(response => {
+            this.onNewLumiData$.next({data: response.data, params: Object.assign({}, params)});
         }, error => {});
         return request;
     }

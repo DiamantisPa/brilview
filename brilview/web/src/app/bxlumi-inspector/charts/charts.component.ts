@@ -1,5 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+    Component, OnInit, Input, OnDestroy, ViewChild
+} from '@angular/core';
+import { BXLumiChartComponent } from './bxlumi-chart/bxlumi-chart.component';
 import { DataCache } from '../../shared/data-cache/data-cache';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 
 @Component({
@@ -7,15 +12,28 @@ import { DataCache } from '../../shared/data-cache/data-cache';
     templateUrl: './charts.component.html',
     styleUrls: ['./charts.component.css']
 })
-export class ChartsComponent implements OnInit {
+export class ChartsComponent implements OnInit, OnDestroy {
 
+    protected ngUnsubscribe$ = new Subject<void>();
     @Input('cache') cache: DataCache;
+    @ViewChild('bxlumiChart') bxlumiChart: BXLumiChartComponent;
     lumiChartVisible = true;
     ratioChartVisible = false;
 
-    constructor() {}
+    constructor() {
+    }
 
     ngOnInit() {
+        this.cache.onSetData$.takeUntil(this.ngUnsubscribe$).subscribe(key => {
+            if (this.lumiChartVisible) {
+                this.bxlumiChart.addSeriesFromCache(key, 'delivered');
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.ngUnsubscribe$.next();
+        this.ngUnsubscribe$.complete();
     }
 
     dispatchResize() {

@@ -3,18 +3,18 @@ import { Subject } from 'rxjs/Subject';
 
 export class DataCache {
 
-    onSetData$: Subject<{key: string, data: any}>;
+    onSetData$: Subject<string>;
     onChange$: Subject<void>;
     cache = {};
 
     constructor() {
         this.onChange$ = new Subject<void>();
-        this.onSetData$ = new Subject<{key: string, data: any}>();
+        this.onSetData$ = new Subject<string>();
     }
 
     setData(key: string, data: any) {
         this.cache[key] = data;
-        this.onSetData$.next({key: key, data: data});
+        this.onSetData$.next(key);
         this.onChange$.next();
     }
 

@@ -14,8 +14,8 @@ export class FormComponent implements OnInit {
     public progressStatus: string;
 
     public params = {
-        runnum: 100000,
-        lsnum: 1,
+        runnum: null,
+        lsnum: null,
         type: 'Online',
         unit: 'hz/mb',
         normtag: null,
