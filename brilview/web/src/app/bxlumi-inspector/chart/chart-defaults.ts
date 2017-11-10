@@ -28,8 +28,8 @@ export function getChartLayout() {
         },
         autosize: true,
         xaxis: {
-            type: 'date',
-            title: 'Date (UTC)'
+            type: 'linear',
+            title: 'Bunch index'
         }
     };
 }
