@@ -2,13 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as ArrStat from '../../utils/arr-stat';
 
 @Component({
-    selector: 'li-stats',
-    templateUrl: './stats.component.html',
-    styleUrls: [
-        '../lumi-inspector.component.css',
-        './stats.component.css']
+    selector: 'bv-chart-stats',
+    templateUrl: './chart-stats.component.html',
+    styleUrls: ['./chart-stats.component.css']
 })
-export class StatsComponent implements OnInit {
+export class ChartStatsComponent implements OnInit {
 
     @Input('chart') chart;
     stats = [];

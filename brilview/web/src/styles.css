@@ -106,3 +106,14 @@ input {
     justify-content: center;
     padding-top: 48px;
 }
+
+.bv-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.bv-series-name-col {
+    min-width: 120px;
+    overflow: hidden;
+    word-break: break-all;
+}

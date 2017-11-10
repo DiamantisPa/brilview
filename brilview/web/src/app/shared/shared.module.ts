@@ -4,6 +4,7 @@ import { ClarityModule } from 'clarity-angular';
 import { ProgressComponent } from './progress/progress.component';
 import { StatusComponent } from './status/status.component';
 import { CacheTableComponent } from './cache-table/cache-table.component';
+import { ChartStatsComponent } from './chart-stats/chart-stats.component';
 
 @NgModule({
     imports: [
@@ -13,12 +14,14 @@ import { CacheTableComponent } from './cache-table/cache-table.component';
     declarations: [
         ProgressComponent,
         StatusComponent,
-        CacheTableComponent
+        CacheTableComponent,
+        ChartStatsComponent
     ],
     exports: [
         ProgressComponent,
         StatusComponent,
-        CacheTableComponent
+        CacheTableComponent,
+        ChartStatsComponent
     ]
 })
 export class SharedModule { }
