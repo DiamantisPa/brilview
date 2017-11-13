@@ -1,0 +1,16 @@
+.input-icon {
+    position: absolute;
+    right: 0;
+    bottom: 0.5em;
+    cursor: pointer;
+}
+
+:host /deep/ .completer-input {
+    width: 100%;
+    padding-right: 1.5em;
+}
+
+:host /deep/ .completer-dropdown {
+    max-height: 480px;
+    overflow-y: auto;
+}

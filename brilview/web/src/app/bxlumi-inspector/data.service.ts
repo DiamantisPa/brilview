@@ -54,9 +54,8 @@ export class BXLumiDataService {
         parsed['query_type'] = 'bxlumi';
         if (parsed.hasOwnProperty('type')){
             const lumitype = parsed['type'].toLowerCase();
-            if (lumitype === 'online') {
+            if (lumitype === 'online' || lumitype === '-normtag-') {
                 parsed['type'] = null;
-
             }
         }
         return parsed;

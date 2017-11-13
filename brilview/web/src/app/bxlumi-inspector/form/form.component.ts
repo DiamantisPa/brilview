@@ -40,16 +40,14 @@ export class FormComponent implements OnInit {
         this.progress = 1;
         this.progressStatus = 'info';
         this.dataService.query(this.params).subscribe(result => {
-            console.log(result);
             this.resultStatusText = 'OK';
             this.resultMessage = null;
             this.progress = 100;
             this.progressStatus = 'success';
 
         }, error => {
-            console.log(error);
             this.resultStatusText = 'ERROR';
-            this.resultMessage = 'crap happened';
+            this.resultMessage = error;
             this.progress = 100;
             this.progressStatus = 'danger';
         })

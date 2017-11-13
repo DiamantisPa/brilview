@@ -73,22 +73,11 @@
 
             <div class="bv-form-group">
                 <label>Normtag</label>
-                <ng2-completer
-                    completer-patch
-                    (focus)="checkNormtags()"
+                <bv-normtag-select
+                    tagTypes="alltags"
                     (blur)="params.normtag ? params.type = '-normtag-' : undefined"
-                    [(ngModel)]="params.normtag"
-                    [datasource]="paramOptions.normtag"
-                    [fillHighlighted]="false"
-                    [pause]="0"
-                    [textNoResults]="''"
-                    [textSearching]="''"
-                    [minSearchLength]="1">
-                </ng2-completer>
-
-                <span class="input-icon spinner spinner-inline"
-                      [hidden]="!paramOptionsLoading.normtag">
-                </span>
+                    (valueChange)="params.normtag = $event">
+                </bv-normtag-select>
             </div>
 
             <!-- <div class="bv-form-group"> -->

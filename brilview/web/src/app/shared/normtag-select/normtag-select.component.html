@@ -1,0 +1,17 @@
+<ng2-completer
+    completer-patch
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    [ngModel]="value"
+    (ngModelChange)="onValueChange($event)"
+    [datasource]="normtags"
+    [fillHighlighted]="false"
+    [pause]="0"
+    [textNoResults]="''"
+    [textSearching]="''"
+    [minSearchLength]="1">
+</ng2-completer>
+
+<span class="input-icon spinner spinner-inline"
+      [hidden]="!loading">
+</span>

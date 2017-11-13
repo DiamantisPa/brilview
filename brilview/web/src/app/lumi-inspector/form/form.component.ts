@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { LumiDataService } from '../data.service';
-import { NormtagService } from '../normtag.service';
-import { CompleterService } from 'ng2-completer';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'li-form',
@@ -59,10 +56,7 @@ export class FormComponent implements OnInit {
         unit: null
     };
 
-    constructor(protected lumiDataService: LumiDataService,
-                protected normtagService: NormtagService,
-                protected completerService: CompleterService) {
-        this.paramOptions.normtag = completerService.local([]);
+    constructor(protected lumiDataService: LumiDataService) {
     }
 
     ngOnInit() {
@@ -139,17 +133,17 @@ export class FormComponent implements OnInit {
         }
     }
 
-    checkNormtags() {
-        if (!this.paramOptionsShouldLoad.normtag) {
-            return;
-        }
-        this.paramOptionsLoading.normtag = true;
-        this.normtagService.getAllTags()
-            .finally(() => {
-                this.paramOptionsLoading.normtag = false;
-                this.paramOptionsShouldLoad.normtag = false;
-            })
-                .subscribe((result) => this.paramOptions.normtag.data(result));
-    }
+    // checkNormtags() {
+    //     if (!this.paramOptionsShouldLoad.normtag) {
+    //         return;
+    //     }
+    //     this.paramOptionsLoading.normtag = true;
+    //     this.normtagService.getAllTags()
+    //         .finally(() => {
+    //             this.paramOptionsLoading.normtag = false;
+    //             this.paramOptionsShouldLoad.normtag = false;
+    //         })
+    //             .subscribe((result) => this.paramOptions.normtag.data(result));
+    // }
 
 }

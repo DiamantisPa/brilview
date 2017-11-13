@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from 'clarity-angular';
-import { Ng2CompleterModule } from "ng2-completer";
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AlertsModule } from '../alerts/alerts.module';
 import { LumiInspectorRouting } from './lumi-inspector.routing';
 import { LumiDataService } from './data.service';
-import { NormtagService } from './normtag.service';
 import { SharedModule } from '../shared/shared.module';
 
 import { FormComponent } from './form/form.component';
@@ -20,7 +18,6 @@ import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
 import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
 import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.component';
-import { CompleterPatchDirective } from '../utils/completer-patch.directive';
 
 @NgModule({
     imports: [
@@ -31,7 +28,6 @@ import { CompleterPatchDirective } from '../utils/completer-patch.directive';
         AlertsModule,
         ClarityModule.forChild(),
         NguiDatetimePickerModule,
-        Ng2CompleterModule,
         SharedModule
     ],
     exports: [
@@ -49,11 +45,9 @@ import { CompleterPatchDirective } from '../utils/completer-patch.directive';
         CumulativeChartComponent,
         RatioChartComponent,
         PileupChartComponent,
-        CompleterPatchDirective
     ],
     providers: [
         LumiDataService,
-        NormtagService
     ]
 })
 export class LumiInspectorModule { }

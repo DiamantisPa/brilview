@@ -157,7 +157,7 @@ def get_brilcalc_bxlumi(args={}):
         cmd.extend(['--type', args['type']])
 
     if 'normtag' in args and args['normtag']:
-        cmd.extend(['--normtag', _parse_normtag(args['normtag'])])
+        cmd.extend(_parse_normtag(args['normtag']))
 
     bvlogging.get_logger().debug(cmd)
     try:
