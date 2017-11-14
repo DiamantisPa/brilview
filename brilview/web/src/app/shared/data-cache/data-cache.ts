@@ -6,6 +6,9 @@ export class DataCache {
     onSetData$: Subject<string>;
     onChange$: Subject<void>;
     cache = {};
+    get size() {
+        return Object.keys(this.cache).length;
+    }
 
     constructor() {
         this.onChange$ = new Subject<void>();

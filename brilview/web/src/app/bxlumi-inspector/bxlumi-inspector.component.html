@@ -6,15 +6,14 @@
     <clr-tab-link>
         <clr-icon shape="clipboard"></clr-icon>
         Cache
-        <!-- <span class="badge">{{lumiData.length}}</span> -->
+        <span class="badge">{{cacheTable.cache.size}}</span>
     </clr-tab-link>
 
     <clr-tab-content [clrTabContentActive]="true">
         <bxli-form></bxli-form>
     </clr-tab-content>
     <clr-tab-content>
-        asdf
-        <bv-cache-table [cache]="cache"></bv-cache-table>
+        <bv-cache-table #cacheTable [cache]="cache"></bv-cache-table>
     </clr-tab-content>
 </clr-tabs>
 
