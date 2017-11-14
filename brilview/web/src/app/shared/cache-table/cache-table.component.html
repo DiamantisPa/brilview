@@ -1,7 +1,3 @@
-<p>
-    cache-table works!
-</p>
-
 <clr-datagrid>
     <clr-dg-column>Index</clr-dg-column>
     <clr-dg-column>Name</clr-dg-column>
@@ -10,17 +6,18 @@
         <clr-dg-cell>{{i}}</clr-dg-cell>
         <clr-dg-cell>{{names[key]}}</clr-dg-cell>
         <clr-dg-cell>
-            <!-- <button -->
-            <!-- (click)="saveLumiDataCSV(item[0], item[1])"> -->
-            <!-- csv -->
-            <!-- </button> -->
+            <button
+                *ngFor="let action of actionsKeys"
+                (click)="actions[action](key, cache.getData(key))">
+                {{action}}
+            </button>
             <button
                 (click)="remove(key)">
                 Remove
             </button>
         </clr-dg-cell>
     </clr-dg-row>
-    <!-- <clr-dg-footer>{{lumiData.length}} items</clr-dg-footer> -->
+    <clr-dg-footer>{{cache.size}} items</clr-dg-footer>
 </clr-datagrid>
 <button
     class="btn btn-danger"

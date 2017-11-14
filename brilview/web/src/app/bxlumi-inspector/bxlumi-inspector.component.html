@@ -13,7 +13,12 @@
         <bxli-form></bxli-form>
     </clr-tab-content>
     <clr-tab-content>
-        <bv-cache-table #cacheTable [cache]="cache"></bv-cache-table>
+        <bv-cache-table
+            #cacheTable
+            [cache]="cache"
+            [actions]="cacheTableActions"
+            [nameBuilder]="nameGetter">
+        </bv-cache-table>
     </clr-tab-content>
 </clr-tabs>
 

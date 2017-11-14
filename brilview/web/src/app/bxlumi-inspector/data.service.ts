@@ -44,7 +44,10 @@ export class BXLumiDataService {
                 }
             }).share();
         request.subscribe(response => {
-            this.onNewLumiData$.next({data: response.data, params: Object.assign({}, params)});
+            this.onNewLumiData$.next({
+                data: response.data,
+                params: Object.assign({}, params)
+            });
         }, error => {});
         return request;
     }

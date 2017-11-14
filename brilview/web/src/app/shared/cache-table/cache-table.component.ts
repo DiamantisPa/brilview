@@ -13,6 +13,12 @@ export class CacheTableComponent implements OnInit, OnDestroy {
 
     private ngUnsubscribe$: Subject<void> = new Subject<void>();
     @Input() cache: DataCache;
+    @Input() nameBuilder: (key, value) => void;
+    @Input() actions: {[name: string]: (key, value) => void};
+    get actionsKeys() {
+        return Object.keys(this.actions);
+    }
+    @Input() keySortComparator: (key) => number;
     sortedKeys = [];
     names = {};
 
@@ -20,11 +26,11 @@ export class CacheTableComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.cache.onChange$.takeUntil(this.ngUnsubscribe$).subscribe(key => {
-            console.log('change', key);
-            this.sortedKeys = this.cache.getKeys();
+            this.sortedKeys = this.cache.getKeys().sort(this.keySortComparator);
+            const makeName = this.nameBuilder ? this.nameBuilder : (key, val) => key;
             this.names = {};
             this.sortedKeys.forEach(key => {
-                this.names[key] = key + '_name';
+                this.names[key] = makeName(key, this.cache.getData(key));
             });
         });
     }

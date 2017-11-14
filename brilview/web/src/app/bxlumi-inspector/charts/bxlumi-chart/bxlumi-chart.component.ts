@@ -42,6 +42,7 @@ export class BXLumiChartComponent implements OnInit {
         }
 
         const name = [
+            params['runnum'], params['lsnum'],
             (params['type'] === '-normtag-' ? null : params['type']),
             (params['type'] === '-normtag-' ? params['normtag'] : null),
             yfield,

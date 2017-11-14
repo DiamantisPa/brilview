@@ -7,7 +7,7 @@ import { DataCache } from '../shared/data-cache/data-cache';
 
 
 @Component({
-    selector: 'app-bxlumi-inspector',
+    selector: 'bv-bxlumi-inspector',
     templateUrl: './bxlumi-inspector.component.html',
     styleUrls: ['./bxlumi-inspector.component.css']
 })
@@ -15,13 +15,24 @@ export class BXLumiInspectorComponent implements OnInit, OnDestroy {
 
     private ngUnsubscribe$ = new Subject<void>();
     cache: DataCache;
+    cacheTableActions = {
+        exportCSV: function(key, value) {
+            console.log('exportCSV', key, value);
+        }
+    }
 
     constructor(protected dataService: BXLumiDataService) {
         this.cache = new DataCache();
         this.dataService.onNewLumiData$
             .takeUntil(this.ngUnsubscribe$)
             .subscribe(newData => {
-                this.cache.setData(Date.now().toString(), newData);
+                const cacheKey = Date.now().toString();
+                const cacheValue = {
+                    data: newData.data,
+                    params: newData.params,
+                    name: this.makeResultName(newData)
+                };
+                this.cache.setData(cacheKey, cacheValue);
                 if (this.cache.getSize() > 10) {
                     const timestamps = this.cache.getKeys()
                         .map(key => {return parseInt(key, 10);})
@@ -37,6 +48,20 @@ export class BXLumiInspectorComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.ngUnsubscribe$.next();
         this.ngUnsubscribe$.complete();
+    }
+
+    makeResultName(queryResult) {
+        const p = queryResult.params;
+        const nameFields = [
+            p['runnum'], p['lsnum'], p['type'], p['normtag'], p['unit'],
+            (p['without_correction'] ? 'raw' : 'result')
+        ];
+        return nameFields.filter(Boolean).join(',');
+    }
+
+    nameGetter(key, value) {
+        console.log(key, value);
+        return value.name;
     }
 
 }
