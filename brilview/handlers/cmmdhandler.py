@@ -4,6 +4,7 @@ import re
 import numpy as np
 import os
 import csv
+import utils
 from brilview import bvconfig, bvlogging
 
 
@@ -23,7 +24,7 @@ def return_error_on_exception(func):
     return decorated
 
 
-@return_error_on_exception
+@utils.return_error_on_exception
 def get_brilcalc_lumi(args={}):
     '''
     input:
@@ -116,7 +117,7 @@ def get_brilcalc_lumi(args={}):
     }
 
 
-@return_error_on_exception
+@utils.return_error_on_exception
 def get_brilcalc_bxlumi(args={}):
     '''
     input:

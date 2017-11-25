@@ -7,6 +7,7 @@ import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AlertsModule } from '../alerts/alerts.module';
 import { LumiInspectorRouting } from './lumi-inspector.routing';
 import { LumiDataService } from './data.service';
+import { LiveLumiDataService } from './live-lumi-data.service';
 import { SharedModule } from '../shared/shared.module';
 
 import { FormComponent } from './form/form.component';
@@ -18,6 +19,7 @@ import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
 import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
 import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.component';
+import { LiveBestlumiComponent } from './live-bestlumi/live-bestlumi.component';
 
 @NgModule({
     imports: [
@@ -45,9 +47,11 @@ import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.compone
         CumulativeChartComponent,
         RatioChartComponent,
         PileupChartComponent,
+        LiveBestlumiComponent,
     ],
     providers: [
         LumiDataService,
+        LiveLumiDataService
     ]
 })
 export class LumiInspectorModule { }

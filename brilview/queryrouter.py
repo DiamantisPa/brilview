@@ -28,6 +28,8 @@ def get_handler_fn(options):
     t = str(options['query_type']).lower()
     if t == 'timelumi':
         return _handlerfn_cmmd_lumi
+    if t == 'livebestlumi':
+        return _handlerfn_lumidb_live_bestlumi
     if t == 'bxlumi':
         return _handlerfn_cmmd_bxlumi
     elif t == 'iovtags':
@@ -86,3 +88,15 @@ def _handlerfn_cmmd_normtags(options):
     """
 
     return cmmdhandler.get_normtag_filenames()
+
+
+def _handlerfn_lumidb_live_bestlumi(options):
+    """lumidb executor - call to get fastbestlumi
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return lumidbhandler.get_live_bestlumi(options)

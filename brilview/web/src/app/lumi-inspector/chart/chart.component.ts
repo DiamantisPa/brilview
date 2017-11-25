@@ -1,4 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import {
+    Component, OnInit, Input, AfterViewInit, ViewChild
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/debounceTime';
@@ -17,6 +19,7 @@ declare var Plotly: any;
 export class ChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('chart') chart;
+    @Input('noRemoveButtons') noRemoveButtons = false;
     chartData: any = [];
 
     beforeRemoveData = null;

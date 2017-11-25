@@ -49,7 +49,7 @@
                 </clr-checkbox>
             </div>
 
-            <div class="bv-form-element">
+            <div *ngIf="!noRemoveButtons" class="bv-form-element">
                 <button class="btn btn-warning-outline" (click)="clearChart()">
                     Clear chart
                 </button>
