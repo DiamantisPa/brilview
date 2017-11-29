@@ -42,7 +42,7 @@ def query():
 
 
 def run_flask():
-    app.run(host=bvconfig.host, port=bvconfig.port)
+    app.run(host=bvconfig.host, port=bvconfig.port, threaded=True)
 
 
 def run(after_start=None):

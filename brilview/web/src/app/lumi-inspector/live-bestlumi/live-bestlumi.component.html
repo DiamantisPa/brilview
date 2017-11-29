@@ -4,13 +4,13 @@
             <li-chart #chart noRemoveButtons="true"></li-chart>
             <bv-alerts #alerts></bv-alerts>
             <div style="text-align: center">
-                <button class="btn btn-lg" (click)="toggleStart()">Start</button>
+                <button class="btn btn-lg" (click)="toggleLive()">
+                    {{live ? 'Stop' : 'Start'}}
+                </button>
             </div>
-            <div class="progress-group">
-                <div class="progress-static">
-                    <div class="progress-meter"></div>
-                </div>
-            </div>
+        </div>
+        <div class="progress" [ngClass]="{'success': live && success, 'danger': !success}">
+            <progress value="100" max="100"></progress>
         </div>
     </div>
 </div>

@@ -1,9 +1,9 @@
-from brilview import bvconfig
+from brilview import bvconfig, bvlogging
 from ConfigParser import SafeConfigParser
 from distutils.spawn import find_executable
 import sqlalchemy as sql
 import os
-import time
+import datetime
 import utils
 
 
@@ -12,12 +12,18 @@ DEFAULT_ENGINE = None
 
 @utils.return_error_on_exception
 def get_live_bestlumi(query):
-    return _get_live_bestlumi(get_engine(), query)
+    return {
+        'status': 'OK',
+        'data': _get_live_bestlumi(get_engine(), query)
+    }
 
 
 @utils.return_error_on_exception
 def get_iovtags():
-    return _get_iovtags(get_engine())
+    return {
+        'status': 'OK',
+        'data': _get_iovtags(get_engine())
+    }
 
 
 def parseservicemap(authfile):
@@ -73,7 +79,6 @@ def get_engine(use_cached=True):
     if authfile is None:
         raise RuntimeError('Cannot create SQL engine without authfile path')
     servicemap = parseservicemap(authfile)
-    print(servicemap)
     return create_engine(servicemap, servicename)
 
 
@@ -85,15 +90,16 @@ def _get_iovtags(engine):
 def _get_live_bestlumi(engine, query):
     if 'latest' in query:
         interval = float(query['latest']) / 1000.0
-        interval = interval if interval > 86400 else 86400
+        interval = interval if interval < 86400 else 86400
         select = sql.text(
             'select * from '
             '(select avg, fillnum, runnum, lsnum, nbnum, timestamp '
             'from cms_bril_monitoring.FASTBESTLUMI '
-            'order by timestamp desc) vals, '
+            'order by timestamp DESC) vals, '
             '(select max(timestamp) as maxts '
             'from cms_bril_monitoring.FASTBESTLUMI) ts '
-            'where vals.timestamp >= (ts.maxts - interval \'{}\' second)'
+            'where vals.timestamp >= (ts.maxts - interval \'{}\' second) '
+            'order by timestamp ASC'
             .format(interval))
         resultproxy = engine.execute(select)
         rows = resultproxy.fetchall()
@@ -103,10 +109,11 @@ def _get_live_bestlumi(engine, query):
             'select * from '
             '(select avg, fillnum, runnum, lsnum, nbnum, timestamp '
             'from cms_bril_monitoring.FASTBESTLUMI '
-            'where timestamp >= to_date(\'1970-01-01\', \'YYYY-MM-DD\') + '
-            'numtodsinterval(:since, \'SECOND\')'
-            'order by timestamp ASC)'
-            'where rownum < 4000')
+            'where timestamp >= '
+            'TIMESTAMP \'1970-01-01 00:00:00\' AT TIME ZONE \'UTC\' + '
+            'numtodsinterval(:since, \'SECOND\') '
+            'order by timestamp desc)'
+            'where rownum < 300 ORDER BY timestamp ASC')
         resultproxy = engine.execute(select, since=since)
         rows = resultproxy.fetchall()
     return {
@@ -115,12 +122,12 @@ def _get_live_bestlumi(engine, query):
         'runnum': [r[2] for r in rows],
         'lsnum': [r[3] for r in rows],
         'nbnum': [r[4] for r in rows],
-        'timestamp': [_datetime2milliseconds(r[5]) for r in rows],
+        'timestamp': [_datetime2seconds(r[5]) * 1000 for r in rows],
     }
 
 
-def _datetime2milliseconds(dt):
-    return time.mktime(dt.timetuple())*1e3 + dt.microsecond/1e3
+def _datetime2seconds(dt):
+    return (dt - datetime.datetime(1970, 1, 1)).total_seconds()
 
 
 if __name__ == '__main__':

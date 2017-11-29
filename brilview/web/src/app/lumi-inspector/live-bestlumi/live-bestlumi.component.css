@@ -1,4 +1,8 @@
-.progress-group {
-    font-size: 1px;
-    margin: 0 -12px -12px -12px;
+progress {
+    height: 4px;
+    vertical-align: top;
+}
+
+.progress {
+    height: 4px;
 }

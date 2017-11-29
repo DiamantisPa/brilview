@@ -81,6 +81,11 @@ export class ChartComponent implements OnInit, AfterViewInit {
         Plotly.redraw(this.chart.nativeElement);
     }
 
+    redrawChart() {
+        this.updateFillRunLines();
+        Plotly.redraw(this.chart.nativeElement);
+    }
+
     clearChart() {
         if (typeof this.beforeRemoveData === 'function') {
             this.beforeRemoveData();
@@ -112,17 +117,14 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     setTitle(newTitle) {
-        console.log('in set title', newTitle);
         Plotly.relayout(this.chart.nativeElement, {
             'title': newTitle
         });
-        console.log('end set title', this.chart.nativeElement);
     }
 
     setYAxisTitle(newTitle) {
         Plotly.relayout(this.chart.nativeElement, {
-            'yaxis.title': newTitle,
-            'yaxis.autorange': true
+            'yaxis.title': newTitle
         });
     }
 
@@ -191,14 +193,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
         const changes = {};
         for (const series of this.chartData) {
             let last = null;
+            let current = null;
             for (let i = 0; i < series['_other'][field].length; ++i) {
-                if (last === series['_other'][field][i]) {
+                current = series['_other'][field][i];
+                if (last === current) {
                     continue;
                 }
-                last = series['_other'][field][i];
-                if (!changes.hasOwnProperty(last) || (changes[last] > series.x[i])) {
-                    changes[last] = series.x[i];
+                if (!changes.hasOwnProperty(current) || (changes[current] > series.x[i])) {
+                    if (last !== null) {
+                        changes[last] = series.x[i];
+                    }
                 }
+                last = series['_other'][field][i];
             }
         }
         return changes;

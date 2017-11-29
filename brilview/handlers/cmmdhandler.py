@@ -213,7 +213,7 @@ def get_normtag_filenames():
     filenames = os.listdir(normtag_directory)
     jsons = [x for x in filenames if x.endswith('.json')]
     normtags = [x for x in jsons if x.startswith('normtag')]
-    return normtags
+    return {'status': 'OK', 'data': normtags}
 
 
 def _make_normtag_filepath(normtag):
