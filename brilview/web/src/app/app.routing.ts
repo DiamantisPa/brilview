@@ -22,9 +22,6 @@ const appRoutes: Routes = [{
     path: 'bxlumi',
     loadChildren: 'app/bxlumi-inspector/bxlumi-inspector.module#BXLumiInspectorModule'
 }, {
-    path: 'live',
-    loadChildren: 'app/live-lumi/live-lumi.module#LiveLumiModule'
-}, {
     path: '**', component: RouteNotFoundComponent
 }];
 
