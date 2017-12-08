@@ -12,7 +12,7 @@ declare var Plotly: any;
     selector: 'li-chart',
     templateUrl: './chart.component.html',
     styleUrls: [
-        '../lumi-inspector.component.css',
+        '../lumi-inspector.css',
         './chart.component.css'
     ]
 })

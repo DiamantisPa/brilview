@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
-import * as LumiUnits from '../../../shared/lumi-utils/lumi-units';
+import * as LumiUnits from '../../../../shared/lumi-utils/lumi-units';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
-import { LumiDataService } from '../../data.service';
+import { LumiDataService } from '../../../data.service';
 
 @Component({
-    selector: 'li-cumulative-chart',
+    selector: 'li-totlumi-cumulative-chart',
     templateUrl: '../lumi-chart/lumi-chart.component.html',
-    styleUrls: ['../../lumi-inspector.component.css',
+    styleUrls: ['../../../lumi-inspector.css',
                 '../lumi-chart/lumi-chart.component.css']
 })
 export class CumulativeChartComponent extends LumiChartComponent

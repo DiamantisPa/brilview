@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LumiDataService } from './data.service';
+import { LumiDataService } from '../data.service';
 
 @Component({
     selector: 'bv-lumi-inspector',
-    templateUrl: './lumi-inspector.component.html',
-    styleUrls: ['./lumi-inspector.component.css']
+    templateUrl: './totlumi.component.html',
+    styleUrls: ['./totlumi.component.css', '../lumi-inspector.css']
 })
-export class LumiInspectorComponent implements OnInit {
+export class TotlumiComponent implements OnInit {
 
     lumiData = [];
     constructor(private lumiDataService: LumiDataService) { }

@@ -11,15 +11,15 @@ import { LiveLumiDataService } from './live-lumi-data.service';
 import { AtlaslumiDataService } from './atlaslumi-data.service';
 import { SharedModule } from '../shared/shared.module';
 
-import { FormComponent } from './form/form.component';
-import { LumiInspectorComponent } from './lumi-inspector.component';
-import { ChartsComponent } from './charts/charts.component';
+import { FormComponent } from './totlumi/form/form.component';
+import { TotlumiComponent } from './totlumi/totlumi.component';
+import { ChartsComponent } from './totlumi/charts/charts.component';
 import { StorageComponent } from './storage/storage.component';
 import { ChartComponent } from './chart/chart.component';
-import { LumiChartComponent } from './charts/lumi-chart/lumi-chart.component';
-import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-chart.component';
-import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
-import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.component';
+import { LumiChartComponent } from './totlumi/charts/lumi-chart/lumi-chart.component';
+import { CumulativeChartComponent } from './totlumi/charts/cumulative-chart/cumulative-chart.component';
+import { RatioChartComponent } from './totlumi/charts/ratio-chart/ratio-chart.component';
+import { PileupChartComponent } from './totlumi/charts/pileup-chart/pileup-chart.component';
 import { LiveBestlumiComponent } from './live-bestlumi/live-bestlumi.component';
 import { AtlaslumiComponent } from './atlaslumi/atlaslumi.component';
 
@@ -34,13 +34,11 @@ import { AtlaslumiComponent } from './atlaslumi/atlaslumi.component';
         NguiDatetimePickerModule,
         SharedModule
     ],
-    exports: [
-        LumiInspectorComponent
-    ],
+    exports: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [
         FormComponent,
-        LumiInspectorComponent,
+        TotlumiComponent,
         ChartsComponent,
         StorageComponent,
         ChartComponent,

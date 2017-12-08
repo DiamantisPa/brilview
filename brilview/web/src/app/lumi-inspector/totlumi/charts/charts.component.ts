@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
-    selector: 'li-charts',
+    selector: 'li-totlumi-charts',
     templateUrl: './charts.component.html',
     styleUrls: ['./charts.component.css']
 })

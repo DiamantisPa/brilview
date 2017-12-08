@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { LumiDataService } from '../data.service';
+import { LumiDataService } from '../../data.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/from';
 
 @Component({
-    selector: 'li-form',
+    selector: 'li-totlumi-form',
     templateUrl: './form.component.html',
     styleUrls: [
-        '../lumi-inspector.component.css',
+        '../../lumi-inspector.css',
         './form.component.css'
     ]
 })

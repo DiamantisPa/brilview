@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } 
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/debounceTime';
-import { LumiDataService } from '../../data.service';
-import * as LumiUnits from '../../../shared/lumi-utils/lumi-units';
+import { LumiDataService } from '../../../data.service';
+import * as LumiUnits from '../../../../shared/lumi-utils/lumi-units';
 
 @Component({
-    selector: 'li-ratio-chart',
+    selector: 'li-totlumi-ratio-chart',
     templateUrl: './ratio-chart.component.html',
-    styleUrls: ['../../lumi-inspector.component.css',
+    styleUrls: ['../../../lumi-inspector.css',
                 './ratio-chart.component.css'],
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
