@@ -8,6 +8,7 @@ import { AlertsModule } from '../alerts/alerts.module';
 import { LumiInspectorRouting } from './lumi-inspector.routing';
 import { LumiDataService } from './data.service';
 import { LiveLumiDataService } from './live-lumi-data.service';
+import { AtlaslumiDataService } from './atlaslumi-data.service';
 import { SharedModule } from '../shared/shared.module';
 
 import { FormComponent } from './form/form.component';
@@ -20,6 +21,7 @@ import { CumulativeChartComponent } from './charts/cumulative-chart/cumulative-c
 import { RatioChartComponent } from './charts/ratio-chart/ratio-chart.component';
 import { PileupChartComponent } from './charts/pileup-chart/pileup-chart.component';
 import { LiveBestlumiComponent } from './live-bestlumi/live-bestlumi.component';
+import { AtlaslumiComponent } from './atlaslumi/atlaslumi.component';
 
 @NgModule({
     imports: [
@@ -48,10 +50,12 @@ import { LiveBestlumiComponent } from './live-bestlumi/live-bestlumi.component';
         RatioChartComponent,
         PileupChartComponent,
         LiveBestlumiComponent,
+        AtlaslumiComponent
     ],
     providers: [
         LumiDataService,
-        LiveLumiDataService
+        LiveLumiDataService,
+        AtlaslumiDataService
     ]
 })
 export class LumiInspectorModule { }

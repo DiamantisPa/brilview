@@ -30,6 +30,8 @@ def get_handler_fn(options):
         return _handlerfn_cmmd_lumi
     if t == 'livebestlumi':
         return _handlerfn_lumidb_live_bestlumi
+    if t == 'atlaslumi':
+        return _handlerfn_lumidb_atlaslumi
     if t == 'bxlumi':
         return _handlerfn_cmmd_bxlumi
     elif t == 'iovtags':
@@ -100,3 +102,15 @@ def _handlerfn_lumidb_live_bestlumi(options):
     """
 
     return lumidbhandler.get_live_bestlumi(options)
+
+
+def _handlerfn_lumidb_atlaslumi(options):
+    """lumidb executor - call to get atlaslumi
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return lumidbhandler.get_atlaslumi(options)

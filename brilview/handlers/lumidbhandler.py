@@ -9,6 +9,13 @@ import utils
 
 DEFAULT_ENGINE = None
 
+@utils.return_error_on_exception
+def get_atlaslumi(query):
+    return {
+        'status': 'OK',
+        'data': _get_atlaslumi(get_engine(), query)
+    }
+
 
 @utils.return_error_on_exception
 def get_live_bestlumi(query):
@@ -125,6 +132,23 @@ def _get_live_bestlumi(engine, query):
         'timestamp': [_datetime2seconds(r[5]) * 1000 for r in rows],
     }
 
+
+def _get_atlaslumi(engine, query):
+    if 'fillnum' in query:
+        fillnum = int(query['fillnum'])
+        if fillnum < 1000:
+            raise ValueError('fillnum {} out of range.'. format(fillnum))
+        select = (
+            'select DIPTIME, LHCFILL, LUMI_TOTINST '
+            'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+            'ORDER BY DIPTIME ASC')
+        resultproxy = engine.execute(select, fillnum=fillnum)
+        rows = resultproxy.fetchall()
+    return {
+        'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
+        # 'fillnum': [r[1] for r in rows],
+        'lumi_totinst': [r[2] for r in rows]
+    }
 
 def _datetime2seconds(dt):
     return (dt - datetime.datetime(1970, 1, 1)).total_seconds()
