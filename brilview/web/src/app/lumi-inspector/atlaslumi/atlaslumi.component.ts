@@ -17,6 +17,7 @@ import { ChartComponent } from '../chart/chart.component';
 })
 export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    @ViewChild('chart') chart: ChartComponent;
     @ViewChild('alerts') alerts;
     $ngUnsubscribe = new Subject<void>();
     success = true;
@@ -28,15 +29,31 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.atlasDataService.query({'fillnum': 5020}).subscribe(resp => {
-            console.log(resp);
-        });
+        this.queryInitialData();
     }
 
     ngOnDestroy() {
         this.$ngUnsubscribe.next();
         this.$ngUnsubscribe.complete();
     }
+
+    queryInitialData() {
+        this.isNowLoading = true;
+        const obs = this.atlasDataService.query({fillnum: 5020})
+            .finally(() => this.isNowLoading = false);
+        obs.subscribe(resp => {
+            const d = resp.data;
+            const x = d['timestamp'].map(this.tsToISOString.bind(this));
+            this.chart.addSeries('atlaslumi', x, d['lumi_totinst'], [], {});
+            this.success = true;
+        }, this.onQueryError.bind(this));
+        return obs;
+    }
+
+    protected onQueryError(err) {
+        console.error(err);
+    }
+
 
     protected tsToISOString(timestamp) {
         // timestamp conversion to string needed for Plotly to not use local timezone

@@ -194,6 +194,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
         for (const series of this.chartData) {
             let last = null;
             let current = null;
+            if (!series['_other'].hasOwnProperty(field)) {
+                continue;
+            }
             for (let i = 0; i < series['_other'][field].length; ++i) {
                 current = series['_other'][field][i];
                 if (last === current) {
