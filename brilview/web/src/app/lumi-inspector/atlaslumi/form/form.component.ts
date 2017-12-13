@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
-    fillnum = 5020;
+    fillnum = null;
     brilLumiType = 'Online';
     brilNormtag = undefined;
     brilLumiTypeOptions = [
@@ -22,14 +22,11 @@ export class FormComponent implements OnInit {
     }
 
     clickAtlasQuery() {
-        console.log('clickAtlasQuery');
         this.onAtlasQuery.emit({fillnum: this.fillnum});
     }
 
     clickBrilQuery() {
         this.onBrilQuery.emit({
-            begin: this.fillnum,
-            end: this.fillnum,
             type: this.brilLumiType,
             normtag: this.brilNormtag,
             unit: 'hz/ub',

@@ -46,21 +46,23 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     queryInitialData() {
-        this.queryAtlasLumi({fillnum: 5020});
+        this.queryAtlasLumi({});
     }
 
     queryAtlasLumi(event) {
         this.chart.clearChart();
-        this.fillnum = event['fillnum'];
-        this.chart.setTitle('Instantaneous luminosity. Fill: ' + this.fillnum);
         this.onQueryStart();
         const obs = this.atlasDataService.query(event)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
             const d = resp.data;
+            this.fillnum = d['single_fillnum'];
+            this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
             const x = d['timestamp'].map(this.tsToISOString.bind(this));
-            this.chart.addSeries('ATLAS', x, d['lumi_totinst'], d['lumi_totinst'].map(String), {});
+            this.chartUnit = 'Hz/ub';
+            this.chart.addSeries('ATLAS', x, d['lumi_totinst'], [], {});
             this.rescaleChartValues();
+            this.chart.autoZoom();
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));
         return obs;
@@ -68,18 +70,23 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
 
     queryBrilLumi(event) {
         this.onQueryStart();
-        const obs = this.brilDataService.query(event)
+        const query = Object.assign(event, {
+            begin: this.fillnum,
+            end: this.fillnum
+        });
+        const obs = this.brilDataService.query(query)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
             const d = resp.data;
             const x = d['tssec'].map(x => x * 1000).map(this.tsToISOString.bind(this));
             const y = utils.scaleLumiValues(d['delivered'], event['unit'], this.chartUnit);
+            console.log(event, d['delivered'], this.chartUnit, y);
             const nameParts = [
                 'BRIL',
                 (event['type'] === '-normtag-' ? null : event['type']),
                 (event['type'] === '-normtag-' ? event['normtag'] : null)
             ].filter(Boolean);
-            this.chart.addSeries(nameParts.join('_'), x, y, y.map(String), {});
+            this.chart.addSeries(nameParts.join('_'), x, y, [], {});
             this.rescaleChartValues();
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));

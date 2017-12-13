@@ -114,3 +114,15 @@ def _handlerfn_lumidb_atlaslumi(options):
     """
 
     return lumidbhandler.get_atlaslumi(options)
+
+
+def _handlerfn_lumidb_last_fill(options):
+    """lumidb executor - call to get latest fill number
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return lumidbhandler.get_last_fill_number(options)

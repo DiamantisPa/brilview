@@ -112,6 +112,13 @@ export class ChartComponent implements OnInit, AfterViewInit {
         }
     }
 
+    autoZoom() {
+        Plotly.relayout(this.chart.nativeElement, {
+            'xaxis.autorange': true,
+            'yaxis.autorange': true
+        });
+    }
+
     getTitle() {
         return this.chart.nativeElement.layout.title;
     }

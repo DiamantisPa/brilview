@@ -9,6 +9,15 @@ import utils
 
 DEFAULT_ENGINE = None
 
+
+@utils.return_error_on_exception
+def get_last_fill_number(query=None):
+    return {
+        'status': 'OK',
+        'data': _get_last_fill_number(get_engine(), query)
+    }
+
+
 @utils.return_error_on_exception
 def get_atlaslumi(query):
     return {
@@ -134,21 +143,39 @@ def _get_live_bestlumi(engine, query):
 
 
 def _get_atlaslumi(engine, query):
-    if 'fillnum' in query:
+    if ('fillnum' not in query or query['fillnum'] is None):
+        fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
+    else:
         fillnum = int(query['fillnum'])
-        if fillnum < 1000:
-            raise ValueError('fillnum {} out of range.'. format(fillnum))
-        select = (
-            'select DIPTIME, LHCFILL, LUMI_TOTINST '
-            'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
-            'ORDER BY DIPTIME ASC')
-        resultproxy = engine.execute(select, fillnum=fillnum)
-        rows = resultproxy.fetchall()
+    if fillnum < 1000:
+        raise ValueError('fillnum {} out of range.'. format(fillnum))
+    select = (
+        'select DIPTIME, LHCFILL, LUMI_TOTINST '
+        'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+        'ORDER BY DIPTIME ASC')
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    rows = resultproxy.fetchall()
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
-        'lumi_totinst': [r[2] for r in rows]
+        'lumi_totinst': [r[2] for r in rows],
+        'single_fillnum': fillnum
     }
+
+
+def _get_last_fill_number(engine, query=None):
+    select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
+    if (query is not None and 'source' in query):
+        src = query['source'].lower()
+        if src == 'atlas':
+            select = 'select max(LHCFILL) from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY'
+        elif (src == 'cms' or src == 'bril'):
+            select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
+    print(select)
+    resultproxy = engine.execute(select);
+    rows = resultproxy.fetchall()
+    return int(rows[0][0])
+
 
 def _datetime2seconds(dt):
     return (dt - datetime.datetime(1970, 1, 1)).total_seconds()
