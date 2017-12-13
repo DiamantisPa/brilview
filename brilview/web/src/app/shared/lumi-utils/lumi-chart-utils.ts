@@ -1,4 +1,4 @@
-import * as LumiUnits from '../shared/lumi-utils/lumi-units';
+import * as LumiUnits from './lumi-units';
 
 export function recalculateLumiUnit(chart, chartUnit) {
     if (!chartUnit) {

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/takeUntil';
 import { AtlaslumiDataService } from '../atlaslumi-data.service';
 import { LumiDataService as BrillumiDataService } from '../data.service';
 import { ChartComponent } from '../chart/chart.component';
-import * as utils from '../utils';
+import * as utils from '../../shared/lumi-utils/lumi-chart-utils';
 
 @Component({
     selector: 'li-atlaslumi',

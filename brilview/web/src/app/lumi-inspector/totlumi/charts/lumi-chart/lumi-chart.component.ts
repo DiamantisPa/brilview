@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import * as LumiUnits from '../../../../shared/lumi-utils/lumi-units';
-import * as utils from '../../../utils';
+import * as utils from '../../../../shared/lumi-utils/lumi-chart-utils';
 import { LumiDataService } from '../../../data.service';
 
 @Component({
