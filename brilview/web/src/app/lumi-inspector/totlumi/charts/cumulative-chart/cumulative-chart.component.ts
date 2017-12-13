@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
-import * as LumiUnits from '../../../../shared/lumi-utils/lumi-units';
+import * as utils from '../../../utils';
 import { LumiChartComponent } from '../lumi-chart/lumi-chart.component';
 import { LumiDataService } from '../../../data.service';
 
@@ -38,7 +38,7 @@ implements OnInit, AfterViewInit {
             y.push(lastY + yval);
             lastY += yval;
         }
-        y = this.scaleValues(y, params['unit'], this.chartUnit);
+        y = utils.scaleLumiValues(y, params['unit'], this.chartUnit);
         this.chart.addSeries(
             name, x, y, this.makeTextLabels(data),
             {runnum: data['runnum'], fillnum: data['fillnum']});

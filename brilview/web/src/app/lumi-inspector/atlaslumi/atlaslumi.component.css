@@ -6,3 +6,14 @@ progress {
 .progress {
     height: 4px;
 }
+
+/* .progress { */
+/*     margin-top: 3px; */
+/*     line-height: 0px; */
+/*     max-height: 3px; */
+/*     min-height: 3px; */
+/* } */
+
+/* .progress > progress { */
+/*     vertical-align: top; */
+/* } */

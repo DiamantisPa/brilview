@@ -11,7 +11,7 @@ import { LiveLumiDataService } from './live-lumi-data.service';
 import { AtlaslumiDataService } from './atlaslumi-data.service';
 import { SharedModule } from '../shared/shared.module';
 
-import { FormComponent } from './totlumi/form/form.component';
+import { FormComponent as TotlumiFormComponent } from './totlumi/form/form.component';
 import { TotlumiComponent } from './totlumi/totlumi.component';
 import { ChartsComponent } from './totlumi/charts/charts.component';
 import { StorageComponent } from './storage/storage.component';
@@ -22,6 +22,8 @@ import { RatioChartComponent } from './totlumi/charts/ratio-chart/ratio-chart.co
 import { PileupChartComponent } from './totlumi/charts/pileup-chart/pileup-chart.component';
 import { LiveBestlumiComponent } from './live-bestlumi/live-bestlumi.component';
 import { AtlaslumiComponent } from './atlaslumi/atlaslumi.component';
+import { FormComponent as AtlaslumiFormComponent } from './atlaslumi/form/form.component';
+
 
 @NgModule({
     imports: [
@@ -37,7 +39,8 @@ import { AtlaslumiComponent } from './atlaslumi/atlaslumi.component';
     exports: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [
-        FormComponent,
+        TotlumiFormComponent,
+        AtlaslumiFormComponent,
         TotlumiComponent,
         ChartsComponent,
         StorageComponent,

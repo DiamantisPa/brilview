@@ -24,16 +24,6 @@ input {
     width: 100%;
 }
 
-:host /deep/ .completer-input {
-    width: 100%;
-    padding-right: 1.5em;
-}
-
-:host /deep/ .completer-dropdown {
-    max-height: 480px;
-    overflow-y: auto;
-}
-
 :host /deep/ .picker-dropdown {
     max-height: 482px;
 }

@@ -18,10 +18,12 @@
 }
 
 .bv-form-block-free {
+    position: relative;
     flex: 1 0 336px;
 }
 
 .bv-form-block-fixed {
+    position: relative;
     flex: 0 0 336px;
 }
 
