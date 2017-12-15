@@ -13,7 +13,6 @@ export class BXLumiChartComponent implements OnInit {
     @Input('cache') cache: DataCache;
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
-    lumiData: Array<Array<any>>;
     chartUnit = null;
 
     constructor() { }
