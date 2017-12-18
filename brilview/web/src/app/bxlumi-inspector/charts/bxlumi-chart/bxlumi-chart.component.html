@@ -13,7 +13,7 @@
                     <label>Data</label>
                     <div class="select">
                         <select #lumiDataSelect>
-                            <option *ngFor="let opt of cache.getKeys()" [value]="opt[0]">{{opt[1]}}</option>
+                            <option *ngFor="let key of cache.getKeys()" [value]="key">{{cache.getData(key).name}}</option>
                         </select>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             </div>
 
             <button class="btn btn-primary" type="submit"
-                    (click)="addSeriesFromMemory(lumiDataSelect.value, measurementSelect.value)">
+                    (click)="addSeriesFromCache(lumiDataSelect.value, measurementSelect.value)">
                 Add series
             </button>
         </form>
