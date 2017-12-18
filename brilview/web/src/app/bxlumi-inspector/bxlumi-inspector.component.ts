@@ -60,7 +60,6 @@ export class BXLumiInspectorComponent implements OnInit, OnDestroy {
     }
 
     nameGetter(key, value) {
-        console.log(key, value);
         return value.name;
     }
 
