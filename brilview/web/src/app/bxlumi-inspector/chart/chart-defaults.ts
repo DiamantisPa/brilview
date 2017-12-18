@@ -1,7 +1,8 @@
+import * as utils from '../../shared/lumi-utils/lumi-chart-utils';
 declare var Plotly: any;
 
-export const seriesStyleName = 'bar';
 
+export const seriesStyleName = 'bar';
 
 export function getChartLayout() {
     return {
@@ -40,19 +41,7 @@ export function getChartConfig() {
         displaylogo: false,
         showTips: false,
         modeBarButtonsToRemove: ['sendDataToCloud', 'lasso2d', 'toImage'],
-        modeBarButtonsToAdd: [{
-            name: 'toImage',
-            title: 'Download plot as a png',
-            icon: Plotly.Icons.camera,
-            click: function(gd) {
-                const opts = {
-                    format: 'png',
-                    width: 1200,
-                    height: 700
-                };
-                Plotly.downloadImage(gd, opts);
-            }
-        }]
+        modeBarButtonsToAdd: [utils.buttonYZoom0to3, utils.buttonDownloadImage]
     };
 };
 
