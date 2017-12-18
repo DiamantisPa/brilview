@@ -13,6 +13,7 @@ RUN yum install -y epel-release\
  && /opt/brilconda/bin/pip install brilws\
  && git clone https://github.com/jonasdaugalas/brilview.git &> /dev/null\
  && cd brilview\
+ && git checkout dev\
  && /opt/brilconda/bin/python ./setup.py install\
  && cd ..
 

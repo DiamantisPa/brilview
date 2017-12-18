@@ -1,7 +1,7 @@
 FROM openshift/base-centos7
 RUN yum install epel-release -y \
- && yum install npm -y \
- && yum clean all \
+ && yum install nodejs -y \
+ && yum update openssl openssl-devel -y \
  && npm install -g yarn
 COPY containerfiles .
 RUN chmod 777 -R .
