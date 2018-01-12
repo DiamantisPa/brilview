@@ -211,7 +211,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
                 }
                 if (!changes.hasOwnProperty(current) || (changes[current] > series.x[i])) {
                     if (last !== null) {
-                        changes[last] = series.x[i];
+                        changes[current] = series.x[i];
                     }
                 }
                 last = series['_other'][field][i];
