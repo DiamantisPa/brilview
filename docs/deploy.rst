@@ -16,10 +16,12 @@ Go to project web console https://openshift.cern.ch/console/project/brilview/
 
 1. "Storage" -> "Create Storage"
 2. Fill the form:
+
    a. "Storage Class": cvmfs-cms-bril.cern.ch
    b. "Name": cvmfs-bril
    c. "Access Mode": Read Only (ROX)
    d. "Size": O MiB
+
 3. Click "Create"
 
 Deploy Brilview containers
