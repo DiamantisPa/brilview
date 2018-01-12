@@ -1,16 +1,17 @@
-Luminosity inspector
-====================
+.. _total_lumi_inspector:
+Total luminosity inspector
+==========================
 
 Brilview application has a total luminosity inspector component for plotting
-total luminosity values. This component is currently the default view you see
-when you visit Brilview application.
+total luminosity values.
 
 Total luminosity component is meant for querying total luminosity from brilcalc
-and visualizing it in 3 types of charts:
+and visualising it in 4 types of charts:
 
 * Luminosity values - :ref:`lumi-values`
-* Cumulative luminosity - :ref:`cumulative`
 * Luminosity ratios - :ref:`ratios`
+* Pileup - :ref:`pileup`
+* Cumulative luminosity - :ref:`cumulative`
 
 Charts can be shown/hidden by toggling the switches at the bottom of the page
 (see image bellow).
@@ -31,7 +32,8 @@ in case of failed queries. After successful query, new data is stored in memory
 (see :ref:`memory`).
 
 .. note:: Normtag field accepts single iovtag/normtag, or multiple comma
-          separated iovtags/normtags.
+          separated iovtags/normtags. Normtag files are available from BRIL
+          CVMFS repository: /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags/
 
 
 .. _memory:
@@ -62,7 +64,7 @@ Luminosity values chart
 -----------------------
 
 This chart displays plain queried data values. In contrast to other charts, this
-one is automatically populated (if possible) with recorded luminosity data after
+one is automatically populated (if possible) with delivered luminosity data after
 successful query. You can also add series manually from memory using form in the
 "Add series" tab at the bottom of chart container.
 
@@ -77,8 +79,7 @@ Cumulative luminosity chart
 This chart works almost the same as plain luminosity chart (see
 :ref:`lumi-values`) and the only difference is that it recalculates values to
 add up with time for each series. Use form in the "Add series" tab at the bottom
-of chart container to add series.
-
+of the chart container to add series.
 
 .. _ratios:
 
@@ -90,6 +91,28 @@ bottom of chart container choose (manually from dropdowns, or by cycling
 permutations with two arrow buttons) two data series from memory to make ratio
 and click "ADD RATIO" button. When adding series, timestamps of data points
 might be slightly modified to align lumisections.
+
+
+.. _pileup:
+
+Pileup chart
+-----------------------
+
+This chart is for plotting pileup values. Use form in the "Add series" tab at
+the bottom of the chart container to add series. This chart can only use data which
+had "Query pileup" checkbox checked in Query form.
+
+
+
+.. _cumulative:
+
+Cumulative luminosity chart
+---------------------------
+
+This chart works almost the same as plain luminosity chart (see
+:ref:`lumi-values`) and the only difference is that it recalculates values to
+add up with time for each series. Use form in the "Add series" tab at the bottom
+of chart container to add series.
 
 
 .. _stats:

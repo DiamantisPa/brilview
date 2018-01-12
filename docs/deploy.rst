@@ -9,6 +9,22 @@ the Brilview project.
 First time setup
 ----------------
 
+Create CVMFS volume claim
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Go to project web console https://openshift.cern.ch/console/project/brilview/
+
+1. "Storage" -> "Create Storage"
+2. Fill the form:
+   a. "Storage Class": cvmfs-cms-bril.cern.ch
+   b. "Name": cvmfs-bril
+   c. "Access Mode": Read Only (ROX)
+   d. "Size": O MiB
+3. Click "Create"
+
+Deploy Brilview containers
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. highlight:: bash
 ::
 
@@ -24,6 +40,9 @@ First time setup
 Do not worry if nginx container is "crashing frequently" until client files are
 compiled. Health check fails until nginx can serve index file.
 
+Add CERN SSO
+^^^^^^^^^^^^
+
 Go to project web console https://openshift.cern.ch/console/project/brilview/
 and add cern-sso-proxy:
 
@@ -32,14 +51,19 @@ and add cern-sso-proxy:
 3. "cern-sso-proxy"
 4. chose e-groups ('cern-users', 'cern-staff', 'CMS-BRIL-Project') and point to nginx-service
 
+Build frontend client
+^^^^^^^^^^^^^^^^^^^^^
+
 After all builds and deployments are finished see section :ref:`update-client` to
 fetch client side code from git repository, run build process and populate
 shared volume for nginx to serve.
 
+Make Brilview public
+^^^^^^^^^^^^^^^^^^^^
+
 Change website visibility from "Intranet" to "Internet": https://cern.service-now.com/service-portal/article.do?n=KB0004359
 
 .. _update-client:
-
 Updating client
 ---------------
 

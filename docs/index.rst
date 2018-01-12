@@ -10,7 +10,10 @@ Brilview is an application for inspecting BRIL data.
    :caption: Docs for users
 
    getting_started
-   lumi_inspector
+   bestlumi_live
+   total_lumi_inspector
+   bx_lumi_inspector
+   atlas_lumi
 
 .. _dev-docs:
 
