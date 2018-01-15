@@ -209,7 +209,7 @@ def get_normtag_filenames():
     ):
         normtag_directory = bvconfig.brilcommandhandler['normtag_directory']
     else:
-        return []
+        return {'status': 'OK', 'data': []}
     filenames = os.listdir(normtag_directory)
     jsons = [x for x in filenames if x.endswith('.json')]
     normtags = [x for x in jsons if x.startswith('normtag')]
