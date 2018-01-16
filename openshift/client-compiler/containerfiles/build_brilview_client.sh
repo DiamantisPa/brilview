@@ -10,7 +10,7 @@ git checkout dev
 yarn install
 # npm config set jobs 1
 # npm install --unsafe-perm
-rm /client_files_for_serving/*
+rm -rf /client_files_for_serving/*
 cp -R dist/* /client_files_for_serving/
 
 echo "Finished. Going to sleep."
