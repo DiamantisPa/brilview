@@ -46,6 +46,7 @@ handlers: [brilcommandhandler,dbhandler]
 brilcommandhandler:
   command: /opt/brilconda/bin/brilcalc    #none or command path
   webcacheconfig: /brilview_tmp/frontier_config.xml      #none or config file
+  normtag_directory: /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags
 
 lumidbhandler:
   connection: online
