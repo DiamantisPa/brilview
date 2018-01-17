@@ -201,6 +201,7 @@ def _parse_brilcalc_bx_output(output):
     }
 
 
+@utils.return_error_on_exception
 def get_normtag_filenames():
     if (
             hasattr(bvconfig, 'brilcommandhandler') and
