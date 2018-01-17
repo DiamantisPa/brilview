@@ -18,7 +18,7 @@ class SdistWithBuildStatic(_sdist):
         thispath = os.path.dirname(os.path.realpath(__file__))
         distpath = os.path.join(thispath,'brilview','web','dist')
         if not os.path.isdir(distpath) or not os.path.exists(distpath):
-	    raise RuntimeError( 'Prerequisite directory %s does not exist, run python setup.py build_static to create it\n'%distpath )
+            raise RuntimeError( 'Prerequisite directory %s does not exist, run python setup.py build_static to create it\n'%distpath )
         return _sdist.make_distribution(self)
 
 class BuildStatic(Command):
@@ -27,16 +27,16 @@ class BuildStatic(Command):
     def initialize_options(self):
         """Abstract method that is required to be overwritten"""
         pass
-    
+
     def finalize_options(self):
         """Abstract method that is required to be overwritten"""
         pass
 
     def run(self):
-        log.info("running [npm install --unsafe-perm]")
-        subprocess.check_output( ['npm', 'install','--unsafe-perm'], cwd='brilview/web' )
+        log.info("running [yanr install]")
+        subprocess.check_output( ['yarn', 'install'], cwd='brilview/web' )
 
-    
+
 with open("README.md", "rb") as f:
     long_desc = f.read().decode('utf-8')
 version = re.search(
@@ -66,5 +66,3 @@ setup(
         'sdist': SdistWithBuildStatic, #make sure build_static command is run as part of sdist.
     },
 )
-
-
