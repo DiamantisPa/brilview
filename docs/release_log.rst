@@ -12,7 +12,7 @@ Release log
 * Add per bunch luminosity inspector component
 * Add live bestlumi component
 * Add ATLAS luminosity component
-* Add support for normtag files from /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags
+* Add support for normtag files from ``/cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags``
 * Add pileup chart to total luminosity inspector
 
 
