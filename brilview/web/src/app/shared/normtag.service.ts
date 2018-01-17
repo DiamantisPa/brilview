@@ -17,6 +17,9 @@ export class NormtagService {
             {'query_type': 'iovtags'},
             NormtagService.postOptions)
             .map((data) => {
+                if (data.json()['status'] !== 'OK') {
+                    return [];
+                }
                 return data.json()['data'];
             });
     }
@@ -27,6 +30,9 @@ export class NormtagService {
             {'query_type': 'normtags'},
             NormtagService.postOptions)
             .map((data) => {
+                if (data.json()['status'] !== 'OK') {
+                    return [];
+                }
                 return data.json()['data'];
             });
     }
