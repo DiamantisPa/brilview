@@ -41,6 +41,20 @@ def query():
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 
+@app.route('/test/<prm>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def test_app_server(prm=None):
+    data = flask.request.json
+    result = {
+        'method': flask.request.method,
+        'data': data,
+        'parameter': prm
+    }
+    if prm is not None and prm.startswith('wait'):
+        time.sleep(int(prm[4:]))
+    return flask.Response(json.dumps(result), mimetype='application/json')
+
+
 def run_flask():
     app.run(host=bvconfig.host, port=bvconfig.port, threaded=True)
 
