@@ -1,6 +1,21 @@
 Release log
 ===========
 
+1.3
+-----
+
+1.3.0
+^^^^^
+
+2018-01-17
+
+* Add per bunch luminosity inspector component
+* Add live bestlumi component
+* Add ATLAS luminosity component
+* Add support for normtag files from /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags
+* Add pileup chart to total luminosity inspector
+
+
 1.2
 -----
 
