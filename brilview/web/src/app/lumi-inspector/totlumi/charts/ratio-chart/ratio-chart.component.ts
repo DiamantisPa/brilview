@@ -66,7 +66,7 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
             if (!Number.isInteger(data1Index)) {
                 continue;
             }
-            x.push(new Date(data1['tssec'][data1Index] * 1000).toISOString());
+            x.push(data1['tssec'][data1Index] * 1000);
             y.push(data1[yfield1][data1Index] / data2[yfield2][j]);
             text.push(data1['fillnum'][data1Index] + ':' +
                       data1['runnum'][data1Index] + ':' +

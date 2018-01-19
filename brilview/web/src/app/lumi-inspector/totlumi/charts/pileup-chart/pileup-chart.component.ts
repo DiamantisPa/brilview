@@ -55,14 +55,9 @@ export class PileupChartComponent implements OnInit, AfterViewInit {
     }
 
     protected _addSeries(data, name, params) {
-        const x = [];
-        for (const xval of data['tssec']) {
-            // Conversion to string needed for Plotly to not use local timezone
-            x.push(new Date(xval * 1000).toISOString());
-        }
         this.chart.addSeries(
             name,
-            x,
+            data['tssec'].map(t => t*1000),
             data['pileup'],
             this.makeTextLabels(data),
             {runnum: data['runnum'], fillnum: data['fillnum']}

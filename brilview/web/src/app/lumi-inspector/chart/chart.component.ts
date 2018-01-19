@@ -66,19 +66,50 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     addSeries(name: string, x: Array<number>, y: Array<number>,
-              text: Array<string>, other: any) {
+              text: Array<string>, other: any, sort=true) {
+
         const newSeries = {
             name: name,
-            x: x,
-            y: y,
-            text: text,
-            _other: other,
             line: {width: 1}
         };
+        if (sort) {
+            const points = this.makeDataPoints(
+                {x: x, y: y, text: text},
+                other);
+            points.sort((a, b) => a.x - b.x);
+            newSeries['x'] = points.map(p => p.x);
+            newSeries['y'] = points.map(p => p.y);
+            newSeries['text'] = points.map(p => p.text);
+            newSeries['_other'] = points.map(p => p.other);
+        } else {
+            newSeries['x'] = x;
+            newSeries['y'] = y;
+            newSeries['text'] = text;
+            newSeries['_other'] = other;
+        }
+        newSeries['x'] = newSeries['x'].map(t => new Date(t).toISOString());
         Object.assign(newSeries, this.seriesStyle);
         this.chartData.push(newSeries);
         this.updateFillRunLines();
         Plotly.redraw(this.chart.nativeElement);
+    }
+
+    makeDataPoints(arrays, other) {
+        const points = [];
+        const fields = Object.keys(arrays);
+        arrays[fields[0]].forEach((_, idx) => {
+            const oth = {};
+            Object.keys(other).forEach(othKey => {
+                oth[othKey] = other[othKey][idx];
+            });
+            const point = {};
+            fields.forEach(field => {
+                point[field] = arrays[field][idx];
+            });
+            point['other'] = oth;
+            points.push(point);
+        });
+        return points;
     }
 
     redrawChart() {

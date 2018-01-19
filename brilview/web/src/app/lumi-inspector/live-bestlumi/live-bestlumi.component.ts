@@ -71,14 +71,13 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
             .finally(() => this.isNowLoading = false);
         obs.subscribe(resp => {
             const d = resp.data;
-            const x = d['timestamp'].map(this.tsToISOString.bind(this));
             const texts = [];
             for (let i = 0; i <= d['runnum'].length; ++i) {
                 texts.push(
                     'RUN:LS - ' + d['runnum'][i] + ':' + d['lsnum'][i]);
             }
             this.chart.addSeries(
-                'bestlumi', x, d['avg'], texts,
+                'bestlumi', d['timestamp'], d['avg'], texts,
                 {fillnum: d['fillnum'], runnum: d['runnum']});
             this.success = true;
         }, this.onQueryError.bind(this));
@@ -125,7 +124,8 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     protected pushSeriesPoint(series, values, index) {
-        series['x'].push(this.tsToISOString(values['timestamp'][index]));
+        // TODO: fix inconsistency of 'x' for pushSeriesPoint and addSeries
+        series['x'].push(new Date(values['timestamp'][index]).toISOString());
         series['y'].push(values['avg'][index]);
         const run = values['runnum'][index];
         const fill = values['fillnum'][index];
@@ -141,11 +141,6 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
         series['text'].shift();
         series._other['fillnum'].shift();
         series._other['runnum'].shift();
-    }
-
-    protected tsToISOString(timestamp) {
-        // timestamp conversion to string needed for Plotly to not use local timezone
-        return new Date(timestamp).toISOString();
     }
 
     protected tsFromLocalISOString(str) {

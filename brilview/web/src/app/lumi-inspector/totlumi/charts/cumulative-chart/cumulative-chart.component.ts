@@ -27,20 +27,23 @@ implements OnInit, AfterViewInit {
     }
 
     protected _addSeries(data, yfield, name, params) {
-        const x = [];
-        let y = [];
-        let lastY = 0;
-        for (const xval of data['tssec']) {
-            // Conversion to string needed for Plotly to not use local timezone
-            x.push(new Date(xval * 1000).toISOString());
-        }
-        for (const yval of data[yfield]) {
-            y.push(lastY + yval);
-            lastY += yval;
-        }
+        const points = this.chart.makeDataPoints({
+            x: data['tssec'].map(t => 1000*t),
+            y: data[yfield],
+            text: this.makeTextLabels(data)
+        }, {
+            runnum: data['runnum'],
+            fillnum: data['fillnum']
+        });
+        points.sort((a, b) => a.x - b.x);
+        let sum = 0;
+        let y = points.map(p => {
+            sum += p.y;
+            return sum;
+        });
         y = utils.scaleLumiValues(y, params['unit'], this.chartUnit);
         this.chart.addSeries(
-            name, x, y, this.makeTextLabels(data),
-            {runnum: data['runnum'], fillnum: data['fillnum']});
+            name, points.map(p => p.x), y, points.map(p => p.text),
+            points.map(p => p.other), false);
     }
 }

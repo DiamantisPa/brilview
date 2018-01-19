@@ -58,9 +58,8 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             const d = resp.data;
             this.fillnum = d['single_fillnum'];
             this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
-            const x = d['timestamp'].map(this.tsToISOString.bind(this));
             this.chartUnit = 'Hz/ub';
-            this.chart.addSeries('ATLAS', x, d['lumi_totinst'], [], {});
+            this.chart.addSeries('ATLAS', d['timestamp'], d['lumi_totinst'], [], {});
             this.rescaleChartValues();
             this.chart.autoZoom();
             this.onQuerySuccess(resp);
@@ -78,7 +77,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
             const d = resp.data;
-            const x = d['tssec'].map(x => x * 1000).map(this.tsToISOString.bind(this));
+            const x = d['tssec'].map(x => x * 1000);
             const y = utils.scaleLumiValues(d['delivered'], event['unit'], this.chartUnit);
             console.log(event, d['delivered'], this.chartUnit, y);
             const nameParts = [
@@ -109,18 +108,6 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadingProgress = 0;
         this.loadingStatus = 'WAITING';
         this.responseMessage = null;
-    }
-
-
-    protected tsToISOString(timestamp) {
-        // timestamp conversion to string needed for Plotly to not use local timezone
-        return new Date(timestamp).toISOString();
-    }
-
-    protected tsFromLocalISOString(str) {
-        const d = new Date(str.substring(0, 23));
-        const offset = d.getTimezoneOffset() * 60 * 1000;
-        return d.getTime() - offset;
     }
 
     protected rescaleChartValues() {

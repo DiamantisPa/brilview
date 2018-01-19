@@ -64,14 +64,9 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
     }
 
     protected _addSeries(data, yfield, name, params) {
-        const x = [];
-        for (const xval of data['tssec']) {
-            // Conversion to string needed for Plotly to not use local timezone
-            x.push(new Date(xval * 1000).toISOString());
-        }
         this.chart.addSeries(
             name,
-            x,
+            data['tssec'].map(t => t*1000),
             utils.scaleLumiValues(data[yfield], params['unit'], this.chartUnit),
             this.makeTextLabels(data),
             {runnum: data['runnum'], fillnum: data['fillnum']}
