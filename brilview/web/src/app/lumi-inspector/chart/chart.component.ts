@@ -20,6 +20,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     @ViewChild('chart') chart;
     @Input('noRemoveButtons') noRemoveButtons = false;
+    @Input('noSeparators') noSeparators = false;
     chartData: any = [];
 
     beforeRemoveData = null;
