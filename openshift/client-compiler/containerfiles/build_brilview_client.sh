@@ -6,7 +6,7 @@ git config --global user.email "brilview-client-compiler"
 git config --global user.name "brilview client compiler"
 git clone https://github.com/jonasdaugalas/brilview.git brilview_src
 cd brilview_src/brilview/web
-yarn install
+yarn install --ignore-engines
 # npm config set jobs 1
 # npm install --unsafe-perm
 rm -rf /client_files_for_serving/*
