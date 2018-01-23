@@ -70,7 +70,7 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
         const obs = this.dataService.query({latest: this.liveWindow})
             .finally(() => this.isNowLoading = false);
         obs.subscribe(resp => {
-            const d = resp.data;
+            const d = resp['data'];
             const texts = [];
             for (let i = 0; i <= d['runnum'].length; ++i) {
                 texts.push(
@@ -95,7 +95,7 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
         const obs = this.dataService.query({since: lastx})
             .finally(() => this.isNowLoading = false);
         obs.subscribe(resp => {
-            const d = resp.data;
+            const d = resp['data'];
             for (let i = 0; i < d['timestamp'].length; ++i) {
                 if (d['timestamp'][i] <= lastx) {
                     continue;

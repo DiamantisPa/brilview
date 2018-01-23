@@ -1,25 +1,32 @@
 <clr-tabs style="width: 100%">
-    <clr-tab-link [clrTabLinkActive]="true">
-        <clr-icon shape="search"></clr-icon>
-        Query
-    </clr-tab-link>
-    <clr-tab-link>
-        <clr-icon shape="clipboard"></clr-icon>
-        Cache
-        <span class="badge">{{cacheTable.cache.size}}</span>
-    </clr-tab-link>
+    <clr-tab>
+        <button clrTabLink>
+            <clr-icon shape="search"></clr-icon>
+            Query
+        </button>
 
-    <clr-tab-content [clrTabContentActive]="true">
-        <bxli-form></bxli-form>
-    </clr-tab-content>
-    <clr-tab-content>
-        <bv-cache-table
-            #cacheTable
-            [cache]="cache"
-            [actions]="cacheTableActions"
-            [nameBuilder]="nameGetter">
-        </bv-cache-table>
-    </clr-tab-content>
+        <clr-tab-content>
+            <bxli-form></bxli-form>
+        </clr-tab-content>
+    </clr-tab>
+
+    <clr-tab>
+        <button clrTabLink>
+            <clr-icon shape="clipboard"></clr-icon>
+            Cache
+            <span class="badge">{{cacheTable.cache.size}}</span>
+        </button>
+
+        <clr-tab-content>
+            <bv-cache-table
+                #cacheTable
+                [cache]="cache"
+                [actions]="cacheTableActions"
+                [nameBuilder]="nameGetter">
+            </bv-cache-table>
+        </clr-tab-content>
+    </clr-tab>
+
 </clr-tabs>
 
 <bxli-charts [cache]="cache"></bxli-charts>

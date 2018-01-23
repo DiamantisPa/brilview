@@ -55,7 +55,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
         const obs = this.atlasDataService.query(event)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
-            const d = resp.data;
+            const d = resp['data'];
             this.fillnum = d['single_fillnum'];
             this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
             this.chartUnit = 'Hz/ub';
@@ -76,7 +76,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
         const obs = this.brilDataService.query(query)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
-            const d = resp.data;
+            const d = resp['data'];
             const x = d['tssec'].map(x => x * 1000);
             const y = utils.scaleLumiValues(d['delivered'], event['unit'], this.chartUnit);
             console.log(event, d['delivered'], this.chartUnit, y);

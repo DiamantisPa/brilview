@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -16,8 +16,8 @@ export interface LumiDataEvent {
 @Injectable()
 export class LumiDataService {
 
-    static postHeaders = new Headers({'Content-Type': 'application/json'});
-    static postOptions = new RequestOptions({ headers: LumiDataService.postHeaders });
+    static postHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+    static postOptions = { headers: LumiDataService.postHeaders };
 
 
     onNewLumiData$: Subject<LumiDataEvent>;
@@ -28,7 +28,7 @@ export class LumiDataService {
     protected lastStorageID = -1;
 
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.onNewLumiData$ = new Subject();
         this.onRemoveLumiData$ = new Subject<void>();
     }
@@ -41,19 +41,16 @@ export class LumiDataService {
             return Observable.throw(e.message);
         }
         const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
-            .map((data) => {
-                return data.json();
-            })
             .do(data => {
                 if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
                     if (data.hasOwnProperty('message')) {
-                        throw data.message;
+                        throw data['message'];
                     }
                     throw data;
                 }
             }).share();
         request.subscribe(data => {
-            const id = this.addToStorage(params, data.data);
+            const id = this.addToStorage(params, data['data']);
             this.onNewLumiData$.next({type: 'new', data: id});
         }, error => {});
         return request;

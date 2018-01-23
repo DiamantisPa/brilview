@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { ClarityModule } from 'clarity-angular';
+import { HttpClientModule } from '@angular/common/http';
+import { ClarityModule } from '@clr/angular';
 
 import { AppRouting } from './app.routing';
 
@@ -21,9 +21,9 @@ import { RouteNotFoundComponent } from './route-not-found/route-not-found.compon
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         AppRouting,
-        ClarityModule.forRoot()
+        ClarityModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -2,40 +2,46 @@
 <bv-alerts #alerts></bv-alerts>
 
 <clr-tabs>
-    <clr-tab-link>Add data</clr-tab-link>
-    <clr-tab-link>Stats</clr-tab-link>
+    <clr-tab>
+        <button clrTabLink>Add data</button>
 
-    <clr-tab-content>
-        <form>
-            <div class="form-group">
-                <label>New series</label>
-                <div class="bv-form-subgroup">
-                    <label>Data</label>
-                    <div class="select">
-                        <select #lumiDataSelect>
-                            <option *ngFor="let key of cache.getKeys()" [value]="key">{{cache.getData(key).name}}</option>
-                        </select>
+        <clr-tab-content>
+            <form>
+                <div class="form-group">
+                    <label>New series</label>
+                    <div class="bv-form-subgroup">
+                        <label>Data</label>
+                        <div class="select">
+                            <select #lumiDataSelect>
+                                <option *ngFor="let key of cache.getKeys()" [value]="key">{{cache.getData(key).name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bv-form-subgroup">
+                        <label>Measurement</label>
+                        <div class="select">
+                            <select #measurementSelect>
+                                <option>delivered</option>
+                                <option>recorded</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="bv-form-subgroup">
-                    <label>Measurement</label>
-                    <div class="select">
-                        <select #measurementSelect>
-                            <option>delivered</option>
-                            <option>recorded</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
 
-            <button class="btn btn-primary" type="submit"
-                    (click)="addSeriesFromCache(lumiDataSelect.value, measurementSelect.value)">
-                Add series
-            </button>
-        </form>
-    </clr-tab-content>
+                <button class="btn btn-primary" type="submit"
+                        (click)="addSeriesFromCache(lumiDataSelect.value, measurementSelect.value)">
+                    Add series
+                </button>
+            </form>
+        </clr-tab-content>
+    </clr-tab>
 
-    <clr-tab-content>
-        <bv-chart-stats [chart]="chart"></bv-chart-stats>
-    </clr-tab-content>
+    <clr-tab>
+        <button clrTabLink>Stats</button>
+
+        <clr-tab-content>
+            <bv-chart-stats [chart]="chart"></bv-chart-stats>
+        </clr-tab-content>
+    </clr-tab>
+
 </clr-tabs>

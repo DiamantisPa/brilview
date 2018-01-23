@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -12,27 +12,24 @@ import 'rxjs/add/operator/do';
 @Injectable()
 export class AtlaslumiDataService {
 
-    static postHeaders = new Headers({'Content-Type': 'application/json'});
-    static postOptions = new RequestOptions({ headers: AtlaslumiDataService.postHeaders });
+    static postHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+    static postOptions = { headers: AtlaslumiDataService.postHeaders };
 
 
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     query(params) {
         let _params = Object.assign({}, params, {
             'query_type': 'atlaslumi',
         });
         const request = this.http.post('/api/query', _params, AtlaslumiDataService.postOptions)
-            .map((data) => {
-                return data.json();
-            })
             .do(data => {
                 if (!data) {
                     throw data;
                 }
                 if (!data.hasOwnProperty('status') || data['status'] !== 'OK') {
                     if (data.hasOwnProperty('message')) {
-                        throw data.message;
+                        throw data['message'];
                     }
                     throw data;
                 }

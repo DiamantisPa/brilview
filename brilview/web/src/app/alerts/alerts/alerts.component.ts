@@ -20,6 +20,7 @@ export class AlertsComponent implements OnInit {
 
     alert(alert: Alert) {
         this.alerts.push(alert);
+        console.log(this.alerts);
     }
 
     removeAlert(index) {

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/zip';
 
 @Injectable()
 export class NormtagService {
 
-    static postHeaders = new Headers({'Content-Type': 'application/json'});
-    static postOptions = new RequestOptions({ headers: NormtagService.postHeaders });
+    static postHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+    static postOptions = { headers: NormtagService.postHeaders };
 
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     getIOVTags() {
         return this.http.post(
@@ -17,10 +17,10 @@ export class NormtagService {
             {'query_type': 'iovtags'},
             NormtagService.postOptions)
             .map((data) => {
-                if (data.json()['status'] !== 'OK') {
+                if (data['status'] !== 'OK') {
                     return [];
                 }
-                return data.json()['data'];
+                return data['data'];
             });
     }
 
@@ -30,10 +30,10 @@ export class NormtagService {
             {'query_type': 'normtags'},
             NormtagService.postOptions)
             .map((data) => {
-                if (data.json()['status'] !== 'OK') {
+                if (data['status'] !== 'OK') {
                     return [];
                 }
-                return data.json()['data'];
+                return data['data'];
             });
     }
 

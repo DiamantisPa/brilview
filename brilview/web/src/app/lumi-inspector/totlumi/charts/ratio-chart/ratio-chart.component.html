@@ -1,79 +1,83 @@
 <li-chart #chart></li-chart>
 <bv-alerts #alerts></bv-alerts>
 <clr-tabs>
-    <clr-tab-link>Add data</clr-tab-link>
+    <clr-tab>
+        <button clrTabLink>Add data</button>
 
-    <clr-tab-link>Stats</clr-tab-link>
 
-    <clr-tab-content>
-        <form>
-            <div class="form-group">
-                <label>Numerator</label>
-                <div class="bv-form-subgroup">
-                    <label>Data</label>
-                    <div class="select">
-                        <select #lumiDataSelect1>
-                            <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
-                        </select>
+        <clr-tab-content>
+            <form>
+                <div class="form-group">
+                    <label>Numerator</label>
+                    <div class="bv-form-subgroup">
+                        <label>Data</label>
+                        <div class="select">
+                            <select #lumiDataSelect1>
+                                <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bv-form-subgroup">
+                        <label>Measurement</label>
+                        <div class="select">
+                            <select #measurementSelect1>
+                                <option>delivered</option>
+                                <option>recorded</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bv-form-subgroup">
-                    <label>Measurement</label>
-                    <div class="select">
-                        <select #measurementSelect1>
-                            <option>delivered</option>
-                            <option>recorded</option>
-                        </select>
+                <div class="form-group">
+                    <label>Denominator</label>
+                    <div class="bv-form-subgroup">
+                        <label>Data</label>
+                        <div class="select">
+                            <select #lumiDataSelect2>
+                                <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bv-form-subgroup">
+                        <label>Measurement</label>
+                        <div class="select">
+                            <select #measurementSelect2>
+                                <option>delivered</option>
+                                <option>recorded</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Denominator</label>
-                <div class="bv-form-subgroup">
-                    <label>Data</label>
-                    <div class="select">
-                        <select #lumiDataSelect2>
-                            <option *ngFor="let opt of lumiData" [value]="opt[0]">{{opt[1]}}</option>
-                        </select>
+                <div class="form-group">
+                    <label>Permutations</label>
+                    <div class="btn-group btn-outline-primary btn-sm">
+                        <button class="btn" (click)="permute(-1)">
+                            <clr-icon shape="caret left"></clr-icon>
+                        </button>
+
+                        <button class="btn" (click)="permute(1)">
+                            <clr-icon shape="caret right"></clr-icon>
+                        </button>
                     </div>
                 </div>
 
-                <div class="bv-form-subgroup">
-                    <label>Measurement</label>
-                    <div class="select">
-                        <select #measurementSelect2>
-                            <option>delivered</option>
-                            <option>recorded</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+                <button class="btn btn-primary" type="submit"
+                        (click)="addRatio(
+                               lumiDataSelect1.value, measurementSelect1.value,
+                               lumiDataSelect2.value, measurementSelect2.value)">
+                    Add Ratio
+                </button>
+            </form>
+        </clr-tab-content>
+    </clr-tab>
 
-            <div class="form-group">
-                <label>Permutations</label>
-                <div class="btn-group btn-outline-primary btn-sm">
-                    <button class="btn" (click)="permute(-1)">
-                        <clr-icon shape="caret left"></clr-icon>
-                    </button>
-
-                    <button class="btn" (click)="permute(1)">
-                        <clr-icon shape="caret right"></clr-icon>
-                    </button>
-                </div>
-            </div>
-
-            <button class="btn btn-primary" type="submit"
-                    (click)="addRatio(
-                             lumiDataSelect1.value, measurementSelect1.value,
-                             lumiDataSelect2.value, measurementSelect2.value)">
-                Add Ratio
-            </button>
-        </form>
-    </clr-tab-content>
-
-    <clr-tab-content>
-        <bv-chart-stats [chart]="chart"></bv-chart-stats>
-    </clr-tab-content>
+    <clr-tab>
+        <button clrTabLink>Stats</button>
+        <clr-tab-content>
+            <bv-chart-stats [chart]="chart"></bv-chart-stats>
+        </clr-tab-content>
+    </clr-tab>
 </clr-tabs>
