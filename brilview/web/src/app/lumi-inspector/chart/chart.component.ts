@@ -80,7 +80,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
             newSeries['x'] = points.map(p => p.x);
             newSeries['y'] = points.map(p => p.y);
             newSeries['text'] = points.map(p => p.text);
-            newSeries['_other'] = points.map(p => p.other);
+            newSeries['_other'] = {};
+            Object.keys(points[0]['other']).forEach(k => {
+                newSeries['_other'][k] = points.map(p => p.other).map(o => o[k]);
+            });
         } else {
             newSeries['x'] = x;
             newSeries['y'] = y;
