@@ -7,6 +7,15 @@ Release log
 1.3.0
 ^^^^^
 
+2018-01-23
+
+* Add total luminosity sorting by time (for output by normtag files)
+* Fix RUN/FILL separators
+
+
+1.3.0
+^^^^^
+
 2018-01-17
 
 * Add per bunch luminosity inspector component
