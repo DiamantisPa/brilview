@@ -33,7 +33,7 @@ class BuildStatic(Command):
         pass
 
     def run(self):
-        log.info("running [yanr install]")
+        log.info("running [yarn install]")
         subprocess.check_output( ['yarn', 'install'], cwd='brilview/web' )
 
 
