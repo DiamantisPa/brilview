@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BXLumiDataService } from '../data.service';
+import { LUMI_TYPES } from 'app/app.config';
 
 @Component({
     selector: 'bxli-form',
@@ -23,7 +24,7 @@ export class FormComponent implements OnInit {
     }
 
     paramOptions = {
-        type: ['Online', 'PLTZERO', 'HFOC', 'HFET', 'BCM1F', 'PXL', 'DT', '-normtag-'],
+        type: LUMI_TYPES.concat(['-normtag-']),
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         normtag: null
     };

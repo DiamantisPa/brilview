@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { LUMI_TYPES } from 'app/app.config';
 
 @Component({
     selector: 'li-atlaslumi-form',
@@ -10,9 +11,7 @@ export class FormComponent implements OnInit {
     fillnum = null;
     brilLumiType = 'Online';
     brilNormtag = undefined;
-    brilLumiTypeOptions = [
-        'Online', 'PLTZERO', 'HFOC', 'HFET', 'BCM1F', 'PXL', 'DT', '-normtag-'
-    ];
+    brilLumiTypeOptions = LUMI_TYPES.concat(['-normtag-']);
     @Output() onAtlasQuery = new EventEmitter<{}>();
     @Output() onBrilQuery = new EventEmitter<{}>();
 

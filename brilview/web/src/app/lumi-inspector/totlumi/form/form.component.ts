@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { LumiDataService } from '../../data.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/from';
+import { LUMI_TYPES, BEAMS } from 'app/app.config';
 
 @Component({
     selector: 'li-totlumi-form',
@@ -37,9 +38,9 @@ export class FormComponent implements OnInit {
     };
     paramOptions = {
         timeunit: ['RUN/FILL', 'DATE'],
-        type: ['Online', 'PLTZERO', 'HFOC', 'HFET', 'BCM1F', 'PXL', 'DT', '-normtag-'],
+        type: LUMI_TYPES.concat(['-normtag-']),
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
-        beamstatus: ['-anybeams-', 'STABLE BEAMS', 'ADJUST', 'SQUEEZE', 'FLAT TOP'],
+        beamstatus: ['-anybeams-'].concat(BEAMS),
         normtag: null
     };
     paramOptionsLoading = {
