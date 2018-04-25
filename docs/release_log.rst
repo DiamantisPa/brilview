@@ -4,6 +4,14 @@ Release log
 1.3
 -----
 
+1.3.2
+^^^^^
+
+2018-04-25
+
+* Add BCM1FSI lumi type
+
+
 1.3.1
 ^^^^^
 
