@@ -70,13 +70,16 @@ export function unitForData(maxValue, currentUnit) {
     if (!Number.isFinite(maxValue)) {
         return currentUnit;
     }
-    const inst = isInstantaneousUnit(currentUnit);
+    let units = integratedUnits;
+    if (isInstantaneousUnit(currentUnit)) {
+        units = instantaneousUnits;
+    }
     let newUnit = currentUnit;
-    while (maxValue > 1000) {
+    while (maxValue > 1000 && newUnit !== units[units.length -1]) {
         maxValue = maxValue / 1000;
         newUnit = stepUnit(newUnit, 'up');
     }
-    while (maxValue < 1) {
+    while (maxValue < 1 && newUnit !== units[0]) {
         maxValue = maxValue * 1000;
         newUnit = stepUnit(newUnit, 'down');
     }
