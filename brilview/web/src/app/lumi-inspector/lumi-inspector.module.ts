@@ -32,7 +32,7 @@ import { FormComponent as AtlaslumiFormComponent } from './atlaslumi/form/form.c
         FormsModule,
         LumiInspectorRouting,
         AlertsModule,
-        ClarityModule.forChild(),
+        ClarityModule,
         NguiDatetimePickerModule,
         SharedModule
     ],

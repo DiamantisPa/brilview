@@ -18,7 +18,7 @@ import { BXLumiInspectorRouting } from './bxlumi-inspector.routing';
     imports: [
         CommonModule,
         FormsModule,
-        ClarityModule.forChild(),
+        ClarityModule,
         BXLumiInspectorRouting,
         SharedModule,
         AlertsModule

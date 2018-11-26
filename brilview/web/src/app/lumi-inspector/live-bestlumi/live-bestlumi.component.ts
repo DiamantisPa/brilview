@@ -1,11 +1,8 @@
 import {
     Component, OnInit, ViewChild, AfterViewInit, OnDestroy
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/observable/timer';
-import 'rxjs/add/operator/takeUntil';
+import { Observable, Subscription, Subject, timer } from 'rxjs';
+import { takeUntil } from 'rxjs/operators'
 
 import { LiveLumiDataService } from '../live-lumi-data.service';
 import { ChartComponent } from '../chart/chart.component';
@@ -53,7 +50,7 @@ export class LiveBestlumiComponent implements OnInit, AfterViewInit, OnDestroy {
 
     afterLiveChange() {
         if (this.live) {
-            this.$timer = Observable.timer(1000, this.liveUpdateInterval).takeUntil(this.$ngUnsubscribe);
+            this.$timer = timer(1000, this.liveUpdateInterval).pipe(takeUntil(this.$ngUnsubscribe));
             this.timerSubs = this.$timer.subscribe(
                 this.queryUpdateData.bind(this));
             this.chart.setTitle('Instantaneous luminosity (Live)');

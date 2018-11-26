@@ -1,9 +1,8 @@
 import {
     Component, OnInit, Input, AfterViewInit, ViewChild
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/debounceTime';
+import { Observable, fromEvent as ObservableFromEvent} from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import * as ChartDefaults from './chart-defaults';
 
 declare var Plotly: any;
@@ -46,9 +45,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
                     ChartDefaults.getChartLayout(),
                     ChartDefaults.getChartConfig());
 
-        Observable.fromEvent(window, 'resize')
+        ObservableFromEvent(window, 'resize')
             .debounceTime(500)
-            .subscribe(this.onResize.bind(this));
+            .subscribe(this.onResize);
 
         this.onResize(null);
     }
@@ -57,7 +56,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
         Plotly.redraw(this.chart.nativeElement);
     }
 
-    onResize(event) {
+    onResize = (event) => {
         const update = {
             autosize: true,
             width: null,

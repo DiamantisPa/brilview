@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { LumiDataService } from '../../data.service';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/from';
+import { Observable, from as ObservabeFrom } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import { LUMI_TYPES, BEAMS } from 'app/app.config';
 
 @Component({
@@ -76,12 +76,13 @@ export class FormComponent implements OnInit {
         this.loadingProgress = 0;
         let requests = null;
         if (this.params.normtag && this.params.type === '-normtag-') {
-            requests = Observable.from(this.params.normtag.split(','))
-                .concatMap((val: string) => {
+            requests = ObservabeFrom(this.params.normtag.split(',')).pipe(
+                concatMap((val: string) => {
                     const params = Object.assign({}, this.params);
                     params['normtag'] = val.trim();
                     return this.lumiDataService.query(params);
-                });
+                })
+            );
         } else {
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
@@ -121,7 +122,7 @@ export class FormComponent implements OnInit {
         return true;
     }
 
-    timeoutFocus(element, interval: Number) {
+    timeoutFocus(element, interval: number) {
         setTimeout(() => {
             element.focus();
         }, interval);

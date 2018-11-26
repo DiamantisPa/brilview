@@ -14,7 +14,7 @@ import { NormtagService } from './normtag.service';
 @NgModule({
     imports: [
         CommonModule,
-        ClarityModule.forChild(),
+        ClarityModule,
         FormsModule,
         Ng2CompleterModule,
     ],
