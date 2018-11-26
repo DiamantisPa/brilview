@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/zip';
+import { Observable, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class NormtagService {
@@ -40,9 +40,10 @@ export class NormtagService {
     getAllTags() {
         let iovtags = this.getIOVTags();
         let normtags = this.getNormtags();
-        return Observable.zip(iovtags, normtags)
-            .map((tags) => {
-                return tags[0].concat(tags[1]);
-            });
+        return zip(iovtags, normtags).pipe(
+            map((tags) => {
+               return tags[0].concat(tags[1]);
+            })
+      );
     }
 }
