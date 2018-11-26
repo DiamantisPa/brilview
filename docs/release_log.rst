@@ -4,6 +4,14 @@ Release log
 1.3
 -----
 
+1.3.3
+^^^^^
+
+2018-10-26
+
+* Fix web client hang when calculating lumi unit and max value is <=0
+
+
 1.3.2
 ^^^^^
 
