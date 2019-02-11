@@ -316,7 +316,8 @@ def _get_total_lumi_command_template():
     else:
         cmd = 'brilcalc'
     return [
-        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec'
+        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec',
+        '-c', 'online'
     ]
 
 
