@@ -6,6 +6,14 @@ Central Brilview is hosted at CERN web services: https://webservices.web.cern.ch
 All instructions bellow assume that you are inside ``openshift`` directory of
 the Brilview project.
 
+Log in to CERN Openshift
+----------------
+.. highlight:: bash
+::
+
+  oc login https://openshift.cern.ch 
+
+
 First time setup
 ----------------
 
