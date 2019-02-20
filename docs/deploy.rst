@@ -79,6 +79,8 @@ Change website visibility from "Intranet" to "Internet": https://cern.service-no
 Updating client
 ---------------
 
+For production deployment, the brilview code must be tagged in the git repository. And file /openshfit/brilview/Dockerfile should contain the new git tag. 
+
 Temporarily scale down ``brilview-server`` pods from 2 to 1 to free some resources
 for client building, then scale up client-compiler from 0 to 1, watch logs, when
 finished, scale client-compiler back to 0 and scale brilview-server back to 2.
