@@ -88,9 +88,14 @@ Updating server
 
 For production deployment, the brilview code must be tagged in the git repository. And file /openshfit/brilview/Dockerfile should contain the new git tag. The tagging step is required in order to always trigger a docker image update.
 
+Temporarily scale down ``brilview-server`` pods from 2 to 1 to free some resources for server building. 
+
 ::
 
   oc start-build brilview-server-bc --from-dir=brilview
+
+When finished, scale brilview-server back to 2.
+
 
 Monitoring
 ----------
