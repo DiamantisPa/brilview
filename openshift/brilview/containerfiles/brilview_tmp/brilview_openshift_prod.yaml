@@ -47,7 +47,8 @@ brilcommandhandler:
   command: /opt/brilconda/bin/brilcalc    #none or command path
   webcacheconfig: /brilview_tmp/frontier_config.xml      #none or config file
   normtag_directory: /cvmfs/cms-bril.cern.ch/cms-lumi-pog/Normtags
+  connection: offline  
 
 lumidbhandler:
-  connection: online
+  connection: offline
   authfile: /opt/brilconda/lib/python2.7/site-packages/brilws/data/readdb3.ini
