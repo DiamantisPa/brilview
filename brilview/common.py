@@ -109,14 +109,14 @@ def aggregate_1d(inputdata, bindef, aggalgos):
         }
     }
     '''
-    if not bindef.has_key('field'):
+    if not 'field' in bindef:
         raise KeyError('field not found in the bindef input, cannot decide on the binning variable')
     binning_field = bindef['field']    
     binning_array = inputdata[binning_field]
     step_unit = 'number'
     pos = None
     result = {}
-    if bindef.has_key('step_unit') and bindef['step_unit']:
+    if 'step_unit' in bindef and bindef['step_unit']:
         step_unit = bindef['step_unit']
     if step_unit =='number':
         pos = _find_numbins(binning_array,nbins=bindef.get('step_count',None),step_size=bindef.get('step_size',None))
@@ -166,13 +166,13 @@ if __name__=='__main__':
 
     tt = [1452242977,1483865377,1484038177,1484045377,1484131777,1484149777,1484749869,1468852268,1474209068,1473949868]
     result =_find_datebins(tt, bintype='month')
-    print 'date result ',result
+    print('date result ',result)
 
     nn =  [0.2, 0.3, 0.4, 1.1, 1.2, 3.3, 3.0, 4.1, 6.2, 16.1]
     result = _find_numbins(nn,nbins=None,step_size=3)
-    print 'num result by step size ',result
+    print('num result by step size ',result)
     result = _find_numbins(nn,nbins=5,step_size=None)
-    print 'num result by nbins ',result
+    print('num result by nbins ',result)
 
     inputdata = {
         'time': tt,
@@ -187,7 +187,7 @@ if __name__=='__main__':
         'velocity': 'max'
     }
     result = aggregate_1d(inputdata, bindef, aggalgos)
-    print result
+    print(result)
 
     bindef = {
         'field': 'velocity',
@@ -198,4 +198,4 @@ if __name__=='__main__':
         'time': 'max'
     }
     result = aggregate_1d(inputdata, bindef, aggalgos)
-    print result
+    print(result)

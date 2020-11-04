@@ -4,7 +4,8 @@ import re
 import numpy as np
 import os
 import csv
-import utils
+#import utils
+from . import utils
 from brilview import bvconfig, bvlogging
 
 

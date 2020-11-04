@@ -1,4 +1,4 @@
-from handlers import cmmdhandler, lumidbhandler
+from .handlers import cmmdhandler, lumidbhandler
 
 
 def query(options):

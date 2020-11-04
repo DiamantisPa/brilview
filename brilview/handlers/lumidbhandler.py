@@ -1,11 +1,14 @@
 from brilview import bvconfig, bvlogging
-from ConfigParser import SafeConfigParser
 from distutils.spawn import find_executable
 import sqlalchemy as sql
+import sys
 import os
 import datetime
-import utils
-
+from . import utils
+if sys.version_info[0] == 2:
+    from ConfigParser import SafeConfigParser
+else:
+    from configparser import SafeConfigParser
 
 DEFAULT_ENGINE = None
 
