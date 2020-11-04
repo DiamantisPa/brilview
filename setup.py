@@ -44,7 +44,7 @@ version = re.search(
                 open('brilview/_version.py').read(),
                 re.M
                 ).group(1)
-print version
+print(version)
 
 setup(
     name = "brilview",
