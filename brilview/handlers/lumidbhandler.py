@@ -1,10 +1,11 @@
-from brilview import bvconfig, bvlogging
+from brilview import bvconfig, bvlogging, common
 from distutils.spawn import find_executable
 import sqlalchemy as sql
 import sys
 import os
 import datetime
 from . import utils
+
 if sys.version_info[0] == 2:
     from ConfigParser import SafeConfigParser
 else:
@@ -92,9 +93,10 @@ def get_engine(use_cached=True):
     if authfile is None:
         whichbrilcalc = find_executable('brilcalc')
         if whichbrilcalc is not None:
-            authfile = os.path.join(
-                os.path.dirname(whichbrilcalc), '..',
-                'lib/python2.7/site-packages/brilws/data/readdb3.ini')
+            authfile = common.get_auth_location()
+            #authfile = os.path.join(
+            #    os.path.dirname(whichbrilcalc), '..',
+            #    'lib/python2.7/site-packages/brilws/data/readdb3.ini')
     if authfile is None:
         raise RuntimeError('Cannot create SQL engine without authfile path')
     servicemap = parseservicemap(authfile)
