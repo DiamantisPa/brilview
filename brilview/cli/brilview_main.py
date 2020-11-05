@@ -22,9 +22,12 @@ import cherrypy as cp
 import brilview
 from cherrypy.process import plugins
 from brilview import brilview_flask_app, bvlogging, bvconfig
+import site
 
 BRILVIEW_PYTHONPATH = (
-    os.path.dirname(sys.executable) + '/../lib/python2.7/site-packages/')
+#    os.path.dirname(sys.executable) + '/../lib/python2.7/site-packages/'
+    site.getsitepackages()[0]
+)
 # ignore other PYTHONPATH
 sys.path.insert(0, BRILVIEW_PYTHONPATH)
 
