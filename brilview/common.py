@@ -1,6 +1,8 @@
 import numpy as np
 import numbers
 import calendar, datetime
+import site
+import os
 
 #class ini_parser(ConfigParser.SafeConfigParser):
 #    '''
@@ -162,6 +164,19 @@ def aggregate_1d(inputdata, bindef, aggalgos):
                     result['data'].setdefault(fieldname,[]).append( toaggregate[ len(toaggregate)/2 ] )
     return result
 
+def get_auth_location():
+    authfilename = 'readdb3.ini'
+    usersitelocation = site.getusersitepackages()
+    if usersitelocation:
+        f_user = os.path.join(usersitelocation,'brilws','data',authfilename)
+        if os.path.exists(f_user):
+            return f_user
+    sitelocation = site.getsitepackages()[0]
+    f = os.path.join(sitelocation,'brilws','data',authfilename)
+    if not os.path.exists(f):
+        return None
+    return f
+
 if __name__=='__main__':        
 
     tt = [1452242977,1483865377,1484038177,1484045377,1484131777,1484149777,1484749869,1468852268,1474209068,1473949868]
@@ -199,3 +214,5 @@ if __name__=='__main__':
     }
     result = aggregate_1d(inputdata, bindef, aggalgos)
     print(result)
+    
+    print(get_auth_location())
