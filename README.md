@@ -14,6 +14,30 @@ Sample configuration files are committed in brilview/data
 
 The server configuration used in production in OpenShift is in openshift/brilview/containerfiles/brilview_tmp/brilview_openshift_prod.yaml
 
+## Types of queries to server
+
+timelumi(cmmd), livebestlumi(db), atlaslumi(db), bxlumi(cmmd), iovtags(db), normtags(os)
+
+#### timelumi
+
+Input: begin(str), end(str), unit(str), beamstatus(str), normtag(str), datatag(str), hltpath(str) type(str), selectjson(str), byls(bool), without_correction(bool), pileup(bool), minbiasxsec(float) 
+
+#### bxlumi
+
+Input: runnum(int), lsnum(int), normtag(int), type(str), without_correction(bool), unit(str)
+
+#### normtags
+
+Input: None 
+
+#### livebestlumi
+
+Input: latest, since, 
+
+#### atlaslumi
+
+Input: fillnum or None
+
 ## Example server test
 
 ```
