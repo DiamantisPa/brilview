@@ -4,6 +4,7 @@ import sqlalchemy as sql
 import sys
 import os
 import datetime
+import base64
 from . import utils
 
 if sys.version_info[0] == 2:
@@ -68,7 +69,8 @@ def parseservicemap(authfile):
 
 def create_engine(servicemap, servicename):
     user = servicemap[servicename][1]
-    passwd = servicemap[servicename][2].decode('base64')
+    #passwd = servicemap[servicename][2].decode('base64')
+    passwd = base64.b64decode(servicemap[servicename][2].encode('ascii')).decode('utf-8')
     descriptor = servicemap[servicename][3]
     connurl = 'oracle+cx_oracle://{}:{}@{}'.format(user, passwd, descriptor)
     return sql.create_engine(connurl)
@@ -93,7 +95,8 @@ def get_engine(use_cached=True):
     if authfile is None:
         whichbrilcalc = find_executable('brilcalc')
         if whichbrilcalc is not None:
-            authfile = common.get_auth_location()
+            authfile = common.get_cmmdauth_location(whichbrilcalc)
+            
             #authfile = os.path.join(
             #    os.path.dirname(whichbrilcalc), '..',
             #    'lib/python2.7/site-packages/brilws/data/readdb3.ini')
