@@ -164,7 +164,7 @@ def aggregate_1d(inputdata, bindef, aggalgos):
                     result['data'].setdefault(fieldname,[]).append( toaggregate[ len(toaggregate)/2 ] )
     return result
 
-def get_auth_location():
+def get_cmmdauth_location(cmmdlocation):
     authfilename = 'readdb3.ini'
     usersitelocation = site.getusersitepackages()
     if usersitelocation:
