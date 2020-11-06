@@ -1,0 +1,1 @@
+{"query_type": "bxlumi", "runnum":315800 , "lsnum":1}

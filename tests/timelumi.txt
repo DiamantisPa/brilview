@@ -1,0 +1,1 @@
+{"query_type": "timelumi", "begin": 6650, "end":6650, "unit":"hz/ub","byls":1,"selectjson":"{315800:[[1,10]]}","pileup":1}
