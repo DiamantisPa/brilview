@@ -19,3 +19,5 @@ Development with backend:
 ## Build
 
 Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+
+Note: node v>10 introduces node-sass error. Keep node version v10 for compilation. 
