@@ -7,6 +7,10 @@ __pycache__/
 # C extensions
 *.so
 
+# NodeJS build
+node_modules/
+
+#
 # Distribution / packaging
 .Python
 env/
