@@ -17,6 +17,13 @@ Log in to CERN Openshift
 First time setup
 ----------------
 
+Project Creation
+^^^^^^^^^^^^^^^^
+
+Go to https://webservices.web.cern.ch/webservices/ and "Create a new website" as "PaaS Web Application". 
+
+Go to "My websites" pick up the new site and "View quota usage", then change "flavor" to "Large".
+
 Create CVMFS volume claim
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -28,7 +35,9 @@ Go to project web console https://openshift.cern.ch/console/project/brilview/
    a. "Storage Class": cvmfs-cms-bril.cern.ch
    b. "Name": cvmfs-bril
    c. "Access Mode": Read Only (ROX)
-   d. "Size": O MiB
+   d. "Size": 1 MiB
+
+See https://cern.service-now.com/service-portal?id=kb_article&n=KB0004390 
 
 3. Click "Create"
 
@@ -74,6 +83,16 @@ Make Brilview public
 ^^^^^^^^^^^^^^^^^^^^
 
 Change website visibility from "Intranet" to "Internet": https://cern.service-now.com/service-portal/article.do?n=KB0004359
+ 
+Go to "Web Services site" and click on "Manage my websites"
+
+Select the site you want to expose from the list of "My websites"
+
+Click on "Site access & Permissions"
+
+Choose between Internet and Intranet
+
+Please note that websites of type 'Test' cannot be exposed outside the CERN network.
 
 .. _update-client:
 Updating web client
