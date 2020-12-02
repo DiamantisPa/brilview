@@ -65,12 +65,16 @@ Add CERN SSO
 Go to project web console https://openshift.cern.ch/console/project/brilview/
 and add cern-sso-proxy:
 
-1. "Add to project" -> "Uncategorized" -> "cern-sso-proxy"
+1. Add "cern-sso-proxy" to project from "Catalog"
 2. chose e-groups in AUTHORIZED_GROUPS (e.g. 'cern-users', 'cern-staff', 'CMS-BRIL-Project')
 3. point to nginx-service in SERVICE_NAME
 4. Click "Create"
 5. Increase route timeout with command ``oc annotate route cern-sso-proxy --overwrite haproxy.router.openshift.io/timeout=600s``
 
+https://cern.service-now.com/service-portal?id=kb_article&n=KB0005442
+
+Note: cern-sso-proxy works with site globally unique in cern domain. 
+If the requested web site is already registered with other hosting service, e.g. AFS, EOS, the sso registration will fail.
 
 Build frontend client
 ^^^^^^^^^^^^^^^^^^^^^
