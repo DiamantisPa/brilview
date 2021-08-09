@@ -49,7 +49,7 @@ print version
 setup(
     name = "brilview",
     author = "Jonas Daugalas,Zhen Xie",
-    url = "https://github.com/jonasdaugalas/brilview",
+    url = "https://github.com/cms-bril/brilview",
     download_url = 'https://github.com/jonasdaugalas/brilws/tarball/'+version,
     license = "MIT",
     version = version,

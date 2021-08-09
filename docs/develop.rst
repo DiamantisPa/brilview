@@ -1,7 +1,7 @@
 Develop
 =======
 
-See https://github.com/jonasdaugalas/brilview
+See https://github.com/cms-bril/brilview
 
 Server
 ------
