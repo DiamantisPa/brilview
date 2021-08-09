@@ -4,6 +4,14 @@ Release log
 1.3
 -----
 
+1.3.9
+^^^^^
+
+2021-08-09
+
+* Moved to new repository
+
+
 1.3.3
 ^^^^^
 

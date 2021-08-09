@@ -7,12 +7,12 @@ All instructions bellow assume that you are inside ``openshift`` directory of
 the Brilview project.
 
 Log in to CERN Openshift
-----------------
+------------------------
+
 .. highlight:: bash
 ::
 
-  oc login https://openshift.cern.ch 
-
+  oc login https://openshift.cern.ch
 
 First time setup
 ----------------
@@ -20,7 +20,7 @@ First time setup
 Project Creation
 ^^^^^^^^^^^^^^^^
 
-Go to https://webservices.web.cern.ch/webservices/ and "Create a new website" as "PaaS Web Application". 
+Go to https://webservices.web.cern.ch/webservices/ and "Create a new website" as "PaaS Web Application".
 
 Go to "My websites" pick up the new site and "View quota usage", then change "flavor" to "Large".
 
@@ -37,7 +37,7 @@ Go to project web console https://openshift.cern.ch/console/project/brilview/
    c. "Access Mode": Read Only (ROX)
    d. "Size": 1 MiB
 
-See https://cern.service-now.com/service-portal?id=kb_article&n=KB0004390 
+      See https://cern.service-now.com/service-portal?id=kb_article&n=KB0004390
 
 3. Click "Create"
 
@@ -73,7 +73,7 @@ and add cern-sso-proxy:
 
 https://cern.service-now.com/service-portal?id=kb_article&n=KB0005442
 
-Note: cern-sso-proxy works with site globally unique in cern domain. 
+Note: cern-sso-proxy works with site globally unique in cern domain.
 If the requested web site is already registered with other hosting service, e.g. AFS, EOS, the sso registration will fail.
 
 Build frontend client
@@ -87,7 +87,7 @@ Make Brilview public
 ^^^^^^^^^^^^^^^^^^^^
 
 Change website visibility from "Intranet" to "Internet": https://cern.service-now.com/service-portal/article.do?n=KB0004359
- 
+
 Go to "Web Services site" and click on "Manage my websites"
 
 Select the site you want to expose from the list of "My websites"
@@ -100,7 +100,7 @@ Please note that websites of type 'Test' cannot be exposed outside the CERN netw
 
 .. _update-client:
 Updating web client
----------------
+--------------------
 
 Temporarily scale down ``brilview-server`` pods from 2 to 1 to free some resources
 for client building, then scale up client-compiler from 0 to 1, watch logs, when
@@ -109,9 +109,9 @@ finished, scale client-compiler back to 0 and scale brilview-server back to 2.
 Updating server
 ---------------
 
-For production deployment, the brilview code must be tagged in the git repository. And file /openshfit/brilview/Dockerfile should contain the new git tag. The tagging step is required in order to always trigger a docker image update.
+For production deployment, the brilview code must have a version tag in the git repository, and the file /openshfit/brilview/Dockerfile should contain the new git tag. The tagging step is required in order to always trigger a docker image update.
 
-Temporarily scale down ``brilview-server`` pods from 2 to 1 to free some resources for server building. 
+Temporarily scale down ``brilview-server`` pods from 2 to 1 to free some resources for server building.
 
 ::
 
@@ -129,15 +129,15 @@ Find pod containing Grafana::
 
 Forward port 3000 to your machine::
 
-  oc port-forward 3000 grafana-influxdb-dc-<some_identifiers_you_found_with_above_command>
+  oc port-forward grafana-influxdb-dc-<some_identifiers_you_found_with_above_command> 3000
 
-Visit ``localhost:3000``. If it is first time after Grafana deployment, then
-login with user:``admin`` and pass:``admin``, add influxdb source
-(name:``my-influx``, type:``InfluxDB``, url:``http://localhost:8086``,
-access:``proxy``, database:``telegraf``). Now either make whatever dashboard or
-import (copy/paste) ``grafana-influxdb/dashboard.json`` and then change
-hostnames for all graphs (Grafana queries influxdb and gives suggestions in
-dropdowns) to match current ones.
+Visit ``localhost:3000``.
+
+If it is the first time after a Grafana deployment, then login with user: ``admin`` and pass: ``admin`` and:
+
+1. Add data source (name: ``my-influx``, type: ``InfluxDB``, url: ``http://localhost:8086``, access: ``proxy``, database: ``telegraf``)
+2. Create whatever dashboard needed or import (copy/paste the text) from the file ``grafana-influxdb/dashboard.json``
+3. Change host names for all graphs to match the ones returned by ``oc get pods`` by clicking Edit -> Metrics (Grafana queries influxdb and gives suggestions in dropdowns)
 
 Tips
 ----
