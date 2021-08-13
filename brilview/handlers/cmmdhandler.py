@@ -189,9 +189,28 @@ def _parse_brilcalc_bx_output(output):
     [runnum, fillnum] = [int(x) for x in items[0].split(':')]
     lsnum = items[1].split(':')[0]
     bxlumi_str = items[9][1:-1]
-    bxlumi = np.fromstring(bxlumi_str, dtype='f4', sep=' ')
-    delivereds = bxlumi[1::3].astype(float)
-    recordeds = bxlumi[2::3].astype(float)
+    bxlumi_list = list(bxlumi_str.split(" "))
+    bxlumi_lists = [bxlumi_list[i * 3:(i + 1) * 3] for i in range((len(bxlumi_list) + 3 - 1) // 3 )] # splits each data point
+
+    index_count = 3564 # the maximum number of bxindex
+    indexes_list = [int(d[0]) for d in bxlumi_lists] # the non-zero bxindexes
+
+    # adding zero values for missing bxindex
+    count = 0
+    result = []
+    for bxindex in range(1,index_count+1):
+        if bxindex in indexes_list:
+            result.append(bxlumi_lists[count])
+            count += 1
+        else:
+            result.append([str(bxindex), "0.0", "0.0"])
+
+    final_result = " ".join([" ".join(i) for i in result])
+
+    final_result = np.fromstring(final_result, dtype='f4', sep=' ')
+
+    delivereds = final_result[1::3].astype(float)
+    recordeds = final_result[2::3].astype(float)
     return {
         'fillnum': fillnum,
         'runnum': runnum,
@@ -324,7 +343,7 @@ def _get_total_lumi_command_template():
         connection = bvconfig.brilcommandhandler['connection']
     else:
         connection = 'offline'
-    
+
     return [
         cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec', '-c', connection
     ]
