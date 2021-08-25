@@ -1,6 +1,17 @@
 Release log
 ===========
 
+1.4
+-----
+
+1.4.0
+^^^^^
+
+2021-08-25
+
+* Updated to Python 3
+
+
 1.3
 -----
 
@@ -10,6 +21,7 @@ Release log
 2021-08-16
 
 * Fixed per bunch luminosity chart. Set the negative values to zero instead of ignoring them.
+
 
 1.3.9
 ^^^^^
