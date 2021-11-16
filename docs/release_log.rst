@@ -4,6 +4,13 @@ Release log
 1.4
 -----
 
+1.4.1
+^^^^^
+
+2021-11-16
+
+* Updated brilws to fix database parsing problem
+
 1.4.0
 ^^^^^
 
