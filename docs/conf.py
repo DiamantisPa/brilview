@@ -17,4 +17,4 @@ master_doc = 'index'
 
 
 def setup(app):
-    app.add_stylesheet('css/styles.css')
+    app.add_css_file('css/styles.css')
