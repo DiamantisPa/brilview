@@ -4,6 +4,13 @@ Release log
 1.4
 -----
 
+1.4.2
+^^^^^
+
+2021-11-23
+
+* Fixed calendar date selector view to display and change the month.
+
 1.4.1
 ^^^^^
 
