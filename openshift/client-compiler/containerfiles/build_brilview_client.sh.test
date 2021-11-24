@@ -7,6 +7,8 @@ git config --global user.name "brilview client compiler"
 git clone https://github.com/cms-bril/brilview.git brilview_src
 cd brilview_src/brilview/web
 git checkout dev
+source ~/.bashrc 
+node -v
 yarn install --ignore-engines
 # npm config set jobs 1
 # npm install --unsafe-perm
