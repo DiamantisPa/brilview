@@ -20,7 +20,7 @@ export class NormtagService {
                 if (data['status'] !== 'OK') {
                     return [];
                 }
-                return data['data'];
+                return this.cleanNull(data['data'])
             });
     }
 
@@ -33,7 +33,7 @@ export class NormtagService {
                 if (data['status'] !== 'OK') {
                     return [];
                 }
-                return data['data'];
+                return this.cleanNull(data['data'])
             });
     }
 
@@ -45,5 +45,8 @@ export class NormtagService {
                return tags[0].concat(tags[1]);
             })
       );
+    }
+    cleanNull(data){
+        return data.filter(x => x != null)
     }
 }

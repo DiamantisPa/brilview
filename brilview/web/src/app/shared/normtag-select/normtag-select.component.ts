@@ -39,15 +39,17 @@ export class NormtagSelectComponent implements OnInit {
         let subs;
         if (this.tagTypes === 'iovtags') {
             subs = this.normtagService.getIOVTags();
+            console.log("getIOVTags")
         } else if (this.tagTypes === 'normtags') {
             subs = this.normtagService.getNormtags();
+            console.log("getNormtags")
         } else if (this.tagTypes === 'alltags'){
             subs = this.normtagService.getAllTags();
+            console.log("getAllTags")
         } else {
             return;
         }
         this.loading = true;
-        console.log(this.tagTypes, subs);
         subs.finally(() => {
             this.loading = false;
             this.shouldLoad = false;
