@@ -4,6 +4,13 @@ Release log
 1.4
 -----
 
+1.4.4
+^^^^^
+
+2021-12-13
+
+* Fixed Normtags, server and client side.
+
 1.4.3
 ^^^^^
 
