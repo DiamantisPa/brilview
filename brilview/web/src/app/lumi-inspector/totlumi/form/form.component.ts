@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { LumiDataService } from '../../data.service';
-import { Observable, from as ObservabeFrom } from 'rxjs';
+import { Observable as ObservabeFrom } from 'rxjs/Observable'; // useful?
 import { concatMap } from 'rxjs/operators';
 import { LUMI_TYPES, BEAMS } from 'app/app.config';
 
@@ -76,16 +76,31 @@ export class FormComponent implements OnInit {
         this.loadingProgress = 0;
         let requests = null;
         if (this.params.normtag && this.params.type === '-normtag-') {
-            requests = ObservabeFrom(this.params.normtag.split(',')).pipe(
+            let norm_params = this.params.normtag.split(',')
+            norm_params = norm_params.filter(function(str) {     //delete white spaces elements
+                return /\S/.test(str);
+            });
+            this.params['normtag']=norm_params.map(function (val) { /// delete white spaces for each string
+                console.log(val)
+                return val.trim();
+              });
+            const params = Object.assign({}, this.params);
+            console.log(params)
+            requests =  this.lumiDataService.query(params);
+            /*new ObservabeFrom(
+                this.params.normtag.split(',')).pipe(
                 concatMap((val: string) => {
                     const params = Object.assign({}, this.params);
                     params['normtag'] = val.trim();
+                    console.log("param:")
+                    console.log(params)
                     return this.lumiDataService.query(params);
                 })
-            );
+            );*/
         } else {
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
+            console.log(params)
         }
         requests.finally(() => this.loadingProgress = 100)
             .subscribe(
