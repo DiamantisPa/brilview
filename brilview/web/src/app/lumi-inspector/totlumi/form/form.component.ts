@@ -76,14 +76,15 @@ export class FormComponent implements OnInit {
         this.loadingProgress = 0;
         let requests = null;
         if (this.params.normtag && this.params.type === '-normtag-') {
-            let norm_params = this.params.normtag.split(',')
+            let norm_params = this.params.normtag
+            norm_params = norm_params.split(',')
             norm_params = norm_params.filter(function(str) {     //delete white spaces elements
                 return /\S/.test(str);
             });
-            this.params['normtag']=norm_params.map(function (val) { /// delete white spaces for each string
-                console.log(val)
+            norm_params = norm_params.map(function (val) { /// delete white spaces for each string
                 return val.trim();
               });
+            this.params['normtag']= norm_params.toString()
             const params = Object.assign({}, this.params);
             console.log(params)
             requests =  this.lumiDataService.query(params);
