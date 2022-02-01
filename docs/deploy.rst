@@ -8,13 +8,26 @@ the Brilview project.
 
 Log in to CERN Openshift
 ------------------------
-
+Openshift 3:
 .. highlight:: bash
 ::
 
   oc login https://openshift.cern.ch
 
-First time setup
+
+Openshift 4:
+.. highlight:: bash
+::
+
+  oc login https://paas.cern.ch/
+
+Openshift 4 - Playground(For test-brilview):
+.. highlight:: bash
+::
+
+  oc login https://paas-stg.cern.ch/
+
+First time setup for Openshift 3
 ----------------
 
 Project Creation
@@ -75,6 +88,77 @@ https://cern.service-now.com/service-portal?id=kb_article&n=KB0005442
 
 Note: cern-sso-proxy works with site globally unique in cern domain.
 If the requested web site is already registered with other hosting service, e.g. AFS, EOS, the sso registration will fail.
+
+First time setup for Openshift 4
+----------------
+
+Project Creation
+^^^^^^^^^^^^^^^^
+
+Go to https://webservices.web.cern.ch/webservices/ and "Create a new website" as "PaaS Project".
+
+Select "Official", add "Project name" and "Project description".
+
+Note: More information in the below link
+https://paas.docs.cern.ch/1._Getting_Started/1-create-paas-project/
+
+Create CVMFS volume claim
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Go to project web console https://paas.cern.ch/k8s/cluster/projects/brilview/
+
+1. Change profile "Developer" to "Administrator"
+2. "Storage" -> "PersistentVolumeClaims" -> "Create PersistentVolumeClaims"
+3. Fill the form:
+
+   a. "Storage Class": cvmfs-cms-bril.cern.ch
+   b. "Name": cvmfs-bril
+   c. "Access Mode": Read Only (ROX)
+   d. "Size": 1 MiB
+
+      See https://paas.docs.cern.ch/3._Storage/cvmfs/
+
+3. Click "Create"
+
+Deploy Brilview containers
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. highlight:: bash
+::
+
+  oc create -f nginx/template.yaml
+  oc start-build nginx-bc --from-dir=nginx
+  oc create -f brilview/template.yaml
+  oc start-build brilview-server-bc --from-dir=brilview
+  oc create -f client-compiler/template.yaml
+  oc start-build client-compiler-bc --from-dir=client-compiler
+  oc create -f grafana-influxdb/template.yaml
+  oc start-build grafana-influxdb-bc --from-dir=grafana-influxdb
+
+Do not worry if nginx container is "crashing frequently" until client files are
+compiled. Health check fails until nginx can serve index file.
+
+Add CERN SSO
+^^^^^^^^^^^^
+
+Go to project web console https://paas.cern.ch/k8s/cluster/projects/brilview/
+as a "Developer":
+
+1. Click in "+Add"
+2. Search for "sso" and click on "Install Helm Chart"
+3. In "Upstream Application" -> "Service definition" point to 
+  a. SERVICE_NAME: nginx-service 
+  b. Port: 8000
+4. In "Routing Configuration" add "Public Application Hostname": brilview
+5. In "Authentication Options" -> "Allowed Role" choose e-groups in AUTHORIZED_GROUPS (e.g. 'cern-users', 'cern-staff', 'CMS-BRIL-Project')
+6. Click "Create"
+
+https://paas.docs.cern.ch/4._CERN_Authentication/2-deploy-sso-proxy/
+
+Note: cern-sso-proxy works with a site globally unique in cern domain.
+If the requested website is already registered with other hosting service, e.g. AFS, EOS, the sso registration will fail.
+
+
 
 Build frontend client
 ^^^^^^^^^^^^^^^^^^^^^
