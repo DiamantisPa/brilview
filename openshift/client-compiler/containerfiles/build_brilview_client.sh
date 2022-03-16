@@ -8,15 +8,17 @@ git clone https://github.com/cms-bril/brilview.git brilview_src
 cd brilview_src/brilview/web
 source ~/.bashrc 
 node -v
+npm install node-sass@2.12
+#npm install --unsafe-perm
 yarn install --ignore-engines
-# npm config set jobs 1
-# npm install --unsafe-perm
-rm -rf /client_files_for_serving/*
+#rm -rf /client_files_for_serving/*
 cp -R dist/* /client_files_for_serving/
-
+echo "showing files"
+ls /client_files_for_serving/
 echo "Finished. Going to sleep."
 echo "To update client again: scale down to 0 pods, then scale up to 1"
-
+sleep 5000
 trap 'trap - TERM; kill -s TERM -- -$$' TERM
 tail -f /dev/null & wait
 exit 0
+
