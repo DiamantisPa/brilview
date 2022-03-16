@@ -3,6 +3,13 @@ Release log
 
 1.4
 -----
+1.4.5
+^^^^^
+
+2022-03-16
+
+* Fixed deployment for new okd4
+
 
 1.4.4
 ^^^^^
