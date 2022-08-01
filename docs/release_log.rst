@@ -3,6 +3,15 @@ Release log
 
 1.4
 -----
+1.4.6
+^^^^^
+
+2022-08-01
+
+* Fixed client-compiler build script confliction
+* Updated docs
+
+
 1.4.5
 ^^^^^
 
