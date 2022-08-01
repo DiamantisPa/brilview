@@ -19,13 +19,13 @@ Openshift 4:
 .. highlight:: bash
 ::
 
-  oc login https://paas.cern.ch/
+  oc login https://api.paas.okd.cern.ch/ -u <username>
 
-Openshift 4 - Playground(For test-brilview):
+Openshift 4 - Playground:
 .. highlight:: bash
 ::
 
-  oc login https://paas-stg.cern.ch/
+  oc login https://api.paas-stg.okd.cern.ch/ -u <username>
 
 First time setup for Openshift 3
 ----------------
@@ -113,7 +113,7 @@ Go to project web console https://paas.cern.ch/k8s/cluster/projects/brilview/
 
    a. "Storage Class": cvmfs-cms-bril.cern.ch
    b. "Name": cvmfs-bril
-   c. "Access Mode": Read Only (ROX)
+   c. "Access Mode": Read Only (ROX) or Read Write Many (RWX)
    d. "Size": 1 MiB
 
       See https://paas.docs.cern.ch/3._Storage/cvmfs/

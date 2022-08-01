@@ -8,7 +8,7 @@ git clone https://github.com/cms-bril/brilview.git brilview_src
 cd brilview_src/brilview/web
 source ~/.bashrc 
 node -v
-npm install node-sass@2.12
+npm install node-sass@4.12
 #npm install --unsafe-perm
 yarn install --ignore-engines
 #rm -rf /client_files_for_serving/*
