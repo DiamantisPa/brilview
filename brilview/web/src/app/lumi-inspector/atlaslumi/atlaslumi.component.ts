@@ -34,6 +34,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        console.log("hey");
     }
 
     ngAfterViewInit() {
