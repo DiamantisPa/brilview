@@ -55,6 +55,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
         const obs = this.atlasDataService.query(event)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
+            console.log(resp);
             const d = resp['data'];
             this.fillnum = d['single_fillnum'];
             this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
