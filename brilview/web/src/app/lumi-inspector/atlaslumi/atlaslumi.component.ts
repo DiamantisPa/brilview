@@ -64,6 +64,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             this.chart.autoZoom();
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));
+        console.log(obs);
         return obs;
     }
 
