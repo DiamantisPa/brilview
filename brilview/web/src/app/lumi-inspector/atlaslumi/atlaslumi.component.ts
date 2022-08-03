@@ -51,6 +51,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     queryAtlasLumi(event) {
+        console.log(event);
         this.chart.clearChart();
         this.onQueryStart();
         const obs = this.atlasDataService.query(event)
