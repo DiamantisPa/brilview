@@ -24,7 +24,7 @@ def get_handler_fn(options):
     if 'query_type' not in options:
         raise KeyError(
             'Query type is missing. Could not determine handlername.')
-
+    print(options)
     t = str(options['query_type']).lower()
     if t == 'timelumi':
         return _handlerfn_cmmd_lumi
