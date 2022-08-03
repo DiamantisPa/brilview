@@ -34,6 +34,7 @@ def root():
 @app.route('/api/query', methods=['GET', 'POST'])
 @app.route('/query', methods=['GET', 'POST'])
 def query():
+    logging.info("query")
     data = flask.request.json
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
