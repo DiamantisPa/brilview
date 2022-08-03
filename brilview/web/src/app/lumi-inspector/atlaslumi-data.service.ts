@@ -22,6 +22,7 @@ export class AtlaslumiDataService {
         let _params = Object.assign({}, params, {
             'query_type': 'atlaslumi',
         });
+        console.log(_params);
         const request = this.http.post('/api/query', _params, AtlaslumiDataService.postOptions)
             .do(data => {
                 if (!data) {
