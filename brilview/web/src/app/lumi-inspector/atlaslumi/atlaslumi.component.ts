@@ -34,7 +34,6 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log("hey");
     }
 
     ngAfterViewInit() {
@@ -51,13 +50,14 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     queryAtlasLumi(event) {
-        console.log(event);
+        //console.log(event);
+        console.log("queryAtlasLumi");
         this.chart.clearChart();
         this.onQueryStart();
         const obs = this.atlasDataService.query(event)
             .finally(() => this.loadingProgress = 100);
         obs.subscribe(resp => {
-            console.log(resp);
+            //console.log(resp);
             const d = resp['data'];
             this.fillnum = d['single_fillnum'];
             this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
@@ -67,7 +67,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             this.chart.autoZoom();
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));
-        console.log(obs);
+        //console.log(obs);
         return obs;
     }
 

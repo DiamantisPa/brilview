@@ -19,6 +19,7 @@ export class AtlaslumiDataService {
     constructor(private http: HttpClient) {}
 
     query(params) {
+        console.log("query atlaslumi service");
         let _params = Object.assign({}, params, {
             'query_type': 'atlaslumi',
         });
