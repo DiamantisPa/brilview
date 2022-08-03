@@ -1,5 +1,5 @@
 from .handlers import cmmdhandler, lumidbhandler
-
+import logging
 
 def query(options):
     """Choose appropriate handler and call it with options.
@@ -21,10 +21,11 @@ def get_handler_fn(options):
     :rtype: function
 
     """
+    logging.info(options)
     if 'query_type' not in options:
         raise KeyError(
             'Query type is missing. Could not determine handlername.')
-    print(options)
+
     t = str(options['query_type']).lower()
     if t == 'timelumi':
         return _handlerfn_cmmd_lumi
