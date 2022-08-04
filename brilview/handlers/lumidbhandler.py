@@ -180,7 +180,7 @@ def _get_last_fill_number(engine, query=None):
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
     print('get last fill engine= ', engine)
-    print('get last fill number= ', select)
+    print('get last fill number, select= ', select)
     resultproxy = engine.execute(select)
     print('get last fill number, resultproxy=', resultproxy)
     rows = resultproxy.fetchall()
@@ -194,6 +194,7 @@ def _datetime2seconds(dt):
 
 if __name__ == '__main__':
     servicemap = parseservicemap('../data/db_read.ini')
+    print('servicemap ', servicemap)
     engine = create_engine(servicemap, 'online')
     print(_get_iovtags(engine))
     print(get_iovtags())
