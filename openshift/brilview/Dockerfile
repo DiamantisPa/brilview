@@ -20,6 +20,8 @@ CMD /start.sh
 
 COPY containerfiles /
 
+ENV PYTHONUNBUFFERED=1
+
 RUN git clone https://github.com/DiamantisPa/brilview --branch=1.4.6 &> /dev/null\
  && cd brilview\
  && /opt/brilconda/bin/python ./setup.py install\
