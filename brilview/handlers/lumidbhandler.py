@@ -179,9 +179,11 @@ def _get_last_fill_number(engine, query=None):
             select = 'select max(LHCFILL) from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
-    print(select)
-    resultproxy = engine.execute(select);
+    print('get last fill number= ', select)
+    resultproxy = engine.execute(select)
+    print('get last fill number, resultproxy=', resultproxy)
     rows = resultproxy.fetchall()
+    print('get last fill number, rows=', rows)
     return int(rows[0][0])
 
 
