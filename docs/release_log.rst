@@ -3,6 +3,13 @@ Release log
 
 1.4
 -----
+1.4.7
+^^^^^
+
+2022-08-08
+
+* New 'RAMSES' luminosity type
+
 1.4.6
 ^^^^^
 
