@@ -9,6 +9,7 @@ Release log
 2022-08-08
 
 * New 'RAMSES' luminosity type
+* Updated build_brilview_client.sh to fetch last client version from git
 
 1.4.6
 ^^^^^
