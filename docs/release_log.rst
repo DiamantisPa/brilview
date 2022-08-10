@@ -3,13 +3,19 @@ Release log
 
 1.4
 -----
+1.4.9
+^^^^^
+
+2022-08-10
+
+* Removed 'BCM1FSI' luminosity type
+
 1.4.8
 ^^^^^
 
 2022-08-10
 
 * New 'BCM1FUTCA' luminosity type
-* Removed 'BCM1FSI' luminosity type
 
 1.4.7
 ^^^^^
