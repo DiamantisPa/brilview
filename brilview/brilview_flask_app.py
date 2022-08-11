@@ -38,6 +38,7 @@ def query():
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
     result = queryrouter.query(data)
+    print("query resutl ", result)
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 

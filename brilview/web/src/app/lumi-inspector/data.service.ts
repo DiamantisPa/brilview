@@ -37,7 +37,10 @@ export class LumiDataService {
         let _params = null;
         try {
             _params = this.normalizeQueryParams(params);
+            console.log("normalized params");
+            console.log(_params);
         } catch (e) {
+            console.log(e.message);
             return Observable.throw(e.message);
         }
         const request = this.http.post('/api/query', _params, LumiDataService.postOptions)

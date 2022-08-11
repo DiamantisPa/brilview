@@ -88,6 +88,7 @@ export class FormComponent implements OnInit {
             const params = Object.assign({}, this.params);
             console.log(params)
             requests =  this.lumiDataService.query(params);
+            console.log(requests)
             /*new ObservabeFrom(
                 this.params.normtag.split(',')).pipe(
                 concatMap((val: string) => {
@@ -101,6 +102,7 @@ export class FormComponent implements OnInit {
         } else {
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
+            console.log(requests)
             console.log(params)
         }
         requests.finally(() => this.loadingProgress = 100)
