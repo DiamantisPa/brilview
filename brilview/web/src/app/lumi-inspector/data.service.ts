@@ -47,8 +47,10 @@ export class LumiDataService {
             .do(data => {
                 if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
                     if (data.hasOwnProperty('message')) {
+                        console.log(data['message']);
                         throw data['message'];
                     }
+                    console.log(data);
                     throw data;
                 }
             }).share();
