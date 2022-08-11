@@ -40,6 +40,7 @@ export class LumiDataService {
             console.log("normalized params");
             console.log(_params);
         } catch (e) {
+            console.log("e.message");
             console.log(e.message);
             return Observable.throw(e.message);
         }
@@ -47,14 +48,18 @@ export class LumiDataService {
             .do(data => {
                 if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
                     if (data.hasOwnProperty('message')) {
+                        console.log("data['message']");
                         console.log(data['message']);
                         throw data['message'];
                     }
+                    console.log('data');
                     console.log(data);
                     throw data;
                 }
             }).share();
         request.subscribe(data => {
+            console.log('subscribe data');
+            console.log(data);
             const id = this.addToStorage(params, data['data']);
             this.onNewLumiData$.next({type: 'new', data: id});
         }, error => {});
