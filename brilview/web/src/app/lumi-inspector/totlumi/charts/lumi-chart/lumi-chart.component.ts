@@ -37,6 +37,8 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
         const newLumiData = this.dataService.getLumiDataFromStorage(dataid);
         const newData = newLumiData.data;
         const params = newLumiData.params;
+        console.log("newData");
+        console.log(newData);
 
         if (this.chart.chartData.length <= 0) {
             this.chartUnit = params['unit'];
@@ -64,6 +66,9 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
     }
 
     protected _addSeries(data, yfield, name, params) {
+        console.log("_addSeries");
+        console.log(data);
+        console.log(yfield);
         this.chart.addSeries(
             name,
             data['tssec'].map(t => t*1000),

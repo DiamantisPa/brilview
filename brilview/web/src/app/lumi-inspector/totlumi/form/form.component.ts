@@ -86,8 +86,10 @@ export class FormComponent implements OnInit {
               });
             this.params['normtag']= norm_params.toString()
             const params = Object.assign({}, this.params);
+            console.log('query params')
             console.log(params)
             requests =  this.lumiDataService.query(params);
+            console.log('query requests')
             console.log(requests)
             /*new ObservabeFrom(
                 this.params.normtag.split(',')).pipe(
@@ -100,6 +102,7 @@ export class FormComponent implements OnInit {
                 })
             );*/
         } else {
+            console.log('query else')
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
             console.log(requests)
