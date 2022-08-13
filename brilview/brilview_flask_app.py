@@ -40,7 +40,7 @@ def query():
     result = queryrouter.query(data)
     print("query resutl ", result)
     print("query resutl json", json.dumps(result))
-    return flask.Response(json.dumps(result), mimetype='application/json')
+    return flask.Response(json.dumps(result, allow_nan=False), mimetype='application/json')
 
 
 @app.route('/test/<prm>', methods=['GET', 'POST', 'PUT', 'DELETE'])
