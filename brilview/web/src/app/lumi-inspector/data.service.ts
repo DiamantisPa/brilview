@@ -58,12 +58,15 @@ export class LumiDataService {
                 }
             }).share();
         console.log('trying to subscribe data');
+        console.log(request);
         request.subscribe(data => {
             console.log('subscribe data');
             console.log(data);
             const id = this.addToStorage(params, data['data']);
             this.onNewLumiData$.next({type: 'new', data: id});
-        }, error => {});
+        }, error => {
+            console.log('subscribe error');
+        });
         return request;
     }
 

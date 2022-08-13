@@ -105,7 +105,9 @@ export class FormComponent implements OnInit {
             console.log('query else')
             const params = Object.assign({}, this.params);
             requests = this.lumiDataService.query(params);
+            console.log("query requests")
             console.log(requests)
+            console.log("query params")
             console.log(params)
         }
         requests.finally(() => this.loadingProgress = 100)
