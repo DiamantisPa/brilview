@@ -40,18 +40,21 @@ def query():
         return ('Bad request. Query body must be not empty.', 400)
     result = queryrouter.query(data)
 
-    for index, value in result['data']['delivered']:
-        if math.isnan(value):
-            result['data']['delivered'][index] = 0
-            print("found nan in delivered")
-
-    for index, value in result['data']['recorded']:
-        if math.isnan(value):
-            result['data']['recorded'][index] = 0
-            print("found nan in recorded")
-
     print("query resutl ", result)
     print("query resutl json", json.dumps(result))
+
+    print("result['data']['delivered']", result['data']['delivered'])
+    print("result['data']['recorded']", result['data']['recorded'])
+    # for index, value in result['data']['delivered']:
+    #     if math.isnan(value):
+    #         result['data']['delivered'][index] = 0
+    #         print("found nan in delivered")
+
+    # for index, value in result['data']['recorded']:
+    #     if math.isnan(value):
+    #         result['data']['recorded'][index] = 0
+    #         print("found nan in recorded")
+
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 
