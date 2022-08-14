@@ -3,6 +3,7 @@ import threading
 import flask
 import json
 import logging
+import math
 from brilview import bvconfig, queryrouter, bvlogging
 
 
@@ -38,9 +39,20 @@ def query():
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
     result = queryrouter.query(data)
+
+    for index, value in result['data']['delivered']:
+        if math.isnan(value):
+            result['data']['delivered'][index] = 0
+            print("found nan in delivered")
+
+    for index, value in result['data']['recorded']:
+        if math.isnan(value):
+            result['data']['recorded'][index] = 0
+            print("found nan in recorded")
+
     print("query resutl ", result)
     print("query resutl json", json.dumps(result))
-    return flask.Response(json.dumps(result, allow_nan=False), mimetype='application/json')
+    return flask.Response(json.dumps(result), mimetype='application/json')
 
 
 @app.route('/test/<prm>', methods=['GET', 'POST', 'PUT', 'DELETE'])
