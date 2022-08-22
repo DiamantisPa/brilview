@@ -53,7 +53,7 @@ def _handlerfn_cmmd_lumi(options):
     :rtype: dict
 
     """
-
+    print("_handlerfn_cmmd_lumi options", options)
     return cmmdhandler.get_brilcalc_lumi(options)
 
 

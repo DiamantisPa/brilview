@@ -254,8 +254,15 @@ def _make_normtag_filepath(normtag):
 
 
 def _parse_brilcalc_output(result, byls, pileup, hltpath):
+    print("_parse_brilcalc_output result", result)
+    print("_parse_brilcalc_output byls", byls)
+    print("_parse_brilcalc_output pileup", pileup)
+    print("_parse_brilcalc_output hltpath", hltpath)
+
     lines = [l for l in result.splitlines() if
              len(l) and not l.startswith('#')]
+
+    print("_parse_brilcalc_output lines", lines)
 
     if not len(lines):  # no data found
         raise ValueError('Empty result')
