@@ -152,16 +152,9 @@ def _get_live_bestlumi(engine, query):
 
 
 def _get_atlaslumi(engine, query):
-    if ('fillnum' not in query or query['fillnum'] is None):
-        fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
-    else:
-        fillnum = int(query['fillnum'])
-    if fillnum < 1000:
-        raise ValueError('fillnum {} out of range.'. format(fillnum))
-    select = (
-        'select DIPTIME, LHCFILL, LUMI_TOTINST '
-        'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
-        'ORDER BY DIPTIME ASC')
+    print()
+    print('atlas schema')
+    print()
     metadata = sql.MetaData()
     metadata.reflect(engine)
     insp = sql.inspect(engine)
@@ -175,6 +168,18 @@ def _get_atlaslumi(engine, query):
                     field = name if value in [True, 'auto'] else value 
                     print(field, end=' ')
             print()
+
+    if ('fillnum' not in query or query['fillnum'] is None):
+        fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
+    else:
+        fillnum = int(query['fillnum'])
+    if fillnum < 1000:
+        raise ValueError('fillnum {} out of range.'. format(fillnum))
+    select = (
+        'select DIPTIME, LHCFILL, LUMI_TOTINST '
+        'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+        'ORDER BY DIPTIME ASC')
+
 
     resultproxy = engine.execute(select, fillnum=fillnum)
     rows = resultproxy.fetchall()
