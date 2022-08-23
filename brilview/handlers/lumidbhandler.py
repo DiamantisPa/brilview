@@ -113,10 +113,15 @@ def _get_iovtags(engine):
 
 
 def _get_live_bestlumi(engine, query):
+
+    print()
+    print("_get_live_bestlumi")
+    print()
+
     metadata = sql.MetaData()
     metadata.reflect(engine)
     insp = sql.inspect(engine)
-
+    print("metadata", metadata)
     for table_name in metadata.tables:
         print(table_name)
         for column in insp.get_columns(table_name):
@@ -126,7 +131,7 @@ def _get_live_bestlumi(engine, query):
                     field = name if value in [True, 'auto'] else value 
                     print(field, end=' ')
             print()
-            
+
     if 'latest' in query:
         interval = float(query['latest']) / 1000.0
         interval = interval if interval < 86400 else 86400
