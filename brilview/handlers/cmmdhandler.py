@@ -2,6 +2,7 @@ import subprocess
 import traceback
 import re
 import numpy as np
+import math
 import os
 import csv
 #import utils
@@ -318,6 +319,19 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         recordeds.append(float(row[3]))
         if pileup:
             pileups.append(float(row[4]))
+
+    print("result['data']['delivered']", delivereds)
+    print("result['data']['recorded']", recordeds)
+    
+    for index, value in enumerate(delivereds):
+        if math.isnan(value):
+            delivereds[index] = 0
+            print("found nan in delivered")
+
+    for index, value in enumerate(recordeds):
+        if math.isnan(value):
+            recordeds[index] = 0
+            print("found nan in recorded")
 
     return {
         'fillnum': fillnums,

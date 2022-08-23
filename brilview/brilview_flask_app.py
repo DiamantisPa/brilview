@@ -3,7 +3,6 @@ import threading
 import flask
 import json
 import logging
-import math
 from brilview import bvconfig, queryrouter, bvlogging
 
 
