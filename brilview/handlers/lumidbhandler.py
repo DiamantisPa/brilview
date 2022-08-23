@@ -73,6 +73,7 @@ def create_engine(servicemap, servicename):
     passwd = base64.b64decode(servicemap[servicename][2].encode('ascii')).decode('utf-8')
     descriptor = servicemap[servicename][3]
     connurl = 'oracle+cx_oracle://{}:{}@{}'.format(user, passwd, descriptor)
+    print(connurl)
     return sql.create_engine(connurl)
 
 
