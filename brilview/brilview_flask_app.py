@@ -43,8 +43,8 @@ def query():
     print("query resutl ", result)
     print("query resutl json", json.dumps(result))
 
-    print("result['data']['delivered']", result['data']['delivered'])
-    print("result['data']['recorded']", result['data']['recorded'])
+    #print("result['data']['delivered']", result['data']['delivered'])
+    #print("result['data']['recorded']", result['data']['recorded'])
     
     for index, value in enumerate(result['data']['delivered']):
         if math.isnan(value):
