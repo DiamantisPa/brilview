@@ -107,8 +107,11 @@ def get_brilcalc_lumi(args={}):
 
     bvlogging.get_logger().debug(cmd)
     try:
+        print("get_brilcalc_lumi cmd", cmd)
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        print("get_brilcalc_lumi r", r)
         r = r.decode('utf-8')
+        print("get_brilcalc_lumi r utf", r)
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
             out = re.sub('File ".*?"', '<FILE>', e.output)
