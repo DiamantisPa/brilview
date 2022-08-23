@@ -73,7 +73,7 @@ def create_engine(servicemap, servicename):
     passwd = base64.b64decode(servicemap[servicename][2].encode('ascii')).decode('utf-8')
     descriptor = servicemap[servicename][3]
     connurl = 'oracle+cx_oracle://{}:{}@{}'.format(user, passwd, descriptor)
-    print(connurl)
+    print('create_engine ', connurl)
     return sql.create_engine(connurl)
 
 
@@ -162,6 +162,20 @@ def _get_atlaslumi(engine, query):
         'select DIPTIME, LHCFILL, LUMI_TOTINST '
         'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
         'ORDER BY DIPTIME ASC')
+    metadata = sql.MetaData()
+    metadata.reflect(engine)
+    insp = sql.inspect(engine)
+
+    for table_name in metadata.tables:
+        print(table_name)
+        for column in insp.get_columns(table_name):
+            for name,value in column.items():
+                print('  ', end='')
+                if value:
+                    field = name if value in [True, 'auto'] else value 
+                    print(field, end=' ')
+            print()
+
     resultproxy = engine.execute(select, fillnum=fillnum)
     rows = resultproxy.fetchall()
     return {
