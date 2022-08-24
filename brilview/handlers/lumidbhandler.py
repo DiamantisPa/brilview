@@ -200,6 +200,10 @@ def _get_atlaslumi(engine, query):
                     print(field, end=' ')
             print()
 
+    select = sql.text('select owner, table_name from all_tables')
+    resultproxy = engine.execute(select)
+    print("fetch all", resultproxy.fetchall())
+
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
     else:
