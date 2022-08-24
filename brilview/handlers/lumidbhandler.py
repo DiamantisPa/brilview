@@ -121,7 +121,11 @@ def _get_live_bestlumi(engine, query):
     metadata = sql.MetaData()
     metadata.reflect(engine)
     insp = sql.inspect(engine)
+
     print("metadata", metadata)
+    print("metadata tables", metadata.tables.keys())
+    print("tables", insp.get_table_names())
+
     for table_name in metadata.tables:
         print(table_name)
         for column in insp.get_columns(table_name):
@@ -178,8 +182,10 @@ def _get_atlaslumi(engine, query):
     metadata = sql.MetaData()
     metadata.reflect(engine)
     insp = sql.inspect(engine)
+
     print("metadata tables", metadata.tables.keys())
     print("tables", insp.get_table_names())
+    
     for table_name in metadata.tables:
         print(table_name)
         for column in insp.get_columns(table_name):
