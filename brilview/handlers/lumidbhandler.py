@@ -178,7 +178,7 @@ def _get_atlaslumi(engine, query):
     metadata = sql.MetaData()
     metadata.reflect(engine)
     insp = sql.inspect(engine)
-
+    print("metadata tables", metadata.tables)
     for table_name in metadata.tables:
         print(table_name)
         for column in insp.get_columns(table_name):
