@@ -231,7 +231,7 @@ def _get_last_fill_number(engine, query=None):
     if (query is not None and 'source' in query):
         src = query['source'].lower()
         if src == 'atlas':
-            select = 'select max(LHCFILL) from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY'
+            select = 'select max(LHCFILL) from ATLAS_LHC_LUMINOSITY'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
     print('get last fill engine= ', engine)
