@@ -150,7 +150,9 @@ def _get_live_bestlumi(engine, query):
             'order by timestamp ASC'
             .format(interval))
         resultproxy = engine.execute(select)
+        print("resultproxy", resultproxy)
         rows = resultproxy.fetchall()
+        print("rows", rows)
     elif 'since' in query:
         since = float(query['since']) / 1000.0
         select = sql.text(
@@ -163,7 +165,9 @@ def _get_live_bestlumi(engine, query):
             'order by timestamp desc)'
             'where rownum < 300 ORDER BY timestamp ASC')
         resultproxy = engine.execute(select, since=since)
+        print("resultproxy", resultproxy)
         rows = resultproxy.fetchall()
+        print("rows", rows)
     return {
         'avg': [r[0] for r in rows],
         'fillnum': [r[1] for r in rows],
@@ -185,7 +189,7 @@ def _get_atlaslumi(engine, query):
 
     print("metadata tables", metadata.tables.keys())
     print("tables", insp.get_table_names())
-    
+
     for table_name in metadata.tables:
         print(table_name)
         for column in insp.get_columns(table_name):
