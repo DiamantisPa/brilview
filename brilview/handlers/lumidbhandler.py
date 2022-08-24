@@ -126,6 +126,9 @@ def _get_live_bestlumi(engine, query):
     print("metadata tables", metadata.tables)
     print("tables", insp.get_table_names())
 
+    select = sql.text('select table_name from all_tables')
+    resultproxy = engine.execute(select)
+    print("fetch all", resultproxy.fetchall())
     # for table_name in metadata.tables:
     #     print(table_name)
     #     for column in insp.get_columns(table_name):
@@ -135,6 +138,12 @@ def _get_live_bestlumi(engine, query):
     #                 field = name if value in [True, 'auto'] else value 
     #                 print(field, end=' ')
     #         print()
+    select = sql.text(
+        'select table_name, column_name '
+        'from all_tab_columns '
+        'WHERE table_name = "cms_bril_monitoring.FASTBESTLUMI"')
+    resultproxy = engine.execute(select)
+    print("fetch all columns", resultproxy.fetchall())
 
     if 'latest' in query:
         interval = float(query['latest']) / 1000.0
@@ -190,19 +199,26 @@ def _get_atlaslumi(engine, query):
     print("metadata tables", metadata.tables.keys())
     print("tables", insp.get_table_names())
 
-    for table_name in metadata.tables:
-        print(table_name)
-        for column in insp.get_columns(table_name):
-            for name,value in column.items():
-                print('  ', end='')
-                if value:
-                    field = name if value in [True, 'auto'] else value 
-                    print(field, end=' ')
-            print()
+    # for table_name in metadata.tables:
+    #     print(table_name)
+    #     for column in insp.get_columns(table_name):
+    #         for name,value in column.items():
+    #             print('  ', end='')
+    #             if value:
+    #                 field = name if value in [True, 'auto'] else value 
+    #                 print(field, end=' ')
+    #         print()
 
     select = sql.text('select table_name from all_tables')
     resultproxy = engine.execute(select)
     print("fetch all", resultproxy.fetchall())
+
+    select = sql.text(
+        'select table_name, column_name '
+        'from all_tab_columns '
+        'WHERE table_name = "ATLAS_LHC_LUMINOSITY"')
+    resultproxy = engine.execute(select)
+    print("fetch all columns", resultproxy.fetchall())
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
