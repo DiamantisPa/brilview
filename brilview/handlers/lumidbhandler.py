@@ -138,12 +138,12 @@ def _get_live_bestlumi(engine, query):
     #                 field = name if value in [True, 'auto'] else value 
     #                 print(field, end=' ')
     #         print()
-    select = sql.text(
-        'select table_name, column_name '
-        'from all_tab_columns '
-        'where table_name = cms_bril_monitoring.FASTBESTLUMI')
-    resultproxy = engine.execute(select)
-    print("fetch all columns", resultproxy.fetchall())
+    # select = sql.text(
+    #     'select table_name, column_name '
+    #     'from all_tab_columns '
+    #     'where table_name = cms_bril_monitoring.FASTBESTLUMI')
+    # resultproxy = engine.execute(select)
+    # print("fetch all columns", resultproxy.fetchall())
 
     if 'latest' in query:
         interval = float(query['latest']) / 1000.0
@@ -212,13 +212,17 @@ def _get_atlaslumi(engine, query):
     select = sql.text('select table_name from all_tables')
     resultproxy = engine.execute(select)
     print("fetch all", resultproxy.fetchall())
-
-    select = sql.text(
-        'select table_name, column_name '
-        'from all_tab_columns '
-        'where table_name = ATLAS_LHC_LUMINOSITY')
+    print()
+    select = sql.text('select * from dba_users')
     resultproxy = engine.execute(select)
-    print("fetch all columns", resultproxy.fetchall())
+    print("fetch schema", resultproxy.fetchall())
+
+    # select = sql.text(
+    #     'select table_name, column_name '
+    #     'from all_tab_columns '
+    #     'where table_name = ATLAS_LHC_LUMINOSITY')
+    # resultproxy = engine.execute(select)
+    # print("fetch all columns", resultproxy.fetchall())
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
