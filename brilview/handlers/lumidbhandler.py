@@ -213,9 +213,9 @@ def _get_atlaslumi(engine, query):
     resultproxy = engine.execute(select)
     print("fetch all", resultproxy.fetchall())
     print()
-    select = sql.text('select * from sys.dba_users')
-    resultproxy = engine.execute(select)
-    print("fetch schema", resultproxy.fetchall())
+    # select = sql.text('select * from sys.dba_users')
+    # resultproxy = engine.execute(select)
+    # print("fetch schema", resultproxy.fetchall())
 
     # select = sql.text(
     #     'select table_name, column_name '
@@ -232,7 +232,7 @@ def _get_atlaslumi(engine, query):
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     select = (
         'select DIPTIME, LHCFILL, LUMI_TOTINST '
-        'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
         'ORDER BY DIPTIME ASC')
 
 
@@ -251,7 +251,7 @@ def _get_last_fill_number(engine, query=None):
     if (query is not None and 'source' in query):
         src = query['source'].lower()
         if src == 'atlas':
-            select = 'select max(LHCFILL) from ATLAS_LHC_LUMINOSITY'
+            select = 'select max(LHCFILL) from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
     print('get last fill engine= ', engine)
