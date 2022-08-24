@@ -119,22 +119,22 @@ def _get_live_bestlumi(engine, query):
     print()
 
     metadata = sql.MetaData()
-    metadata.reflect(engine)
+    metadata.reflect(bind=engine)
     insp = sql.inspect(engine)
 
     print("metadata", metadata)
-    print("metadata tables", metadata.tables.keys())
+    print("metadata tables", metadata.tables)
     print("tables", insp.get_table_names())
 
-    for table_name in metadata.tables:
-        print(table_name)
-        for column in insp.get_columns(table_name):
-            for name,value in column.items():
-                print('  ', end='')
-                if value:
-                    field = name if value in [True, 'auto'] else value 
-                    print(field, end=' ')
-            print()
+    # for table_name in metadata.tables:
+    #     print(table_name)
+    #     for column in insp.get_columns(table_name):
+    #         for name,value in column.items():
+    #             print('  ', end='')
+    #             if value:
+    #                 field = name if value in [True, 'auto'] else value 
+    #                 print(field, end=' ')
+    #         print()
 
     if 'latest' in query:
         interval = float(query['latest']) / 1000.0
