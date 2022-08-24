@@ -209,11 +209,11 @@ def _get_atlaslumi(engine, query):
     #                 print(field, end=' ')
     #         print()
 
-    select = sql.text('select table_name from all_tables')
+    select = sql.text('select owner, table_name from all_tables')
     resultproxy = engine.execute(select)
     print("fetch all", resultproxy.fetchall())
     print()
-    select = sql.text('select * from dba_users')
+    select = sql.text('select * from sys.dba_users')
     resultproxy = engine.execute(select)
     print("fetch schema", resultproxy.fetchall())
 
