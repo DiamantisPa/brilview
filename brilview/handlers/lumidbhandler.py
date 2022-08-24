@@ -141,7 +141,7 @@ def _get_live_bestlumi(engine, query):
     select = sql.text(
         'select table_name, column_name '
         'from all_tab_columns '
-        'WHERE table_name = "cms_bril_monitoring.FASTBESTLUMI"')
+        'where table_name = cms_bril_monitoring.FASTBESTLUMI')
     resultproxy = engine.execute(select)
     print("fetch all columns", resultproxy.fetchall())
 
@@ -216,7 +216,7 @@ def _get_atlaslumi(engine, query):
     select = sql.text(
         'select table_name, column_name '
         'from all_tab_columns '
-        'WHERE table_name = "ATLAS_LHC_LUMINOSITY"')
+        'where table_name = ATLAS_LHC_LUMINOSITY')
     resultproxy = engine.execute(select)
     print("fetch all columns", resultproxy.fetchall())
 
