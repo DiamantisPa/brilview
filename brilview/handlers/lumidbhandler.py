@@ -196,8 +196,8 @@ def _get_atlaslumi(engine, query):
     metadata.reflect(engine)
     insp = sql.inspect(engine)
 
-    print("metadata tables", metadata.tables.keys())
-    print("tables", insp.get_table_names())
+    # print("metadata tables", metadata.tables.keys())
+    # print("tables", insp.get_table_names())
 
     # for table_name in metadata.tables:
     #     print(table_name)
@@ -220,6 +220,15 @@ def _get_atlaslumi(engine, query):
         'where table_name=CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY')
     resultproxy = engine.execute(select)
     print("fetch all columns", resultproxy.fetchall())
+
+    select = sql.text('select * from all_tab_cols')
+    resultproxy = engine.execute(select)
+    print("fetch all columns", resultproxy.fetchall())
+
+    columns_table = insp.get_columns('ATLAS_LHC_LUMINOSITY', 'CMS_OMS_DIPLOGGER') #schema is optional
+    
+    for c in columns_table :
+        print(c['name'], c['type'])
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
