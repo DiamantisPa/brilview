@@ -235,6 +235,15 @@ def _get_atlaslumi(engine, query):
     for c in columns_table :
         print(c['name'], c['type'])
     print()
+
+    select = (
+            'select * from '
+            '(select * '
+            'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY)'
+            'where rownum < 26')
+
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    print("fetch rows", resultproxy.fetchall())
     # select = sql.text(
     #     'select column_name '
     #     'from all_tab_columns '
