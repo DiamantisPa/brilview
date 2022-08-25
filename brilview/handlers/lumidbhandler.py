@@ -213,16 +213,13 @@ def _get_atlaslumi(engine, query):
     resultproxy = engine.execute(select)
     print("fetch all", resultproxy.fetchall())
     print()
-    # select = sql.text('select * from sys.dba_users')
-    # resultproxy = engine.execute(select)
-    # print("fetch schema", resultproxy.fetchall())
 
-    # select = sql.text(
-    #     'select table_name, column_name '
-    #     'from all_tab_columns '
-    #     'where table_name = ATLAS_LHC_LUMINOSITY')
-    # resultproxy = engine.execute(select)
-    # print("fetch all columns", resultproxy.fetchall())
+    select = sql.text(
+        'select table_name, column_name '
+        'from all_tab_columns '
+        'where table_name = "CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY"')
+    resultproxy = engine.execute(select)
+    print("fetch all columns", resultproxy.fetchall())
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
