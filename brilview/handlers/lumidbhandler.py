@@ -222,13 +222,19 @@ def _get_atlaslumi(engine, query):
     
     for c in columns_table :
         print(c['name'], c['type'])
-
+    print()
     print("columns LHCFILL', 'CMS_LUMI_PROD")
     columns_table = insp.get_columns('LHCFILL', 'CMS_LUMI_PROD') #schema is optional
     
     for c in columns_table :
         print(c['name'], c['type'])
-
+    print()
+    print("columns cms_lumi_prod.ids_datatag")
+    columns_table = insp.get_columns('ids_datatag', 'cms_lumi_prod') #schema is optional
+    
+    for c in columns_table :
+        print(c['name'], c['type'])
+    print()
     # select = sql.text(
     #     'select column_name '
     #     'from all_tab_columns '
@@ -243,8 +249,8 @@ def _get_atlaslumi(engine, query):
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     select = (
-        'select DIPTIME, LHCFILL, LUMI_TOTINST '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+        'select DIPTIME, DIP_ID, LUMI_TOTINST '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
         'ORDER BY DIPTIME ASC')
 
 
@@ -263,7 +269,7 @@ def _get_last_fill_number(engine, query=None):
     if (query is not None and 'source' in query):
         src = query['source'].lower()
         if src == 'atlas':
-            select = 'select max(LHCFILL) from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY'
+            select = 'select max(DIP_ID) from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
     print('get last fill engine= ', engine)
