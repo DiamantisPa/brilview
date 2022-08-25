@@ -235,10 +235,6 @@ def _get_atlaslumi(engine, query):
     for c in columns_table :
         print(c['name'], c['type'])
     print()
-
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
    
     print("cms_bril_monitoring.FASTBESTLUMI")
     columns_table = insp.get_columns('FASTBESTLUMI', 'cms_bril_monitoring') #schema is optional
@@ -247,11 +243,18 @@ def _get_atlaslumi(engine, query):
         print(c['name'], c['type'])
     print()
 
-    select = (
-            'select * from '
-            '(select * '
-            'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY)'
-            'where rownum < 26')
+    interval = float(query['latest']) / 1000.0
+    interval = interval if interval < 86400 else 86400
+    select = sql.text(
+        'select * from '
+        '(select * '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+        'order by diptime DESC) vals, '
+        '(select max(diptime) as maxts '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY) ts '
+        'where vals.diptime >= (ts.maxts - interval \'{}\' second) '
+        'order by diptime ASC'
+        .format(interval))
 
     resultproxy = engine.execute(select)
     print("fetch rows", resultproxy.fetchall())
