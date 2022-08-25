@@ -215,7 +215,7 @@ def _get_atlaslumi(engine, query):
     print()
 
     select = sql.text(
-        'select table_name, column_name '
+        'select column_name '
         'from all_tab_columns '
         'where table_name=:name ')
     resultproxy = engine.execute(select, name="CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY")
