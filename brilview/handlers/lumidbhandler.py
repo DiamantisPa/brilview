@@ -217,8 +217,8 @@ def _get_atlaslumi(engine, query):
     select = sql.text(
         'select table_name, column_name '
         'from all_tab_columns '
-        'where table_name = "CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY"')
-    resultproxy = engine.execute(select)
+        'where table_name=:name ')
+    resultproxy = engine.execute(select, name="CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY")
     print("fetch all columns", resultproxy.fetchall())
 
     if ('fillnum' not in query or query['fillnum'] is None):
