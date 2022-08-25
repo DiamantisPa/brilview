@@ -236,13 +236,24 @@ def _get_atlaslumi(engine, query):
         print(c['name'], c['type'])
     print()
 
+    for c in columns_table :
+        print(c['name'], c['type'])
+    print()
+   
+    print("cms_bril_monitoring.FASTBESTLUMI")
+    columns_table = insp.get_columns('FASTBESTLUMI', 'cms_bril_monitoring') #schema is optional
+    
+    for c in columns_table :
+        print(c['name'], c['type'])
+    print()
+
     select = (
             'select * from '
             '(select * '
             'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY)'
             'where rownum < 26')
 
-    resultproxy = engine.execute(select, fillnum=fillnum)
+    resultproxy = engine.execute(select)
     print("fetch rows", resultproxy.fetchall())
     # select = sql.text(
     #     'select column_name '
