@@ -269,6 +269,8 @@ def _get_atlaslumi(engine, query):
     resultproxy = engine.execute(select, fillnum=fillnum)
     print("dip_ids ", resultproxy.fetchall())
     rows = resultproxy.fetchall()
+    rows = [r[0] for r in rows]
+    print('rows', rows)
     print('min', rows[0])
     print('max', rows[-1])
 
