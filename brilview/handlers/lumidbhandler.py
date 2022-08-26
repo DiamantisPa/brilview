@@ -271,8 +271,9 @@ def _get_atlaslumi(engine, query):
     rows = resultproxy.fetchall()
     rows = [r[0] for r in rows]
     print('rows', rows)
-    print('min', rows[0])
-    print('max', rows[-1])
+    print('rows type', type(rows))
+    # print('min', rows[0])
+    # print('max', rows[-1])
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
