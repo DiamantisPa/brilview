@@ -243,27 +243,31 @@ def _get_atlaslumi(engine, query):
         print(c['name'], c['type'])
     print()
 
-    interval = float(query['latest']) / 1000.0
-    interval = interval if interval < 86400 else 86400
-    select = sql.text(
-        'select * from '
-        '(select * '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'order by diptime DESC) vals, '
-        '(select max(diptime) as maxts '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY) ts '
-        'where vals.diptime >= (ts.maxts - interval \'{}\' second) '
-        'order by diptime ASC'
-        .format(interval))
+    print("CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION")
+    columns_table = insp.get_columns('LHC_RUN_CONFIGURATION', 'CMS_OMS_DIPLOGGER') #schema is optional
+    
+    for c in columns_table :
+        print(c['name'], c['type'])
+    print()
+    # works
+    select = (
+            'select * from '
+            '(select * '
+            'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION'
+            'order by timestamp desc)'
+            'where rownum < 26')
 
     resultproxy = engine.execute(select)
     print("fetch rows", resultproxy.fetchall())
-    # select = sql.text(
-    #     'select column_name '
-    #     'from all_tab_columns '
-    #     'where table_name="CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY"')
-    # resultproxy = engine.execute(select)
-    # print("fetch all columns", resultproxy.fetchall())
+
+    select = (
+        'select FILL_NO, DIP_ID '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION where FILL_NO=:fillnum '
+        'ORDER BY DIP_ID ASC')
+    
+    fillnum = '8103'
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    print("dip_ids ", resultproxy.fetchall())
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
