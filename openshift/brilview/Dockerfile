@@ -22,7 +22,7 @@ COPY containerfiles /
 
 ENV PYTHONUNBUFFERED=1
 
-RUN git clone https://github.com/DiamantisPa/brilview --branch=1.4.57 &> /dev/null\
+RUN git clone https://github.com/DiamantisPa/brilview --branch=1.4.58 &> /dev/null\
  && cd brilview\
  && /opt/brilconda/bin/python ./setup.py install\
  && chmod 666 /brilview_tmp/brilview_openshift_prod.yaml\
