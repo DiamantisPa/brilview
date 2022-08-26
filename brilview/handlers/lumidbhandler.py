@@ -268,6 +268,9 @@ def _get_atlaslumi(engine, query):
     fillnum = '8103'
     resultproxy = engine.execute(select, fillnum=fillnum)
     print("dip_ids ", resultproxy.fetchall())
+    rows = resultproxy.fetchall()
+    print('min', rows[0])
+    print('max', rows[-1])
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
@@ -296,13 +299,12 @@ def _get_last_fill_number(engine, query=None):
     if (query is not None and 'source' in query):
         src = query['source'].lower()
         if src == 'atlas':
-            select = 'select max(DIP_ID) from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY'
+            select = 'select max(FILL_NO) from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
-    print('get last fill engine= ', engine)
-    print('get last fill number, select= ', select)
+
     resultproxy = engine.execute(select)
-    print('get last fill number, resultproxy=', resultproxy)
+    print('get last fill number, resultproxy=', resultproxy.fetchall())
     rows = resultproxy.fetchall()
     print('get last fill number, rows=', rows)
     return int(rows[0][0])
@@ -311,6 +313,19 @@ def _get_last_fill_number(engine, query=None):
 def _datetime2seconds(dt):
     return (dt - datetime.datetime(1970, 1, 1)).total_seconds()
 
+def _get_dip_ids(engine, fillnum=None):
+    if fillnum is None:
+        raise ValueError('fillnum is None. Please provide a valid value.')
+    else:
+        select = (
+        'select DIP_ID '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION where FILL_NO=:fillnum '
+        'ORDER BY DIP_ID ASC')
+    
+    fillnum = str(fillnum)
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    rows = resultproxy.fetchall()
+    print(rows)
 
 if __name__ == '__main__':
     servicemap = parseservicemap('../data/db_read.ini')
