@@ -253,8 +253,8 @@ def _get_atlaslumi(engine, query):
     select = (
             'select * from '
             '(select * '
-            'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION'
-            'order by timestamp desc) '
+            'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+            'order by diptime desc) '
             'where rownum < 26')
 
     resultproxy = engine.execute(select)
