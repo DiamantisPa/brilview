@@ -272,9 +272,21 @@ def _get_atlaslumi(engine, query):
     print('rows 0', rows)
     rows = [r[0] for r in rows]
     print('rows 1', rows)
-    print('rows type', type(rows))
-    # print('min', rows[0])
-    # print('max', rows[-1])
+    #print('rows type', type(rows))
+    print('min', rows[0])
+    print('max', rows[-1])
+    min = rows[0]
+    max = rows[-1]
+
+    select = (
+        'select DIPTIME, DIP_ID, LUMI_TOTINST '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY between min=:min and max=:max'
+        'ORDER BY DIP_ID ASC')
+    
+    resultproxy = engine.execute(select, min=min, max=max)
+    rows = resultproxy.fetchall()
+    print('rows', rows)
+    print()
 
     if ('fillnum' not in query or query['fillnum'] is None):
         fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
@@ -282,11 +294,11 @@ def _get_atlaslumi(engine, query):
         fillnum = int(query['fillnum'])
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
+    
     select = (
         'select DIPTIME, DIP_ID, LUMI_TOTINST '
         'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
         'ORDER BY DIPTIME ASC')
-
 
     resultproxy = engine.execute(select, fillnum=fillnum)
     rows = resultproxy.fetchall()
