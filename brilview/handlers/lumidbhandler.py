@@ -254,40 +254,41 @@ def _get_atlaslumi(engine, query):
             'select * from '
             '(select * '
             'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+            'where  LUMI_TOTINST > 0 '
             'order by diptime desc) '
-            'where rownum < 200')
+            'where rownum < 1000')
 
     resultproxy = engine.execute(select)
     print("fetch rows", resultproxy.fetchall())
 
-    select = (
-        'select DIP_ID '
-        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION where FILL_NO=:fillnum '
-        'ORDER BY DIP_ID ASC')
+    # select = (
+    #     'select DIP_ID '
+    #     'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION where FILL_NO=:fillnum '
+    #     'ORDER BY DIP_ID ASC')
     
-    fillnum = '8152'
-    resultproxy = engine.execute(select, fillnum=fillnum)
-    #print("dip_ids ", resultproxy.fetchall())
-    rows = resultproxy.fetchall()
-    print('rows 0', rows)
-    rows = [r[0] for r in rows]
-    print('rows 1', rows)
-    #print('rows type', type(rows))
-    print('min', rows[0])
-    print('max', rows[-1])
-    min = rows[0]
-    max = rows[-1]
+    # fillnum = '8152'
+    # resultproxy = engine.execute(select, fillnum=fillnum)
+    # #print("dip_ids ", resultproxy.fetchall())
+    # rows = resultproxy.fetchall()
+    # #print('rows 0', rows)
+    # rows = [r[0] for r in rows]
+    # print('rows 1', rows)
+    # #print('rows type', type(rows))
+    # print('min', rows[0])
+    # print('max', rows[-1])
+    # min = rows[0]
+    # max = rows[-1]
 
-    select = (
-        'select DIPTIME, DIP_ID, LUMI_TOTINST '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'where DIP_ID between :min and :max '
-        'order by DIP_ID asc')
+    # select = (
+    #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
+    #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+    #     'where DIP_ID between :min and :max '
+    #     'order by DIP_ID asc')
     
-    resultproxy = engine.execute(select, min=min, max=max)
-    rows = resultproxy.fetchall()
-    print('rows', rows)
-    print()
+    # resultproxy = engine.execute(select, min=min, max=max)
+    # rows = resultproxy.fetchall()
+    # print('rows', rows)
+    # print()
 
     # if ('fillnum' not in query or query['fillnum'] is None):
     #     fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
