@@ -253,7 +253,7 @@ def _get_atlaslumi(engine, query):
     select = (
             'select * from '
             '(select * '
-            'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+            'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
             'order by diptime desc) '
             'where rownum < 26')
 
@@ -303,6 +303,7 @@ def _get_atlaslumi(engine, query):
 
     # resultproxy = engine.execute(select, fillnum=fillnum)
     # rows = resultproxy.fetchall()
+    print('lumi_totinst', [r[2] for r in rows])
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
