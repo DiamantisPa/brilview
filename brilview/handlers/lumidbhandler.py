@@ -289,25 +289,25 @@ def _get_atlaslumi(engine, query):
     print('rows', rows)
     print()
 
-    if ('fillnum' not in query or query['fillnum'] is None):
-        fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
-    else:
-        fillnum = int(query['fillnum'])
-    if fillnum < 1000:
-        raise ValueError('fillnum {} out of range.'. format(fillnum))
+    # if ('fillnum' not in query or query['fillnum'] is None):
+    #     fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
+    # else:
+    #     fillnum = int(query['fillnum'])
+    # if fillnum < 1000:
+    #     raise ValueError('fillnum {} out of range.'. format(fillnum))
     
-    select = (
-        'select DIPTIME, DIP_ID, LUMI_TOTINST '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
-        'ORDER BY DIPTIME ASC')
+    # select = (
+    #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
+    #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
+    #     'ORDER BY DIPTIME ASC')
 
-    resultproxy = engine.execute(select, fillnum=fillnum)
-    rows = resultproxy.fetchall()
+    # resultproxy = engine.execute(select, fillnum=fillnum)
+    # rows = resultproxy.fetchall()
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
         'lumi_totinst': [r[2] for r in rows],
-        'single_fillnum': fillnum
+        #'single_fillnum': fillnum
     }
 
 
