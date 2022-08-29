@@ -272,7 +272,7 @@ def _get_atlaslumi(engine, query):
     #rows = resultproxy.fetchall()
     #print('rows 0', rows)
     #rows = [r[0] for r in rows]
-    print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
+    #print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
     # print('max', rows[-1])
