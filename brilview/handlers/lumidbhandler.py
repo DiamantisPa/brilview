@@ -281,8 +281,7 @@ def _get_atlaslumi(engine, query):
     select = (
         'select DIPTIME, DIP_ID '
         'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'order by DIP_ID asc '
-        'where rownum < 1000')
+        'where rownum < 1000 order by DIP_ID asc')
     
     resultproxy = engine.execute(select)
     rows = resultproxy.fetchall()
