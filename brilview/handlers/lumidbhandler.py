@@ -262,7 +262,7 @@ def _get_atlaslumi(engine, query):
     print("fetch rows", resultproxy.fetchall())
 
     select = (
-        'select FILL_NO '
+        'select DIP_ID, FILL_NO '
         'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION where DIP_ID between 1001312019 and 1001313017 '
         'ORDER BY DIP_ID ASC')
     
@@ -271,7 +271,7 @@ def _get_atlaslumi(engine, query):
     #print("dip_ids ", resultproxy.fetchall())
     rows = resultproxy.fetchall()
     #print('rows 0', rows)
-    rows = [r[0] for r in rows]
+    #rows = [r[0] for r in rows]
     print('rows 1', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
