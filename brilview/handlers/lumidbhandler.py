@@ -262,7 +262,7 @@ def _get_atlaslumi(engine, query):
     # print("fetch rows", resultproxy.fetchall())
 
     select = (
-        'select DIPTIME, DIP_ID, FILL_NO '
+        'select DIPTIME, DIP_ID, FILL_NO, ACQSTAMP  '
         'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
         'ORDER BY DIP_ID ASC')
     
