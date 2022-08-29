@@ -261,18 +261,18 @@ def _get_atlaslumi(engine, query):
     # resultproxy = engine.execute(select)
     # print("fetch rows", resultproxy.fetchall())
 
-    # select = (
-    #     'select DIPTIME, DIP_ID, FILL_NO '
-    #     'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
-    #     'ORDER BY DIP_ID ASC')
+    select = (
+        'select DIPTIME, DIP_ID, FILL_NO '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+        'ORDER BY DIP_ID ASC')
     
     fillnum = '8104'
-    #resultproxy = engine.execute(select)
-    #print("dip_ids ", resultproxy.fetchall())
-    #rows = resultproxy.fetchall()
+    resultproxy = engine.execute(select)
+    print("dip_ids ", resultproxy.fetchall())
+    rows = resultproxy.fetchall()
     #print('rows 0', rows)
     #rows = [r[0] for r in rows]
-    #print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
+    print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
     # print('max', rows[-1])
@@ -281,7 +281,7 @@ def _get_atlaslumi(engine, query):
     select = (
         'select DIPTIME, DIP_ID '
         'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'where rownum < 5000 order by DIP_ID asc')
+        'where rownum < 1000 order by DIPTIME asc')
     
     resultproxy = engine.execute(select)
     rows = resultproxy.fetchall()
