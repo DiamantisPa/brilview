@@ -209,10 +209,10 @@ def _get_atlaslumi(engine, query):
     #                 print(field, end=' ')
     #         print()
 
-    select = sql.text('select owner, table_name from all_tables')
-    resultproxy = engine.execute(select)
-    print("fetch all", resultproxy.fetchall())
-    print()
+    # select = sql.text('select owner, table_name from all_tables')
+    # resultproxy = engine.execute(select)
+    # print("fetch all", resultproxy.fetchall())
+    # print()
 
     # select = sql.text('select * from all_tab_cols')
     # resultproxy = engine.execute(select)
@@ -223,25 +223,25 @@ def _get_atlaslumi(engine, query):
     for c in columns_table :
         print(c['name'], c['type'])
     print()
-    print("columns LHCFILL', 'CMS_LUMI_PROD")
-    columns_table = insp.get_columns('LHCFILL', 'CMS_LUMI_PROD') #schema is optional
+    # print("columns LHCFILL', 'CMS_LUMI_PROD")
+    # columns_table = insp.get_columns('LHCFILL', 'CMS_LUMI_PROD') #schema is optional
     
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
-    print("columns cms_lumi_prod.ids_datatag")
-    columns_table = insp.get_columns('ids_datatag', 'cms_lumi_prod') #schema is optional
+    # for c in columns_table :
+    #     print(c['name'], c['type'])
+    # print()
+    # print("columns cms_lumi_prod.ids_datatag")
+    # columns_table = insp.get_columns('ids_datatag', 'cms_lumi_prod') #schema is optional
     
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
+    # for c in columns_table :
+    #     print(c['name'], c['type'])
+    # print()
    
-    print("cms_bril_monitoring.FASTBESTLUMI")
-    columns_table = insp.get_columns('FASTBESTLUMI', 'cms_bril_monitoring') #schema is optional
+    # print("cms_bril_monitoring.FASTBESTLUMI")
+    # columns_table = insp.get_columns('FASTBESTLUMI', 'cms_bril_monitoring') #schema is optional
     
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
+    # for c in columns_table :
+    #     print(c['name'], c['type'])
+    # print()
 
     print("CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION")
     columns_table = insp.get_columns('LHC_RUN_CONFIGURATION', 'CMS_OMS_DIPLOGGER') #schema is optional
@@ -250,19 +250,19 @@ def _get_atlaslumi(engine, query):
         print(c['name'], c['type'])
     print()
     # works
-    select = (
-            'select * from '
-            '(select * '
-            'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-            'where  LUMI_TOTINST > 0 '
-            'order by diptime desc) '
-            'where rownum < 1000')
+    # select = (
+    #         'select * from '
+    #         '(select * '
+    #         'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+    #         'where  LUMI_TOTINST > 0 '
+    #         'order by diptime desc) '
+    #         'where rownum < 1000')
 
-    resultproxy = engine.execute(select)
-    print("fetch rows", resultproxy.fetchall())
+    # resultproxy = engine.execute(select)
+    # print("fetch rows", resultproxy.fetchall())
 
     select = (
-        'select DIP_ID, FILL_NO '
+        'select DIPTIME, DIP_ID, FILL_NO '
         'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
         'ORDER BY DIP_ID ASC')
     
@@ -272,12 +272,20 @@ def _get_atlaslumi(engine, query):
     rows = resultproxy.fetchall()
     #print('rows 0', rows)
     #rows = [r[0] for r in rows]
-    print('rows 1', rows)
+    print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
     # print('max', rows[-1])
     # min = rows[0]
     # max = rows[-1]
+    select = (
+        'select DIPTIME, DIP_ID '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+        'order by DIP_ID asc')
+    
+    resultproxy = engine.execute(select)
+    rows = resultproxy.fetchall()
+    print('CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY', rows)
 
     select = (
         'select DIPTIME, DIP_ID, LUMI_TOTINST '
@@ -287,7 +295,7 @@ def _get_atlaslumi(engine, query):
     
     resultproxy = engine.execute(select)
     rows = resultproxy.fetchall()
-    print('rows', rows)
+    #print('rows', rows)
     # print()
 
     # if ('fillnum' not in query or query['fillnum'] is None):
@@ -305,7 +313,7 @@ def _get_atlaslumi(engine, query):
     # resultproxy = engine.execute(select, fillnum=fillnum)
     # rows = resultproxy.fetchall()
     lumi_test = [r[2] for r in rows]
-    print('lumi_totinst', lumi_test)
+    #print('lumi_totinst', lumi_test)
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
