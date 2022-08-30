@@ -300,24 +300,24 @@ def _get_atlaslumi(engine, query):
     # print('max', rows[-1])
     # min = rows[0]
     # max = rows[-1]
-    select = (
-        'select DIPTIME, DIP_ID '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'where rownum < 1000 order by DIPTIME asc')
+    # select = (
+    #     'select DIPTIME, DIP_ID '
+    #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+    #     'where rownum < 1000 order by DIPTIME asc')
     
-    resultproxy = engine.execute(select)
-    rows = resultproxy.fetchall()
-    print('CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY', rows)
+    # resultproxy = engine.execute(select)
+    # rows = resultproxy.fetchall()
+    # print('CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY', rows)
 
-    select = (
-        'select DIPTIME, DIP_ID, LUMI_TOTINST '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'where DIP_ID between 1001312019 and 1001313017 '
-        'order by DIP_ID asc')
+    # select = (
+    #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
+    #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+    #     'where DIP_ID between 1001312019 and 1001313017 '
+    #     'order by DIP_ID asc')
     
-    resultproxy = engine.execute(select)
-    rows = resultproxy.fetchall()
-    print('rows', rows)
+    # resultproxy = engine.execute(select)
+    # rows = resultproxy.fetchall()
+    # print('rows', rows)
     # print()
 
     # if ('fillnum' not in query or query['fillnum'] is None):
@@ -340,7 +340,7 @@ def _get_atlaslumi(engine, query):
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
         'lumi_totinst': [r[2] for r in rows],
-        #'single_fillnum': fillnum
+        'single_fillnum': fillnum
     }
 
 
