@@ -321,9 +321,9 @@ def _get_atlaslumi(engine, query):
     # print()
 
     if ('fillnum' not in query or query['fillnum'] is None):
-        fillnum = str(_get_last_fill_number(engine, {'source': 'atlas'}))
+        fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
     else:
-        fillnum = str(query['fillnum'])
+        fillnum = query['fillnum']
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     
@@ -336,7 +336,7 @@ def _get_atlaslumi(engine, query):
         'where FILL_NO=:fillnum '
         'ORDER BY DIPTIME ASC')
 
-    resultproxy = engine.execute(select, fillnum=fillnum)
+    resultproxy = engine.execute(select, fillnum=str(fillnum))
     rows = resultproxy.fetchall()
     diptimes = [r[0] for r in rows]
     #rows = resultproxy.fetchall()
