@@ -261,40 +261,40 @@ def _get_atlaslumi(engine, query):
     # resultproxy = engine.execute(select)
     # print("fetch rows", resultproxy.fetchall())
 
-    select = (
-        'select DIPTIME, DIP_ID, FILL_NO '
-        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
-        'ORDER BY DIP_ID ASC')
+    # select = (
+    #     'select DIPTIME, DIP_ID, FILL_NO '
+    #     'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+    #     'ORDER BY DIP_ID ASC')
     
-    fillnum = '8151'
-    resultproxy = engine.execute(select)
-    print("dip_ids ", resultproxy.fetchall())
+    # #fillnum = '8151'
+    # resultproxy = engine.execute(select)
+    # print("dip_ids ", resultproxy.fetchall())
 
-    select = (
-        'select DIPTIME '
-        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
-        'where FILL_NO=:fillnum '
-        'ORDER BY DIPTIME ASC')
+    # select = (
+    #     'select DIPTIME '
+    #     'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+    #     'where FILL_NO=:fillnum '
+    #     'ORDER BY DIPTIME ASC')
 
-    resultproxy = engine.execute(select, fillnum=fillnum)
-    rows = resultproxy.fetchall()
-    diptimes = [r[0] for r in rows]
-    #rows = resultproxy.fetchall()
-    print('rows diptime', rows)
-    mintime = diptimes[0]
-    maxtime = diptimes[-1]
-    print('mintime ', diptimes)
-    print('maxtime ', diptimes)
+    # resultproxy = engine.execute(select, fillnum=fillnum)
+    # rows = resultproxy.fetchall()
+    # diptimes = [r[0] for r in rows]
+    # #rows = resultproxy.fetchall()
+    # print('rows diptime', rows)
+    # mintime = diptimes[0]
+    # maxtime = diptimes[-1]
+    # print('mintime ', mintime)
+    # print('maxtime ', maxtime)
     #rows = [r[0] for r in rows]
-    select = (
-        'select DIPTIME, DIP_ID, LUMI_TOTINST '
-        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
-        'where DIPTIME between :mintime and :maxtime '
-        'order by DIPTIME asc')
+    # select = (
+    #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
+    #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+    #     'where DIPTIME between :mintime and :maxtime '
+    #     'order by DIPTIME asc')
 
-    resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
-    rows = resultproxy.fetchall()
-    print('lumi based on time', rows)
+    # resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
+    # rows = resultproxy.fetchall()
+    # print('lumi based on time', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
     # print('max', rows[-1])
@@ -320,13 +320,41 @@ def _get_atlaslumi(engine, query):
     # print('rows', rows)
     # print()
 
-    # if ('fillnum' not in query or query['fillnum'] is None):
-    #     fillnum = _get_last_fill_number(engine, {'source': 'atlas'})
-    # else:
-    #     fillnum = int(query['fillnum'])
-    # if fillnum < 1000:
-    #     raise ValueError('fillnum {} out of range.'. format(fillnum))
+    if ('fillnum' not in query or query['fillnum'] is None):
+        fillnum = str(_get_last_fill_number(engine, {'source': 'atlas'}))
+    else:
+        fillnum = str(query['fillnum'])
+    if fillnum < 1000:
+        raise ValueError('fillnum {} out of range.'. format(fillnum))
     
+    resultproxy = engine.execute(select)
+    print("dip_ids ", resultproxy.fetchall())
+
+    select = (
+        'select DIPTIME '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+        'where FILL_NO=:fillnum '
+        'ORDER BY DIPTIME ASC')
+
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    rows = resultproxy.fetchall()
+    diptimes = [r[0] for r in rows]
+    #rows = resultproxy.fetchall()
+    print('rows diptime', rows)
+    mintime = diptimes[0]
+    maxtime = diptimes[-1]
+    print('mintime ', mintime)
+    print('maxtime ', maxtime)
+
+    select = (
+        'select DIPTIME, DIP_ID, LUMI_TOTINST '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+        'where DIPTIME between :mintime and :maxtime '
+        'order by DIPTIME asc')
+
+    resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
+    rows = resultproxy.fetchall()
+    print('lumi based on time', rows)
     # select = (
     #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
     #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
