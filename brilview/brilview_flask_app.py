@@ -1,6 +1,7 @@
 import time
 import threading
 import flask
+import math
 import json
 import logging
 from brilview import bvconfig, queryrouter, bvlogging
@@ -38,6 +39,7 @@ def query():
     if data is None:
         return ('Bad request. Query body must be not empty.', 400)
     result = queryrouter.query(data)
+
     return flask.Response(json.dumps(result), mimetype='application/json')
 
 

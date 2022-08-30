@@ -3,6 +3,13 @@ Release log
 
 1.4
 -----
+1.4.10
+^^^^^
+
+2022-08-30
+
+* Added sanitization check for NaN values for bestlumi
+
 1.4.9
 ^^^^^
 
