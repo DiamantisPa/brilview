@@ -278,14 +278,23 @@ def _get_atlaslumi(engine, query):
 
     resultproxy = engine.execute(select, fillnum=fillnum)
     rows = resultproxy.fetchall()
+    diptimes = [r[0] for r in rows]
     #rows = resultproxy.fetchall()
     print('rows diptime', rows)
-    mintime = rows[0]
-    maxtime = rows[-1]
-    print('mintime ', mintime)
-    print('maxtime ', maxtime)
+    mintime = diptimes[0]
+    maxtime = diptimes[-1]
+    print('mintime ', diptimes)
+    print('maxtime ', diptimes)
     #rows = [r[0] for r in rows]
-    #print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
+    select = (
+        'select DIPTIME, DIP_ID, LUMI_TOTINST '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+        'where DIPTIME between mintime=:mintime and maxtime=:maxtime '
+        'order by DIPTIME asc')
+
+    resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
+    rows = resultproxy.fetchall()
+    print('lumi based on time', rows)
     #print('rows type', type(rows))
     # print('min', rows[0])
     # print('max', rows[-1])
