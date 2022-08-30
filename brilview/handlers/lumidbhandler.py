@@ -295,7 +295,7 @@ def _get_atlaslumi(engine, query):
     
     resultproxy = engine.execute(select)
     rows = resultproxy.fetchall()
-    #print('rows', rows)
+    print('rows', rows)
     # print()
 
     # if ('fillnum' not in query or query['fillnum'] is None):
