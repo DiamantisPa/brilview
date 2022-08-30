@@ -382,7 +382,7 @@ def _get_last_fill_number(engine, query=None):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
 
     resultproxy = engine.execute(select)
-    print('get last fill number, resultproxy=', resultproxy.fetchall())
+    #print('get last fill number, resultproxy=', resultproxy.fetchall())
     rows = resultproxy.fetchall()
     print('get last fill number, rows=', rows)
     return int(rows[0][0])
