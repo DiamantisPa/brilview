@@ -262,15 +262,28 @@ def _get_atlaslumi(engine, query):
     # print("fetch rows", resultproxy.fetchall())
 
     select = (
-        'select DIPTIME, DIP_ID, FILL_NO, ACQSTAMP  '
+        'select DIPTIME, DIP_ID, FILL_NO '
         'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
         'ORDER BY DIP_ID ASC')
     
-    fillnum = '8104'
+    fillnum = '8151'
     resultproxy = engine.execute(select)
     print("dip_ids ", resultproxy.fetchall())
+
+    select = (
+        'select DIPTIME '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+        'where FILL_NO=:fillnum '
+        'ORDER BY DIPTIME ASC')
+
+    resultproxy = engine.execute(select, fillnum=fillnum)
+    rows = resultproxy.fetchall()
     #rows = resultproxy.fetchall()
-    #print('rows 0', rows)
+    print('rows diptime', rows)
+    mintime = rows[0]
+    maxtime = rows[-1]
+    print('mintime ', mintime)
+    print('maxtime ', maxtime)
     #rows = [r[0] for r in rows]
     #print('CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION', rows)
     #print('rows type', type(rows))
