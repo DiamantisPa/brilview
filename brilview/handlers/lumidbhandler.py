@@ -327,7 +327,7 @@ def _get_atlaslumi(engine, query):
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     
-    resultproxy = engine.execute(select)
+    #resultproxy = engine.execute(select)
     print("dip_ids ", resultproxy.fetchall())
 
     select = (
