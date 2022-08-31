@@ -328,7 +328,7 @@ def _get_atlaslumi(engine, query):
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     
     #resultproxy = engine.execute(select)
-    print("dip_ids ", resultproxy.fetchall())
+    #print("dip_ids ", resultproxy.fetchall())
 
     select = (
         'select DIPTIME '
