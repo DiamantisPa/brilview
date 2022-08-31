@@ -157,6 +157,7 @@ def _get_atlaslumi(engine, query):
         fillnum = int(query['fillnum'])
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
+    
     select = (
         'select DIPTIME '
         'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
@@ -178,7 +179,7 @@ def _get_atlaslumi(engine, query):
 
     resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
     rows = resultproxy.fetchall()
-    
+
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],
@@ -192,7 +193,7 @@ def _get_last_fill_number(engine, query=None):
     if (query is not None and 'source' in query):
         src = query['source'].lower()
         if src == 'atlas':
-            select = 'select max(LHCFILL) from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY'
+            select = 'select max(FILL_NO) from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION'
         elif (src == 'cms' or src == 'bril'):
             select = 'select max(FILLNUM) from cms_lumi_prod.ids_datatag'
 
