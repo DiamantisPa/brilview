@@ -158,11 +158,27 @@ def _get_atlaslumi(engine, query):
     if fillnum < 1000:
         raise ValueError('fillnum {} out of range.'. format(fillnum))
     select = (
-        'select DIPTIME, LHCFILL, LUMI_TOTINST '
-        'from CMS_BEAM_COND.ATLAS_LHC_LUMINOSITY where LHCFILL=:fillnum '
+        'select DIPTIME '
+        'from CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION '
+        'where FILL_NO=:fillnum '
         'ORDER BY DIPTIME ASC')
-    resultproxy = engine.execute(select, fillnum=fillnum)
+
+    resultproxy = engine.execute(select, fillnum=str(fillnum))
     rows = resultproxy.fetchall()
+
+    diptimes = [r[0] for r in rows]
+    mintime = diptimes[0]
+    maxtime = diptimes[-1]
+
+    select = (
+        'select DIPTIME, DIP_ID, LUMI_TOTINST '
+        'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY '
+        'where DIPTIME between :mintime and :maxtime '
+        'order by DIPTIME asc')
+
+    resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
+    rows = resultproxy.fetchall()
+    
     return {
         'timestamp': [_datetime2seconds(r[0]) * 1000 for r in rows],
         # 'fillnum': [r[1] for r in rows],

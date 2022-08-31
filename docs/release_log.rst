@@ -3,6 +3,13 @@ Release log
 
 1.4
 -----
+1.4.11
+^^^^^
+
+2022-08-31
+
+* Fixed ATLAS lumi queries for the atlaslumi plot
+
 1.4.10
 ^^^^^
 
