@@ -404,4 +404,4 @@ def _parse_normtag(normtag):
 
 
 if __name__ == '__main__':
-    #print('normtag files', get_normtag_filenames())
+    print('normtag files', get_normtag_filenames())
