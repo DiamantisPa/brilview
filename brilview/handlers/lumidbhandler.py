@@ -73,7 +73,7 @@ def create_engine(servicemap, servicename):
     passwd = base64.b64decode(servicemap[servicename][2].encode('ascii')).decode('utf-8')
     descriptor = servicemap[servicename][3]
     connurl = 'oracle+cx_oracle://{}:{}@{}'.format(user, passwd, descriptor)
-    print('create_engine ', connurl)
+    #print('create_engine ', connurl)
     return sql.create_engine(connurl)
 
 
@@ -122,13 +122,13 @@ def _get_live_bestlumi(engine, query):
     metadata.reflect(bind=engine)
     insp = sql.inspect(engine)
 
-    print("metadata", metadata)
-    print("metadata tables", metadata.tables)
-    print("tables", insp.get_table_names())
+    #print("metadata", metadata)
+    #print("metadata tables", metadata.tables)
+    #print("tables", insp.get_table_names())
 
     select = sql.text('select table_name from all_tables')
     resultproxy = engine.execute(select)
-    print("fetch all", resultproxy.fetchall())
+    #print("fetch all", resultproxy.fetchall())
     # for table_name in metadata.tables:
     #     print(table_name)
     #     for column in insp.get_columns(table_name):
@@ -159,9 +159,9 @@ def _get_live_bestlumi(engine, query):
             'order by timestamp ASC'
             .format(interval))
         resultproxy = engine.execute(select)
-        print("resultproxy", resultproxy)
+        #print("resultproxy", resultproxy)
         rows = resultproxy.fetchall()
-        print("rows", rows)
+        #print("rows", rows)
     elif 'since' in query:
         since = float(query['since']) / 1000.0
         select = sql.text(
@@ -174,9 +174,9 @@ def _get_live_bestlumi(engine, query):
             'order by timestamp desc)'
             'where rownum < 300 ORDER BY timestamp ASC')
         resultproxy = engine.execute(select, since=since)
-        print("resultproxy", resultproxy)
+        #print("resultproxy", resultproxy)
         rows = resultproxy.fetchall()
-        print("rows", rows)
+        #print("rows", rows)
     return {
         'avg': [r[0] for r in rows],
         'fillnum': [r[1] for r in rows],
@@ -188,9 +188,9 @@ def _get_live_bestlumi(engine, query):
 
 
 def _get_atlaslumi(engine, query):
-    print()
-    print('atlas schema')
-    print()
+    #print()
+    #print('atlas schema')
+    #print()
 
     metadata = sql.MetaData()
     metadata.reflect(engine)
@@ -217,12 +217,12 @@ def _get_atlaslumi(engine, query):
     # select = sql.text('select * from all_tab_cols')
     # resultproxy = engine.execute(select)
     # print("fetch all columns", resultproxy.fetchall())
-    print("columns ATLAS_LHC_LUMINOSITY', 'CMS_OMS_DIPLOGGER")
+    #print("columns ATLAS_LHC_LUMINOSITY', 'CMS_OMS_DIPLOGGER")
     columns_table = insp.get_columns('ATLAS_LHC_LUMINOSITY', 'CMS_OMS_DIPLOGGER') #schema is optional
     
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
+    #for c in columns_table :
+        #print(c['name'], c['type'])
+    #print()
     # print("columns LHCFILL', 'CMS_LUMI_PROD")
     # columns_table = insp.get_columns('LHCFILL', 'CMS_LUMI_PROD') #schema is optional
     
@@ -243,12 +243,12 @@ def _get_atlaslumi(engine, query):
     #     print(c['name'], c['type'])
     # print()
 
-    print("CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION")
+    #print("CMS_OMS_DIPLOGGER.LHC_RUN_CONFIGURATION")
     columns_table = insp.get_columns('LHC_RUN_CONFIGURATION', 'CMS_OMS_DIPLOGGER') #schema is optional
     
-    for c in columns_table :
-        print(c['name'], c['type'])
-    print()
+    #for c in columns_table :
+    #    print(c['name'], c['type'])
+    #print()
     # works
     # select = (
     #         'select * from '
@@ -340,11 +340,11 @@ def _get_atlaslumi(engine, query):
     rows = resultproxy.fetchall()
     diptimes = [r[0] for r in rows]
     #rows = resultproxy.fetchall()
-    print('rows diptime', rows)
+    #print('rows diptime', rows)
     mintime = diptimes[0]
     maxtime = diptimes[-1]
-    print('mintime ', mintime)
-    print('maxtime ', maxtime)
+    #print('mintime ', mintime)
+    #print('maxtime ', maxtime)
 
     select = (
         'select DIPTIME, DIP_ID, LUMI_TOTINST '
@@ -354,7 +354,7 @@ def _get_atlaslumi(engine, query):
 
     resultproxy = engine.execute(select, mintime=mintime, maxtime=maxtime)
     rows = resultproxy.fetchall()
-    print('lumi based on time', rows)
+    #print('lumi based on time', rows)
     # select = (
     #     'select DIPTIME, DIP_ID, LUMI_TOTINST '
     #     'from CMS_OMS_DIPLOGGER.ATLAS_LHC_LUMINOSITY where DIP_ID=:fillnum '
@@ -384,7 +384,7 @@ def _get_last_fill_number(engine, query=None):
     resultproxy = engine.execute(select)
     #print('get last fill number, resultproxy=', resultproxy.fetchall())
     rows = resultproxy.fetchall()
-    print('get last fill number, rows=', rows)
+    #print('get last fill number, rows=', rows)
     return int(rows[0][0])
 
 
@@ -403,11 +403,11 @@ def _get_dip_ids(engine, fillnum=None):
     fillnum = str(fillnum)
     resultproxy = engine.execute(select, fillnum=fillnum)
     rows = resultproxy.fetchall()
-    print(rows)
+    #print(rows)
 
 if __name__ == '__main__':
     servicemap = parseservicemap('../data/db_read.ini')
-    print('servicemap ', servicemap)
+    #print('servicemap ', servicemap)
     engine = create_engine(servicemap, 'online')
-    print(_get_iovtags(engine))
-    print(get_iovtags())
+    #print(_get_iovtags(engine))
+    #print(get_iovtags())
