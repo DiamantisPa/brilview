@@ -9,6 +9,7 @@ def query(options):
     :rtype: dict
 
     """
+    print("query options", options)
     hadnlerfn = get_handler_fn(options)
     return hadnlerfn(options)
 
@@ -21,6 +22,7 @@ def get_handler_fn(options):
     :rtype: function
 
     """
+    print("get_handler_fn options ", options)
     logging.info(options)
     if 'query_type' not in options:
         raise KeyError(
@@ -53,7 +55,7 @@ def _handlerfn_cmmd_lumi(options):
     :rtype: dict
 
     """
-    print("_handlerfn_cmmd_lumi options", options)
+    print("_handlerfn_cmmd_lumi options ", options)
     return cmmdhandler.get_brilcalc_lumi(options)
 
 
