@@ -287,7 +287,7 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         if row[0].find(':') == -1:
             # output is an error - first data field always n:m
             raise RuntimeError('/n'.join(lines))
-
+        print("row[0] ", row[0])
         [runnum, fillnum] = [int(x) for x in row[0].split(':')]
         fillnums.append(fillnum)
         runnums.append(runnum)
