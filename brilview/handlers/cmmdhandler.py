@@ -63,6 +63,7 @@ def get_brilcalc_lumi(args={}):
     }
 
     '''
+    print("args ", args)
     cmd = _get_total_lumi_command_template()
     cmd.extend(_parse_time_range_args(args))
 
