@@ -85,6 +85,9 @@ export class LumiDataService {
             } else {
                 _params['normtag'] = null;
             }
+            if (lumitype === 'online') {
+                delete _params['minbiasxsec'];
+            }
         }
         if (_params['beamstatus']) {
             if (_params['beamstatus'].toLowerCase() === '-anybeams-') {
