@@ -166,10 +166,10 @@ def get_brilcalc_bxlumi(args={}):
         cmd.extend(_parse_normtag(args['normtag']))
     
     if 'bxthreshold' in args and args['bxthreshold']:
-        cmd.extend(['--xingTr', args['bxthreshold'].toString()])
+        cmd.extend(['--xingTr', str(args['bxthreshold'])])
 
     if 'xingmin' in args and args['xingmin']:
-        cmd.extend(['--xingMin', args['xingmin'].toString()])
+        cmd.extend(['--xingMin', str(args['xingmin'])])
         
     print(cmd)
     bvlogging.get_logger().debug(cmd)
