@@ -163,7 +163,13 @@ def get_brilcalc_bxlumi(args={}):
 
     if 'normtag' in args and args['normtag']:
         cmd.extend(_parse_normtag(args['normtag']))
+    
+    if 'bxthreshold' in args and args['bxthreshold']:
+        cmd.extend(['--xingTr', str(args['bxthreshold'])])
 
+    if 'xingmin' in args and args['xingmin']:
+        cmd.extend(['--xingMin', str(args['xingmin'])])
+        
     bvlogging.get_logger().debug(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
