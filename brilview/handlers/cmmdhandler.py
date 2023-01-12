@@ -63,7 +63,6 @@ def get_brilcalc_lumi(args={}):
     }
 
     '''
-    print("args ", args)
     cmd = _get_total_lumi_command_template()
     cmd.extend(_parse_time_range_args(args))
 
@@ -109,11 +108,8 @@ def get_brilcalc_lumi(args={}):
 
     bvlogging.get_logger().debug(cmd)
     try:
-        print("get_brilcalc_lumi cmd", cmd)
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        print("get_brilcalc_lumi r", r)
         r = r.decode('utf-8')
-        print("get_brilcalc_lumi r utf", r)
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
             out = re.sub('File ".*?"', '<FILE>', e.output)
@@ -151,6 +147,7 @@ def get_brilcalc_bxlumi(args={}):
         'message'?: str
     }
     '''
+    print(args)
     cmd = _get_total_lumi_command_template()
     cmd.append('--xing')
     cmd.extend(_parse_run_ls_args(args))
@@ -167,7 +164,14 @@ def get_brilcalc_bxlumi(args={}):
 
     if 'normtag' in args and args['normtag']:
         cmd.extend(_parse_normtag(args['normtag']))
+    
+    if 'bxthreshold' in args and args['bxthreshold']:
+        cmd.extend(['--xingTr', args['bxthreshold']])
 
+    if 'xingmin' in args and args['xingmin']:
+        cmd.extend(['--xingMin', args['xingmin']])
+        
+    print(cmd)
     bvlogging.get_logger().debug(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -259,15 +263,8 @@ def _make_normtag_filepath(normtag):
 
 
 def _parse_brilcalc_output(result, byls, pileup, hltpath):
-    #print("_parse_brilcalc_output result", result)
-    #print("_parse_brilcalc_output byls", byls)
-    #print("_parse_brilcalc_output pileup", pileup)
-    #print("_parse_brilcalc_output hltpath", hltpath)
-
     lines = [l for l in result.splitlines() if
              len(l) and not l.startswith('#')]
-
-    #print("_parse_brilcalc_output lines", lines)
 
     if not len(lines):  # no data found
         raise ValueError('Empty result')
@@ -288,7 +285,7 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         if row[0].find(':') == -1:
             # output is an error - first data field always n:m
             raise RuntimeError('/n'.join(lines))
-        print("row[0] ", row[0])
+
         [runnum, fillnum] = [int(x) for x in row[0].split(':')]
         fillnums.append(fillnum)
         runnums.append(runnum)
@@ -321,18 +318,15 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         if pileup:
             pileups.append(float(row[4]))
 
-    #print("result['data']['delivered']", delivereds)
-    #print("result['data']['recorded']", recordeds)
-    
     for index, value in enumerate(delivereds):
         if math.isnan(value):
             delivereds[index] = 0
-            #print("found nan in delivered")
+            print("found nan in delivered")
 
     for index, value in enumerate(recordeds):
         if math.isnan(value):
             recordeds[index] = 0
-            #print("found nan in recorded")
+            print("found nan in recorded")
 
     return {
         'fillnum': fillnums,

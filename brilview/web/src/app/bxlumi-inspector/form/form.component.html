@@ -33,6 +33,7 @@
                         <option *ngFor="let opt of paramOptions.type">{{opt}}</option>
                     </select>
                 </div>
+                
             </div>
 
             <div class="bv-form-group">
@@ -60,6 +61,25 @@
                 <clr-checkbox [(ngModel)]="params.without_correction">
                     Without correction
                 </clr-checkbox>
+            </div>
+        </div>
+
+        <div class="bv-form-controls">
+
+            <div class="bv-form-group">
+                <label>BXTHRESHOLD</label>
+    
+                <input type="number" min="0" max="1" step="0.05"
+                       placeholder="Bunch threshold"
+                       [(ngModel)]="params.bxthreshold" />
+            </div>
+    
+            <div class="bv-form-group">
+                <label>XINGMIN</label>
+    
+                <input type="number"
+                       placeholder="Min bunch luminosity"
+                       [(ngModel)]="params.xingmin" />
             </div>
         </div>
     </div>

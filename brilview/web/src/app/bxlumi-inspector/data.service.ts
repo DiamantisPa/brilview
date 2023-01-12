@@ -42,6 +42,8 @@ export class BXLumiDataService {
                     params: Object.assign({}, params)
                 });
             });
+        console.log(_params)
+        console.log(BXLumiDataService.postOptions)
         return request;
     }
 
