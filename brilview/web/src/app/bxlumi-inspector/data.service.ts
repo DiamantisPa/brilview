@@ -29,6 +29,7 @@ export class BXLumiDataService {
         } catch (e) {
             return new Observable(subscriber => subscriber.error(e.message));
         }
+        console.log(_params)
         const request = this.http.post('/api/query', _params, BXLumiDataService.postOptions)
             .do(data => {
                 if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {

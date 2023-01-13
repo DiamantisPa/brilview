@@ -170,6 +170,9 @@ def get_brilcalc_bxlumi(args={}):
 
     if 'xingmin' in args and args['xingmin']:
         cmd.extend(['--xingMin', str(args['xingmin'])])
+
+    if ('bxid_start' in args and args['bxid_start']) or ('bxid_end' in args and args['bxid_end']):
+        cmd.extend(_parse_bxids(args['bxid_start'], args['bxid_end'])) 
         
     print(cmd)
     bvlogging.get_logger().debug(cmd)
@@ -396,6 +399,18 @@ def _parse_normtag(normtag):
     if normtag_file is not None and os.path.isfile(normtag_file):
         normtag = normtag_file
     return ['--normtag', normtag]
+
+def _parse_bxids(bxid_start, bxid_end):
+    bxids_str = ''
+    if bxid_start != None and bxid_end != None:
+        bxids = list(range(bxid_start, bxid_end+1))
+        bxids_str = ','.join(str(bxid) for bxid in bxids)
+    elif bxid_start != None:
+        bxids_str = str(bxid_start)
+    elif bxid_end != None:
+        bxids_str = str(bxid_end)
+
+    return ['--xingId', bxids_str]
 
 
 if __name__ == '__main__':
