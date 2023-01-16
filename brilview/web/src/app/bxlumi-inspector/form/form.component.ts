@@ -20,7 +20,11 @@ export class FormComponent implements OnInit {
         type: 'Online',
         unit: 'hz/mb',
         normtag: null,
-        without_correction: false
+        without_correction: false,
+        bxthreshold: null,
+        xingmin: null,
+        bxid_start: null,
+        bxid_end: null
     }
 
     paramOptions = {

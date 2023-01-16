@@ -163,7 +163,16 @@ def get_brilcalc_bxlumi(args={}):
 
     if 'normtag' in args and args['normtag']:
         cmd.extend(_parse_normtag(args['normtag']))
+    
+    if 'bxthreshold' in args and args['bxthreshold']:
+        cmd.extend(['--xingTr', str(args['bxthreshold'])])
 
+    if 'xingmin' in args and args['xingmin']:
+        cmd.extend(['--xingMin', str(args['xingmin'])])
+
+    if ('bxid_start' in args and args['bxid_start']) or ('bxid_end' in args and args['bxid_end']):
+        cmd.extend(_parse_bxids(args['bxid_start'], args['bxid_end'])) 
+        
     bvlogging.get_logger().debug(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -389,6 +398,17 @@ def _parse_normtag(normtag):
         normtag = normtag_file
     return ['--normtag', normtag]
 
+def _parse_bxids(bxid_start, bxid_end):
+    bxids_str = ''
+    if bxid_start != None and bxid_end != None:
+        bxids = list(range(bxid_start, bxid_end+1))
+        bxids_str = ','.join(str(bxid) for bxid in bxids)
+    elif bxid_start != None:
+        bxids_str = str(bxid_start)
+    elif bxid_end != None:
+        bxids_str = str(bxid_end)
+
+    return ['--xingId', bxids_str]
 
 if __name__ == '__main__':
     print('normtag files', get_normtag_filenames())

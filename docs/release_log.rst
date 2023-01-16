@@ -1,6 +1,18 @@
 Release log
 ===========
 
+1.5
+-----
+1.5.0
+
+2023-01-16
+
+* Update brilws version to 3.6.9
+* Fixed displayed error message
+* Updated bxlumi options
+  * new forms for bxid, bxthreshlod and bxmin
+  * updated backend handler
+
 1.4
 -----
 1.4.11/12

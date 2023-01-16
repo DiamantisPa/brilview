@@ -10,6 +10,6 @@ def return_error_on_exception(func):
             bvlogging.get_logger().warn(traceback.format_exc())
             return {
                 'status': 'ERROR',
-                'message': e.message
+                'message': str(e)
             }
     return decorated
