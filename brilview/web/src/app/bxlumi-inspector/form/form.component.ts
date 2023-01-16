@@ -54,6 +54,7 @@ export class FormComponent implements OnInit {
             this.resultMessage = error;
             this.progress = 100;
             this.progressStatus = 'danger';
+            console.log(error);
         });
     }
 
