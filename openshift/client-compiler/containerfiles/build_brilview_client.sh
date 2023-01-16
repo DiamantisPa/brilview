@@ -4,12 +4,13 @@ if [ -d "brilview_src" ]; then
 fi
 git config --global user.email "brilview-client-compiler"
 git config --global user.name "brilview client compiler"
-git clone --branch=1.5.1 https://github.com/cms-bril/brilview.git brilview_src
+git clone --branch=1.5.3 https://github.com/cms-bril/brilview.git brilview_src
 cd brilview_src/brilview/web
 source ~/.bashrc 
 node -v
 npm install node-sass@4.12
 #npm install --unsafe-perm
+rm -rf /client_files_for_serving/*
 yarn install --ignore-engines
 #rm -rf /client_files_for_serving/*
 cp -R dist/* /client_files_for_serving/
