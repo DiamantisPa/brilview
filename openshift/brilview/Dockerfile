@@ -10,7 +10,7 @@ RUN yum install -y epel-release\
  && mkdir -p /opt\
  && bash ./Brilconda-3.2.16-Linux-x86_64.sh -b -p /opt/brilconda\
  && rm ./Brilconda-3.2.16-Linux-x86_64.sh\
- && /opt/brilconda/bin/pip install brilws==3.6.8;
+ && /opt/brilconda/bin/pip install brilws==3.6.9;
 
 EXPOSE 9000
 
@@ -20,7 +20,7 @@ CMD /start.sh
 
 COPY containerfiles /
 
-RUN git clone https://github.com/cms-bril/brilview.git --branch=1.4.14 &> /dev/null\
+RUN git clone https://github.com/cms-bril/brilview.git --branch=1.5.0 &> /dev/null\
  && cd brilview\
  && /opt/brilconda/bin/python ./setup.py install\
  && chmod 666 /brilview_tmp/brilview_openshift_prod.yaml\
