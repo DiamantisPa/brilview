@@ -65,7 +65,7 @@ def get_brilcalc_lumi(args={}):
     '''
     cmd = _get_total_lumi_command_template()
     cmd.extend(_parse_time_range_args(args))
-
+    print(args)
     byls = False
     if args.get('byls', False):
         cmd.append('--byls')
@@ -106,7 +106,11 @@ def get_brilcalc_lumi(args={}):
         cmd.extend(['--hltpath', args['hltpath']])
         hltpath = args['hltpath']
 
+    if 'datatag' in args and args['datatag']:
+        cmd.append('--datatag')
+
     bvlogging.get_logger().debug(cmd)
+    print(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
         r = r.decode('utf-8')
