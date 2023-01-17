@@ -28,6 +28,7 @@ export class FormComponent implements OnInit {
         beamstatus: '-anybeams-',
         normtag: null,
         datatag: null,
+        datatagname: null,
         hltpath: null,
         unit: 'hz/mb',
         type: 'Online',
@@ -41,7 +42,8 @@ export class FormComponent implements OnInit {
         type: LUMI_TYPES.concat(['-normtag-']),
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
         beamstatus: ['-anybeams-'].concat(BEAMS),
-        normtag: null
+        normtag: null,
+        datatagnames: null
     };
     paramOptionsLoading = {
         normtag: false
@@ -156,6 +158,12 @@ export class FormComponent implements OnInit {
             this.endFieldIsDate = this.beginFieldIsDate;
             this.params.end = this.params.begin;
         }
+    }
+
+    getDatatagNames() {
+        let query_type = {query_type: 'datatags'}
+        let response =  this.lumiDataService.getDatatagNames(query_type);
+        console.log('response ', response);
     }
 
     // checkNormtags() {

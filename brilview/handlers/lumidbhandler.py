@@ -46,6 +46,13 @@ def get_iovtags():
         'data': _get_iovtags(get_engine())
     }
 
+@utils.return_error_on_exception
+def get_datatag_names():
+    return {
+        'status': 'OK',
+        'data': _get_datatag_names(get_engine())
+    }
+
 
 def parseservicemap(authfile):
     """Parse service config ini file
@@ -109,6 +116,10 @@ def get_engine(use_cached=True):
 
 def _get_iovtags(engine):
     resultproxy = engine.execute('select tagname from cms_lumi_prod.iovtags')
+    return [t[0] for t in resultproxy.fetchall()]
+
+def _get_datatag_names(engine):
+    resultproxy = engine.execute('select datatagname from cms_lumi_prod.DATATAGS')
     return [t[0] for t in resultproxy.fetchall()]
 
 

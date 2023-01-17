@@ -158,4 +158,32 @@ export class LumiDataService {
         this.onRemoveLumiData$.next();
     }
 
+    getDatatagNames(params) {
+        const _params = Object.assign({}, params);
+        const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
+            .do(data => {
+                if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
+                    if (data.hasOwnProperty('message')) {
+                        console.log("data['message']");
+                        console.log(data['message']);
+                        throw data['message'];
+                    }
+                    console.log('data');
+                    console.log(data);
+                    throw data;
+                }
+            }).share();
+        console.log('trying to subscribe data');
+        console.log(request);
+        // request.subscribe(data => {
+        //     console.log('subscribe data');
+        //     console.log(data);
+        //     //const id = this.addToStorage(params, data['data']);
+        //     this.onNewLumiData$.next({type: 'new', data: id});
+        // }, error => {
+        //     console.log('subscribe error');
+        // });
+        return request;
+    }
+
 }
