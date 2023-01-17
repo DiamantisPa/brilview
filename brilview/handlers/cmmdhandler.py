@@ -117,7 +117,7 @@ def get_brilcalc_lumi(args={}):
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
             print(e.output)
-            out = re.sub('File ".*?"', '<FILE>', e.output)
+            out = re.sub('File ".*?"', '<FILE>', str(e.output))
             return {'status': 'ERROR', 'message': out}
 
     return {
