@@ -120,7 +120,9 @@ def _get_iovtags(engine):
 
 def _get_datatag_names(engine):
     resultproxy = engine.execute('select datatagname from cms_lumi_prod.DATATAGS')
-    return [t[0] for t in resultproxy.fetchall()]
+    result = [t[0] for t in resultproxy.fetchall()]
+    print(result)
+    return result
 
 
 def _get_live_bestlumi(engine, query):

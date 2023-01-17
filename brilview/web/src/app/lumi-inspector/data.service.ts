@@ -174,7 +174,7 @@ export class LumiDataService {
                 }
             }).share();
         console.log('trying to subscribe data');
-        console.log(request);
+        console.log('request', request);
         // request.subscribe(data => {
         //     console.log('subscribe data');
         //     console.log(data);
