@@ -116,6 +116,7 @@ def get_brilcalc_lumi(args={}):
         r = r.decode('utf-8')
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
+            print(e.output)
             out = re.sub('File ".*?"', '<FILE>', e.output)
             return {'status': 'ERROR', 'message': out}
 
