@@ -72,6 +72,9 @@ def get_brilcalc_lumi(args={}):
         byls = True
     if args.get('without_correction', False):
         cmd.append('--without-correction')
+    
+    if args.get('datatag', False):
+        cmd.append('--datatag')
 
     unit = '/ub'
     if 'unit' in args and args['unit']:
@@ -105,9 +108,6 @@ def get_brilcalc_lumi(args={}):
     if 'hltpath' in args and args['hltpath']:
         cmd.extend(['--hltpath', args['hltpath']])
         hltpath = args['hltpath']
-
-    if 'datatag' in args and args['datatag']:
-        cmd.append('--datatag')
 
     bvlogging.get_logger().debug(cmd)
     print(cmd)
@@ -186,7 +186,7 @@ def get_brilcalc_bxlumi(args={}):
         r = r.decode('utf-8')
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
-            out = re.sub('File ".*?"', '<FILE>', e.output)
+            out = re.sub('File ".*?"', '<FILE>', str(e.output))
             return {'status': 'ERROR', 'message': out}
 
     return {
