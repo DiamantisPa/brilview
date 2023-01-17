@@ -162,8 +162,8 @@ export class FormComponent implements OnInit {
 
     getDatatagNames() {
         let query_type = {query_type: 'datatags'}
+        console.log("query_type ", query_type)
         let response =  this.lumiDataService.getDatatagNames(query_type);
-        console.log('response ', response);
     }
 
     // checkNormtags() {

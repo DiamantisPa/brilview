@@ -125,12 +125,12 @@
 
             <div class="bv-form-group">
                 <label>Datatag</label>
-                <clr-checkbox [(ngModel)]="params.datatag">
+                <clr-checkbox [(ngModel)]="params.datatag" (change)="getDatatagNames($event)">
                     Datatag
                 </clr-checkbox>
             </div>
 
-            <div class="bv-form-group" *ngIf="params.datatag?getDatatagNames():false">
+            <div class="bv-form-group" *ngIf="params.datatag">
                 <label>Datatag name</label>
                 <div class="select">
                     <select [(ngModel)]="params.datatagname">

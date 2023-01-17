@@ -141,4 +141,4 @@ def _handlerfn_lumidb_datatags(options):
 
     """
 
-    return lumidbhandler.get_datatag_names(options)
+    return lumidbhandler.get_datatag_names()
