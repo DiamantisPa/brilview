@@ -160,20 +160,15 @@ export class FormComponent implements OnInit {
         }
     }
 
-    getDatatagNames() {
-        let query_type = {query_type: 'datatags'}
-        console.log("query_type ", query_type)
-        let response =  this.lumiDataService.getDatatagNames(query_type);
-        console.log("response ", response)
-        response.subscribe(data => {
-                console.log('subscribe data');
-                console.log(data);
-                this.paramOptions.datatagnames = data['data'];
-                //const id = this.addToStorage(params, data['data']);
-                //this.onNewLumiData$.next({type: 'new', data: id});
-            }, error => {
-                console.log('subscribe error');
-        });
+    getDatatagNames(event) {
+        console.log(event);
+        if (event.target.checked) {
+            let query_type = {query_type: 'datatags'};
+            console.log("query_type ", query_type);
+            let response =  this.lumiDataService.getDatatagNames(query_type);
+            this.paramOptions.datatagnames = response;
+            console.log("response ", response);
+        }
        
     }
 

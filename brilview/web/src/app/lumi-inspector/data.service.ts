@@ -26,6 +26,7 @@ export class LumiDataService {
     lumiData = [];
     protected storage = {};
     protected lastStorageID = -1;
+    protected datatagnamesID = - 1
 
 
     constructor(private http: HttpClient) {
@@ -159,33 +160,40 @@ export class LumiDataService {
     }
 
     getDatatagNames(params) {
-        const _params = Object.assign({}, params);
-        console.log('_params ', _params);
-        const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
-            .do(data => {
-                console.log("data ", data);
-                if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
-                    if (data.hasOwnProperty('message')) {
-                        console.log("data['message']");
-                        console.log(data['message']);
-                        throw data['message'];
+        if (this.datatagnamesID != -1) {
+            return this.getLumiDataFromStorage(this.datatagnamesID);
+        }else {
+            const _params = Object.assign({}, params);
+            console.log('_params ', _params);
+            let response = null
+            const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
+                .do(data => {
+                    console.log("data ", data);
+                    if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
+                        if (data.hasOwnProperty('message')) {
+                            console.log("data['message']");
+                            console.log(data['message']);
+                            throw data['message'];
+                        }
+                        console.log('data');
+                        console.log(data);
+                        throw data;
                     }
-                    console.log('data');
-                    console.log(data);
-                    throw data;
-                }
-            }).share();
-        console.log('trying to subscribe data');
-        console.log('request', request);
-        request.subscribe(data => {
-            console.log('subscribe data');
-            console.log(data);
-            //const id = this.addToStorage(params, data['data']);
-            //this.onNewLumiData$.next({type: 'new', data: id});
-        }, error => {
-            console.log('subscribe error');
-        });
-        return request;
+                }).share();
+            console.log('trying to subscribe data');
+            console.log('request', request);
+            request.subscribe(data => {
+                console.log('subscribe data');
+                console.log(data);
+                response = data['data'];
+                this.datatagnamesID = this.addToStorage(params, data['data']);
+                //this.onNewLumiData$.next({type: 'new', data: id});
+            }, error => {
+                console.log('subscribe error');
+            });
+            return response;
+        }
+        
     }
 
 }

@@ -4,7 +4,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "install": "ng build --prod --aot --verbose",
+    "install": "ng build --prod --aot",
     "ng": "ng",
     "serve": "ng serve --proxy-config proxy.config.json",
     "start": "ng serve",
