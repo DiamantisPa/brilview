@@ -40,10 +40,10 @@ items:
           resources:
             limits:
               cpu: 2
-              memory: 2Gi
+              memory: 3Gi
             requests:
               cpu: 1
-              memory: 1.6Gi
+              memory: 2.5Gi
           volumeMounts:
             - mountPath: "/client_files_for_serving"
               name: "pvol1"
