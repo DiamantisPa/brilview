@@ -73,8 +73,8 @@ def get_brilcalc_lumi(args={}):
     if args.get('without_correction', False):
         cmd.append('--without-correction')
     
-    if args.get('datatag', False):
-        cmd.append('--datatag')
+    if 'datatag' in args and args['datatag']:
+        cmd.extend(['--datatag', args['datatagname']])
 
     unit = '/ub'
     if 'unit' in args and args['unit']:
