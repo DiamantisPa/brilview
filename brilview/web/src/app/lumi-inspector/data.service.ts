@@ -162,7 +162,6 @@ export class LumiDataService {
     getDatatagNames(params) {
         const _params = Object.assign({}, params);
         console.log('_params ', _params);
-        let response = null
         const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
             .do(data => {
                 console.log("data ", data);
