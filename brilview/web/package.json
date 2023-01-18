@@ -4,7 +4,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "install": "ng build --prod --aot",
+    "install": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot",
     "ng": "ng",
     "serve": "ng serve --proxy-config proxy.config.json",
     "start": "ng serve",
