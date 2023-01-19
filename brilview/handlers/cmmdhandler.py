@@ -361,7 +361,8 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         'hltpathid': hltpathids,
         'hltpathid2name': hltpathid2name,
         'hltpathname2id': hltpathname2id,
-        'pileup': pileups
+        'pileup': pileups,
+        'datatagname': datatagname
     }
 
 

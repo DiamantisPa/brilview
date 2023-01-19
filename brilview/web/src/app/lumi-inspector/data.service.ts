@@ -26,8 +26,6 @@ export class LumiDataService {
     lumiData = [];
     protected storage = {};
     protected lastStorageID = -1;
-    protected datatagnamesID = - 1
-
 
     constructor(private http: HttpClient) {
         this.onNewLumiData$ = new Subject();
@@ -119,7 +117,7 @@ export class LumiDataService {
             params['begin'], params['end'], params['type'],
             (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
             (params['without_correction'] ? 'raw' : null),
-            params['normtag'], params['hltpath'], params['datatag'],
+            params['normtag'], params['hltpath'], params['datatagname'],
             (params['pileup'] ? 'minbiasxsec' + params['minbiasxsec'] : null),
             params['unit'], data['tssec'].length + ' data points'
         ].filter(Boolean).join(', ');
