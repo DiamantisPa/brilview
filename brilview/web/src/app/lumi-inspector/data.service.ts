@@ -144,4 +144,20 @@ export class LumiDataService {
         this.onRemoveLumiData$.next();
     }
 
+    getDatatagNames(params) {
+        const _params = Object.assign({}, params);
+        const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
+            .do(data => {
+                if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
+                    if (data.hasOwnProperty('message')) {
+                        throw data['message'];
+                    }
+
+                    throw data;
+                }
+            }).share();
+
+        return request;
+    }
+
 }

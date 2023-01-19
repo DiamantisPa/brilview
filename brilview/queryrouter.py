@@ -38,6 +38,8 @@ def get_handler_fn(options):
         return _handlerfn_lumidb_iovtags
     elif t == 'normtags':
         return _handlerfn_cmmd_normtags
+    elif t == 'datatags':
+        return _handlerfn_lumidb_datatags
     elif t == 'dummy':
         raise NotImplementedError('No dummy handler yet.')
 
@@ -126,3 +128,14 @@ def _handlerfn_lumidb_last_fill(options):
     """
 
     return lumidbhandler.get_last_fill_number(options)
+
+def _handlerfn_lumidb_datatags(options):
+    """lumidb executor - call to get datatag names
+
+    :param options: dict query options
+    :returns: data
+    :rtype: dict
+
+    """
+
+    return lumidbhandler.get_datatag_names()

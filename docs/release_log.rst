@@ -3,6 +3,13 @@ Release log
 
 1.5
 -----
+1.5.4
+
+2023-01-19
+
+* New totlumi UI form with datatag input field
+* Updated backend handler for datatag extension
+* New functionality of retrieving the datatags from DB
 1.5.0
 
 2023-01-16

@@ -6,8 +6,8 @@ RUN node --version
 RUN touch ~/.bashrc \
  && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
  && source ~/.bashrc \
- && nvm install 12.14.1 \
- && nvm alias default 12 \
+ && nvm install 14.14.0 \
+ && nvm alias default 14 \
  && npm install -g yarn \
  && yarn --version
 COPY containerfiles .

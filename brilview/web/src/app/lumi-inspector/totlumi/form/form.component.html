@@ -124,6 +124,22 @@
             </div>
 
             <div class="bv-form-group">
+                <label>Datatag</label>
+                <clr-checkbox [(ngModel)]="params.datatag" (change)="getDatatagNames($event)">
+                    Datatag
+                </clr-checkbox>
+            </div>
+
+            <div class="bv-form-group" *ngIf="params.datatag">
+                <label>Datatag name</label>
+                <div class="select">
+                    <select [(ngModel)]="params.datatagname">
+                        <option *ngFor="let opt of paramOptions.datatagnames">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bv-form-group">
                 <label>Pileup</label>
                 <clr-checkbox [(ngModel)]="params.pileup">
                     Query pileup
