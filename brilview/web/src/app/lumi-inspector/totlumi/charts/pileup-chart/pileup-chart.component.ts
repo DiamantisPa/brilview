@@ -47,7 +47,7 @@ export class PileupChartComponent implements OnInit, AfterViewInit {
             (params['type'] === '-normtag-' ? params['normtag'] : params['type']),
             (params['without_correction'] ? 'raw' : null),
             params['beamstatus'],
-            params['hltpath'], params['datatag'],
+            params['hltpath'], params['datatagname'],
             'minbias' + params['minbiasxsec']
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
 

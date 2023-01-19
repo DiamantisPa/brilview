@@ -57,7 +57,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
             yfield,
             (params['without_correction'] ? 'raw' : null),
             params['beamstatus'],
-            params['hltpath'], params['datatag'],
+            params['hltpath'], params['datatagname'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
 
@@ -67,6 +67,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
 
     protected _addSeries(data, yfield, name, params) {
         console.log("_addSeries");
+        console.log(params);
         console.log(data);
         console.log(yfield);
         this.chart.addSeries(
