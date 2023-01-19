@@ -272,6 +272,8 @@ def _make_normtag_filepath(normtag):
 
 
 def _parse_brilcalc_output(result, byls, pileup, hltpath):
+    lineoptions = result.splitlines()[0]
+    print('lineoptions' , lineoptions)
     lines = [l for l in result.splitlines() if
              len(l) and not l.startswith('#')]
     print('lines' , lines)
@@ -290,6 +292,18 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
     hltpathid2name = {}
     hltpathname2id = {}
     allpaths = []
+    datatagname = None
+
+    if len(lineoptions):
+        options =  lineoptions.split(',')
+        print('options', options)
+        datatag = [option for option in options if
+                    'Data tag' in options]
+        print('datatag', datatag)
+        datatagname = datatag.split(':')[1]
+        print('datatagname', datatagname)
+
+
     for row in reader:
         if row[0].find(':') == -1:
             # output is an error - first data field always n:m
