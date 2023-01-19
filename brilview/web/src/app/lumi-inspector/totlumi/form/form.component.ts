@@ -172,6 +172,7 @@ export class FormComponent implements OnInit {
                 console.log('subscribe data');
                 console.log(data);
                 this.paramOptions.datatagnames = data['data'];
+                this.params.datatagname = data['data'][0];
                 //this.datatagnamesID = this.addToStorage(params, data['data']);
                 //this.onNewLumiData$.next({type: 'new', data: id});
             }, error => {

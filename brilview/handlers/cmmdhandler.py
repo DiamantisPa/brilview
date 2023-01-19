@@ -73,7 +73,7 @@ def get_brilcalc_lumi(args={}):
     if args.get('without_correction', False):
         cmd.append('--without-correction')
     
-    if 'datatag' in args and args['datatag']:
+    if 'datatag' in args and args['datatag'] and args['datatagname']:
         cmd.extend(['--datatag', args['datatagname']])
 
     unit = '/ub'
@@ -114,6 +114,7 @@ def get_brilcalc_lumi(args={}):
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
         r = r.decode('utf-8')
+        print('r ', r)
     except subprocess.CalledProcessError as e:
         if e.returncode != 0:
             print(e.output)
@@ -273,7 +274,7 @@ def _make_normtag_filepath(normtag):
 def _parse_brilcalc_output(result, byls, pileup, hltpath):
     lines = [l for l in result.splitlines() if
              len(l) and not l.startswith('#')]
-
+    print('lines' , lines)
     if not len(lines):  # no data found
         raise ValueError('Empty result')
 
