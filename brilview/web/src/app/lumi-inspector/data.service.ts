@@ -99,6 +99,8 @@ export class LumiDataService {
     protected addToStorage(params, data) {
         const id = this.lastStorageID = this.lastStorageID + 1;
         const name = this.makeLumiDataName(params, data);
+        params['datatagname'] = data['datatagname']
+        
         if (this.storage.hasOwnProperty(id)) {
             throw Error('Cannot insert lumi data. ID already exists.');
         }
