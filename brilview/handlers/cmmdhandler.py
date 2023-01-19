@@ -298,9 +298,9 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         options =  lineoptions.split(',')
         print('options', options)
         datatag = [option for option in options if
-                    'Data tag' in options]
+                    'Data tag' in option]
         print('datatag', datatag)
-        datatagname = datatag.split(':')[1]
+        datatagname = datatag[0].split(':')[1]
         print('datatagname', datatagname)
 
 
