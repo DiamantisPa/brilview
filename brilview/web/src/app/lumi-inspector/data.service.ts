@@ -104,7 +104,7 @@ export class LumiDataService {
             params['begin'], params['end'], params['type'],
             (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
             (params['without_correction'] ? 'raw' : null),
-            params['normtag'], params['hltpath'], params['datatag'],
+            params['normtag'], params['hltpath'], data['datatagname'],
             (params['pileup'] ? 'minbiasxsec' + params['minbiasxsec'] : null),
             params['unit'], data['tssec'].length + ' data points'
         ].filter(Boolean).join(', ');

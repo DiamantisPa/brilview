@@ -3,15 +3,22 @@ Release log
 
 1.5
 -----
-1.5.4
+1.5.5
+^^^^^
+2023-01-20
 
+* functionality for parsing datatag name from brilcalc response
+
+1.5.4
+^^^^^
 2023-01-19
 
 * New totlumi UI form with datatag input field
 * Updated backend handler for datatag extension
 * New functionality of retrieving the datatags from DB
-1.5.0
 
+1.5.0
+^^^^^
 2023-01-16
 
 * Update brilws version to 3.6.9
