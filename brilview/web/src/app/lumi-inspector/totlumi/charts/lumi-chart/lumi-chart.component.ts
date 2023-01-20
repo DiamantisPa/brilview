@@ -55,7 +55,7 @@ export class LumiChartComponent implements OnInit, AfterViewInit {
             yfield,
             (params['without_correction'] ? 'raw' : null),
             params['beamstatus'],
-            params['hltpath'], params['datatag'],
+            params['hltpath'], newData['datatagname'],
             (params['byls'] ? 'byLS' : 'byRUN')
         ].filter(Boolean); // filter out null, undefined, 0, false, empty string
 
