@@ -292,7 +292,7 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
         options =  lineoptions.split(',')
         datatag = [option for option in options if
                     'Data tag' in option]
-        datatagname = datatag.split(':')[1]
+        datatagname = datatag[0].split(':')[1]
 
     for row in reader:
         if row[0].find(':') == -1:
