@@ -65,7 +65,7 @@ def get_brilcalc_lumi(args={}):
     '''
     cmd = _get_total_lumi_command_template()
     cmd.extend(_parse_time_range_args(args))
-    print(args)
+    print('args ', args)
     byls = False
     if args.get('byls', False):
         cmd.append('--byls')
@@ -110,9 +110,9 @@ def get_brilcalc_lumi(args={}):
         hltpath = args['hltpath']
 
     bvlogging.get_logger().debug(cmd)
-    print(cmd)
+    print('cmd ', cmd)
     try:
-        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=10)
         r = r.decode('utf-8')
         print('r ', r)
     except subprocess.CalledProcessError as e:
