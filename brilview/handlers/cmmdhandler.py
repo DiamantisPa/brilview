@@ -112,7 +112,7 @@ def get_brilcalc_lumi(args={}):
     bvlogging.get_logger().debug(cmd)
     print('cmd ', cmd)
     try:
-        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=20)
+        r = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=40)
         r = r.decode('utf-8')
         print('r ', r)
     except subprocess.CalledProcessError as e:
