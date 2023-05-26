@@ -13,6 +13,19 @@ items:
       requests:
         storage: "4Gi"
 
+- apiVersion: "v1"
+  kind: "PersistentVolumeClaim"
+  metadata:
+    name: "cvmfs-bril"
+  spec:
+    storageClassName: "cvmfs"
+    accessModes:
+      - "ReadOnlyMany"
+    volumeMode: "Filesystem"
+    resources:
+      requests:
+        storage: "1Mi"
+
 - apiVersion: v1
   kind: ImageStream
   metadata:

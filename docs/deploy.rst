@@ -37,23 +37,6 @@ Go to https://webservices.web.cern.ch/webservices/ and "Create a new website" as
 
 Go to "My websites" pick up the new site and "View quota usage", then change "flavor" to "Large".
 
-Create CVMFS volume claim
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Go to project web console https://openshift.cern.ch/console/project/brilview/
-
-1. "Storage" -> "Create Storage"
-2. Fill the form:
-
-   a. "Storage Class": cvmfs-cms-bril.cern.ch
-   b. "Name": cvmfs-bril
-   c. "Access Mode": Read Only (ROX)
-   d. "Size": 1 MiB
-
-      See https://cern.service-now.com/service-portal?id=kb_article&n=KB0004390
-
-3. Click "Create"
-
 Deploy Brilview containers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
