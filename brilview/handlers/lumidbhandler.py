@@ -84,6 +84,7 @@ def create_engine(servicemap, servicename):
 
 
 def get_engine(use_cached=True):
+    global DEFAULT_ENGINE
     if use_cached and DEFAULT_ENGINE is not None:
         return DEFAULT_ENGINE
     authfile = None
