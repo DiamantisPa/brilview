@@ -72,6 +72,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
 
     queryBrilLumi(event) {
         this.onQueryStart();
+        console.log('event bril ', event)
         const query = Object.assign(event, {
             begin: this.fillnum,
             end: this.fillnum
