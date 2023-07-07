@@ -27,6 +27,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     loadingStatus: string;
     loadingProgress = 0;
     responseMessage = null;
+    lumiData = [];
 
     constructor(
         protected atlasDataService: AtlaslumiDataService,
@@ -62,6 +63,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             this.chart.addSeries('ATLAS', d['timestamp'], d['lumi_totinst'], [], {});
             this.rescaleChartValues();
             this.chart.autoZoom();
+            this.lumiData = d['lumi_totinst'];
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));
         return obs;
@@ -87,6 +89,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
             ].filter(Boolean);
             this.chart.addSeries(nameParts.join('_'), x, y, [], {});
             this.rescaleChartValues();
+            this.lumiData = d['delivered'];
             this.onQuerySuccess(resp);
         }, this.onQueryError.bind(this));
         return obs;
