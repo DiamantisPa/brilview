@@ -9,6 +9,11 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/do';
 
+export interface LumiDataEvent {
+    type: string;
+    data: Object;
+}
+
 @Injectable()
 export class AtlaslumiDataService {
 
