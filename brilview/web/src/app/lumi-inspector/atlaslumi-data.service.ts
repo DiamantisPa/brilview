@@ -15,8 +15,17 @@ export class AtlaslumiDataService {
     static postHeaders = new HttpHeaders({'Content-Type': 'application/json'});
     static postOptions = { headers: AtlaslumiDataService.postHeaders };
 
+    onNewLumiData$: Subject<LumiDataEvent>;
+    onRemoveLumiData$: Subject<void>;
+    lumiDataLimit = 10;
+    lumiData = [];
+    protected storage = {};
+    protected lastStorageID = -1;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        this.onNewLumiData$ = new Subject();
+        this.onRemoveLumiData$ = new Subject<void>();
+    }
 
     query(params) {
         let _params = Object.assign({}, params, {
@@ -34,7 +43,58 @@ export class AtlaslumiDataService {
                     throw data;
                 }
             }).share();
+        request.subscribe(data => {
+            const id = this.addToStorage(params, data['data']);
+            this.onNewLumiData$.next({type: 'new', data: id});
+        }, error => {});
         return request;
+    }
+
+    protected addToStorage(params, data) {
+        const id = this.lastStorageID = this.lastStorageID + 1;
+        const name = this.makeLumiDataName(params, data);
+        if (this.storage.hasOwnProperty(id)) {
+            throw Error('Cannot insert lumi data. ID already exists.');
+        }
+        this.storage[id] = {
+            name: name,
+            params: Object.assign({}, params),
+            data: data
+        };
+        this.lumiData.push([id, name]);
+        this.removeLumiDataOverLimit();
+        return id;
+    }
+
+    makeLumiDataName(params, data) {
+        return [
+            params['begin'], params['end'], params['type'],
+            (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
+            (params['without_correction'] ? 'raw' : null),
+            params['normtag'], params['hltpath'], data['datatagname'],
+            (params['pileup'] ? 'minbiasxsec' + params['minbiasxsec'] : null),
+            params['unit'], data['tssec'].length + ' data points'
+        ].filter(Boolean).join(', ');
+    }
+
+    removeLumiDataOverLimit() {
+        let id;
+        while (this.lumiData.length > this.lumiDataLimit) {
+            id = this.lumiData[0][0];
+            this.removeLumiDataFromStorage(id);
+        }
+        this.onRemoveLumiData$.next();
+    }
+
+    removeLumiDataFromStorage(id) {
+        for (let i = 0; i < this.lumiData.length; ++i) {
+            if (this.lumiData[i][0] === id) {
+                this.lumiData.splice(i, 1);
+                break;
+            }
+        }
+        delete this.storage[id];
+        this.onRemoveLumiData$.next();
     }
 
 }
