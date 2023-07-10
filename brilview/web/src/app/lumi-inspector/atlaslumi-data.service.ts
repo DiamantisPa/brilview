@@ -35,6 +35,7 @@ export class AtlaslumiDataService {
     query(params) {
         let _params = Object.assign({}, params, {
             'query_type': 'atlaslumi',
+            'unit': 'hz/ub'
         });
         const request = this.http.post('/api/query', _params, AtlaslumiDataService.postOptions)
             .do(data => {
@@ -49,7 +50,7 @@ export class AtlaslumiDataService {
                 }
             }).share();
         request.subscribe(data => {
-            const id = this.addToStorage(params, data['data']);
+            const id = this.addToStorage(_params, data['data']);
             this.onNewLumiData$.next({type: 'new', data: id});
         }, error => {});
         return request;
@@ -76,12 +77,8 @@ export class AtlaslumiDataService {
 
     makeLumiDataName(params, data) {
         return [
-            params['begin'], params['end'], params['type'],
-            (params['byls'] ? 'byLS' : 'byRUN'), params['beamstatus'],
-            (params['without_correction'] ? 'raw' : null),
-            params['normtag'], params['hltpath'], data['datatagname'],
-            (params['pileup'] ? 'minbiasxsec' + params['minbiasxsec'] : null),
-            params['unit'], data['tssec'].length + ' data points'
+            params['fillnum'], params['query_type'],
+            params['unit'], data['timestamp'].length + ' data points'
         ].filter(Boolean).join(', ');
     }
 
