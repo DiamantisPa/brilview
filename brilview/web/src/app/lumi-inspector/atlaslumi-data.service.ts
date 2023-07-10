@@ -56,6 +56,7 @@ export class AtlaslumiDataService {
     }
 
     protected addToStorage(params, data) {
+        console.log('atlas add storage', params, data);
         const id = this.lastStorageID = this.lastStorageID + 1;
         const name = this.makeLumiDataName(params, data);
         if (this.storage.hasOwnProperty(id)) {
@@ -68,6 +69,7 @@ export class AtlaslumiDataService {
         };
         this.lumiData.push([id, name]);
         this.removeLumiDataOverLimit();
+        console.log('lumidata ', this.lumiData);
         return id;
     }
 
