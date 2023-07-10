@@ -84,6 +84,7 @@ export class LumiDataService {
     }
 
     protected addToStorage(params, data) {
+        console.log('cms add storage', params, data);
         const id = this.lastStorageID = this.lastStorageID + 1;
         const name = this.makeLumiDataName(params, data);
         if (this.storage.hasOwnProperty(id)) {
@@ -96,6 +97,8 @@ export class LumiDataService {
         };
         this.lumiData.push([id, name]);
         this.removeLumiDataOverLimit();
+        console.log('lumidata ', this.lumiData);
+        console.log('storage ', this.storage[id]);
         return id;
     }
 

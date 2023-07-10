@@ -70,6 +70,7 @@ export class AtlaslumiDataService {
         this.lumiData.push([id, name]);
         this.removeLumiDataOverLimit();
         console.log('lumidata ', this.lumiData);
+        console.log('storage ', this.storage[id]);
         return id;
     }
 
