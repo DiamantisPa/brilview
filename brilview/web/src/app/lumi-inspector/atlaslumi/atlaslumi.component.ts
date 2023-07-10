@@ -71,11 +71,17 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     queryBrilLumi(event) {
+
+        if (event['fillnum'] != this.fillnum) {
+            this.onQueryError('Fillnum for the CMS lumi is different than the queried ATLAS lumi');
+            return;
+        }
+
         this.onQueryStart();
         console.log('event bril ', event)
         const query = Object.assign(event, {
-            begin: event['fillnum'],
-            end: event['fillnum']
+            begin: this.fillnum,
+            end: this.fillnum
         });
         console.log('query', query)
         const obs = this.brilDataService.query(query)
