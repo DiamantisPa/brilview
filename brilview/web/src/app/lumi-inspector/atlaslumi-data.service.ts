@@ -62,6 +62,7 @@ export class AtlaslumiDataService {
         console.log('atlas add storage', params, data);
         const id = this.lumiDataService.lastStorageID = this.lumiDataService.lastStorageID + 1;
         const name = this.makeLumiDataName(params, data);
+        console.log('name ', name);
         if (this.lumiDataService.storage.hasOwnProperty(id)) {
             throw Error('Cannot insert lumi data. ID already exists.');
         }
@@ -78,6 +79,8 @@ export class AtlaslumiDataService {
     }
 
     makeLumiDataName(params, data) {
+        console.log('makeLumiDataName params', params);
+        console.log('makeLumiDataName data', data);
         return [
             data['single_fillnum'], params['query_type'],
             params['unit'], data['timestamp'].length + ' data points'
