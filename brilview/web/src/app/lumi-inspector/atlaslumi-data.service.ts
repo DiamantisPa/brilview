@@ -79,7 +79,7 @@ export class AtlaslumiDataService {
 
     makeLumiDataName(params, data) {
         return [
-            params['fillnum'], params['query_type'],
+            data['single_fillnum'], params['query_type'],
             params['unit'], data['timestamp'].length + ' data points'
         ].filter(Boolean).join(', ');
     }
