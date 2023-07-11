@@ -70,7 +70,9 @@ export class StorageComponent implements OnInit {
         } else {
             keys = ['single_fillnum', 'timestamp', 'lumi_totinst'];
         }
+        console.log('save lumi data csv keys', keys); 
         const len = data[keys[0]].length;
+        console.log('save lumi data csv len', len); 
         let csv = keys.join(',') + '\r\n';
         for (let i = 0; i < len; ++i) {
             let line = '';
@@ -78,6 +80,7 @@ export class StorageComponent implements OnInit {
                 if (line) {
                     line += ',';
                 }
+                console.log('save lumi data csv data[k]', data[k]); 
                 if (i < data[k].length) {
                     line += data[k][i];
                 }
