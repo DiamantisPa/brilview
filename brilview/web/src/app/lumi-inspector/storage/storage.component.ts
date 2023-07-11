@@ -66,9 +66,9 @@ export class StorageComponent implements OnInit {
         console.log('save lumi data csv data', data);    
         let keys;
         if (name.includes('atlaslumi')) {
-            keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
-        } else {
             keys = ['single_fillnum', 'timestamp', 'lumi_totinst'];
+        } else {
+            keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
         }
         console.log('save lumi data csv keys', keys); 
         const len = data[keys[0]].length;
