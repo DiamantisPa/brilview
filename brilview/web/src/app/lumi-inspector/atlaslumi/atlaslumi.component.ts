@@ -59,7 +59,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
         obs.subscribe(resp => {
             const d = resp['data'];
             this.fillnum = d['single_fillnum'];
-            this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum']);
+            this.chart.setTitle('Instantaneous luminosity. Fill: ' + d['single_fillnum'][0]);
             this.chartUnit = 'Hz/ub';
             this.chart.addSeries('ATLAS', d['timestamp'], d['lumi_totinst'], [], {});
             this.rescaleChartValues();
