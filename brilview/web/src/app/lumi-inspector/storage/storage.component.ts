@@ -80,7 +80,7 @@ export class StorageComponent implements OnInit {
                 if (line) {
                     line += ',';
                 }
-                console.log('save lumi data csv data[k]', data[k]); 
+                //console.log('save lumi data csv data[k]', data[k]); 
                 if (i < data[k].length) {
                     line += data[k][i];
                 }
