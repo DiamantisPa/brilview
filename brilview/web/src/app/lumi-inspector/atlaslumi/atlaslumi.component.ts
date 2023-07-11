@@ -31,7 +31,7 @@ export class AtlaslumiComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         protected atlasDataService: AtlaslumiDataService,
-        private brilDataService: BrillumiDataService) {
+        public brilDataService: BrillumiDataService) {
     }
 
     ngOnInit() {
