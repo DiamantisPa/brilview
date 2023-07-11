@@ -63,8 +63,13 @@ export class StorageComponent implements OnInit {
     saveLumiDataCSV(id, name) {
         console.log('save lumi data csv id, name', id, name);
         const data = this.lumiDataService.getLumiDataFromStorage(id)['data'];
-        console.log('save lumi data csv data', data);
-        const keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
+        console.log('save lumi data csv data', data);    
+        let keys;
+        if ('atlaslumi' in name) {
+            keys = ['fillnum', 'runnum', 'lsnum', 'tssec', 'delivered', 'recorded', 'pileup'];
+        } else {
+            keys = ['single_fillnum', 'timestamp', 'lumi_totinst'];
+        }
         const len = data[keys[0]].length;
         let csv = keys.join(',') + '\r\n';
         for (let i = 0; i < len; ++i) {
