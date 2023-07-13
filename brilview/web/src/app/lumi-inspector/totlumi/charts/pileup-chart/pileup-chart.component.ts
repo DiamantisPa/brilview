@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/debounceTime';
@@ -17,7 +17,6 @@ export class PileupChartComponent implements OnInit, AfterViewInit {
     @ViewChild('alerts') alerts;
     @ViewChild('chart') chart;
     @ViewChild('lumiDataSelect1') lumiDataSelect1;
-    @Input('noSeparators') noSeparators = false;
     lumiData: Array<Array<any>> = [[]];
 
     constructor(protected dataService: LumiDataService) {}

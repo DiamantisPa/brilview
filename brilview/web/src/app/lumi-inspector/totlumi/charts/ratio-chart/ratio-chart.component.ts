@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/debounceTime';
@@ -18,6 +18,7 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
     @ViewChild('chart') chart;
     @ViewChild('lumiDataSelect1') lumiDataSelect1;
     @ViewChild('lumiDataSelect2') lumiDataSelect2;
+    @Input('noSeparators') noSeparators = false;
     lumiData: Array<Array<any>> = [[]];
     lumiDataStorageUpdates$: Observable<any>;
     currentPermutationIdx = 0;
