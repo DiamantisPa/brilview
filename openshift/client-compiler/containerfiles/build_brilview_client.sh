@@ -4,7 +4,7 @@ if [ -d "brilview_src" ]; then
 fi
 git config --global user.email "brilview-client-compiler"
 git config --global user.name "brilview client compiler"
-git clone --branch=1.6.56 https://github.com/DiamantisPa/brilview.git brilview_src
+git clone --branch=1.6.57 https://github.com/DiamantisPa/brilview.git brilview_src
 cd brilview_src/brilview/web
 source ~/.bashrc 
 node -v
