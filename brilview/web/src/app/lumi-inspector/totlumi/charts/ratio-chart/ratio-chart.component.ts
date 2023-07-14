@@ -59,6 +59,7 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < data1['runnum'].length; ++i) {
             data1TimeIndex[data1['runnum'][i] * 10000 + data1['lsnum'][i]] = i;
         }
+        console.log('data1TimeIndex', data1TimeIndex);
         const text = [];
         const x = [];
         const y = [];
