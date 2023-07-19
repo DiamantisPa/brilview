@@ -35,14 +35,14 @@
                     (valueChange)="brilNormtag = $event">
                 </bv-normtag-select>
             </div>
-        </div>
 
-        <div class="bv-form-group">
-            <label>Connection mode</label>
-            <div class="select">
-                <select [(ngModel)]="connection">
-                    <option *ngFor="let opt of connectionOptions">{{opt}}</option>
-                </select>
+            <div class="bv-form-group">
+                <label>Connection mode</label>
+                <div class="select">
+                    <select [(ngModel)]="connection">
+                        <option *ngFor="let opt of connectionOptions">{{opt}}</option>
+                    </select>
+                </div>
             </div>
         </div>
 
