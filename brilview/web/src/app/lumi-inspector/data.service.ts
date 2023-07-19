@@ -40,6 +40,7 @@ export class LumiDataService {
         } catch (e) {
             return Observable.throw(e.message);
         }
+        console.log('query params', _params);
         const request = this.http.post('/api/query', _params, LumiDataService.postOptions)
             .do(data => {
                 if (!data || !data.hasOwnProperty('status') || data['status'] !== 'OK') {
