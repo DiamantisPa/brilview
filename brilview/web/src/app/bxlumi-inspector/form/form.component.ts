@@ -31,7 +31,8 @@ export class FormComponent implements OnInit {
     paramOptions = {
         type: LUMI_TYPES.concat(['-normtag-']),
         unit: [['hz/mb', 'Instantaneous'], ['/mb', 'Integrated']],
-        normtag: null
+        normtag: null,
+        connection: ['web', 'offline']
     };
 
     constructor(protected dataService: BXLumiDataService) {
