@@ -24,7 +24,8 @@ export class FormComponent implements OnInit {
         bxthreshold: null,
         xingmin: null,
         bxid_start: null,
-        bxid_end: null
+        bxid_end: null,
+        connection: 'web'
     }
 
     paramOptions = {
