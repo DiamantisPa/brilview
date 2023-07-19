@@ -109,6 +109,7 @@ def get_brilcalc_lumi(args={}):
         cmd.extend(['--hltpath', args['hltpath']])
         hltpath = args['hltpath']
 
+    print(cmd)
     bvlogging.get_logger().debug(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)

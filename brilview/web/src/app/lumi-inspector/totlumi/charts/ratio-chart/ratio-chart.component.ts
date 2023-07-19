@@ -56,29 +56,48 @@ export class RatioChartComponent implements OnInit, AfterViewInit {
         console.log('addRation data2', data2);
 
         const data1TimeIndex = {};
-        for (let i = 0; i < data1['runnum'].length; ++i) {
-            data1TimeIndex[data1['runnum'][i] * 10000 + data1['lsnum'][i]] = i;
+        if (lumiData1.name.includes('atlaslumi')) {
+            for (let i = 0; i < data2['runnum'].length; ++i) {
+                data1TimeIndex[data2['tssec'][i]] = i;
+            }
+        } else if (lumiData2.name.includes('atlaslumi')) {
+            for (let i = 0; i < data1['runnum'].length; ++i) {
+                data1TimeIndex[data1['tssec'][i]] = i;
+            }
+        } else {
+            for (let i = 0; i < data1['runnum'].length; ++i) {
+                data1TimeIndex[data1['runnum'][i] * 10000 + data1['lsnum'][i]] = i;
+            }
         }
+        
         console.log('data1TimeIndex', data1TimeIndex);
         const text = [];
         const x = [];
         const y = [];
         const meta = {runnum: [], fillnum: []};
-        for (let j = 0; j < data2['runnum'].length; ++j) {
-            const data1Index = data1TimeIndex[
-                data2['runnum'][j] * 10000 + data2['lsnum'][j]
-            ];
-            if (!Number.isInteger(data1Index)) {
-                continue;
-            }
-            x.push(data1['tssec'][data1Index] * 1000);
-            y.push(data1[yfield1][data1Index] / data2[yfield2][j]);
-            text.push(data1['fillnum'][data1Index] + ':' +
-                      data1['runnum'][data1Index] + ':' +
-                      data1['lsnum'][data1Index]);
-            meta.runnum.push(data1['runnum'][data1Index]);
-            meta.fillnum.push(data1['fillnum'][data1Index]);
+
+        if (lumiData1.name.includes('atlaslumi') || lumiData2.name.includes('atlaslumi')) {
+            console.log('test');
+            
         }
+        else {
+            for (let j = 0; j < data2['runnum'].length; ++j) {
+                const data1Index = data1TimeIndex[
+                    data2['runnum'][j] * 10000 + data2['lsnum'][j]
+                ];
+                if (!Number.isInteger(data1Index)) {
+                    continue;
+                }
+                x.push(data1['tssec'][data1Index] * 1000);
+                y.push(data1[yfield1][data1Index] / data2[yfield2][j]);
+                text.push(data1['fillnum'][data1Index] + ':' +
+                          data1['runnum'][data1Index] + ':' +
+                          data1['lsnum'][data1Index]);
+                meta.runnum.push(data1['runnum'][data1Index]);
+                meta.fillnum.push(data1['fillnum'][data1Index]);
+            }
+        }
+
         if (x.length <= 0) {
             this.alerts.alert({
                 label: '',
