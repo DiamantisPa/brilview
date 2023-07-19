@@ -63,7 +63,8 @@ def get_brilcalc_lumi(args={}):
     }
 
     '''
-    cmd = _get_total_lumi_command_template(args['connection'])
+    cmd = _get_total_lumi_command_template()
+    cmd.append(args['connection'])
     cmd.extend(_parse_time_range_args(args))
 
     byls = False
@@ -152,6 +153,7 @@ def get_brilcalc_bxlumi(args={}):
     }
     '''
     cmd = _get_total_lumi_command_template()
+    cmd.append(args['connection'])
     cmd.append('--xing')
     cmd.extend(_parse_run_ls_args(args))
     if args.get('without_correction', False):
@@ -357,7 +359,7 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
     }
 
 
-def _get_total_lumi_command_template(c):
+def _get_total_lumi_command_template():
     if (
             hasattr(bvconfig, 'brilcommandhandler') and
             'command' in bvconfig.brilcommandhandler and
@@ -366,17 +368,9 @@ def _get_total_lumi_command_template(c):
         cmd = bvconfig.brilcommandhandler['command']
     else:
         cmd = 'brilcalc'
-    if (
-            hasattr(bvconfig, 'brilcommandhandler') and
-            'connection' in bvconfig.brilcommandhandler and
-            bvconfig.brilcommandhandler['connection']
-    ):
-        connection = bvconfig.brilcommandhandler['connection']
-    else:
-        connection = c
 
     return [
-        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec', '-c', connection
+        cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec', '-c'
     ]
 
 
