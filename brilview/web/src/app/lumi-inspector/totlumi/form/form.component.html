@@ -56,6 +56,15 @@
                     (click)="endFieldIsDate = !endFieldIsDate; params.end = null; timeoutFocus(endDateField, 100)">
                 </clr-icon>
             </div>
+
+            <div class="bv-form-group">
+                <label>Query Mode</label>
+                <div class="select">
+                    <select [(ngModel)]="params.mode">
+                        <option *ngFor="let opt of paramOptions.mode">{{opt}}</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -65,7 +74,7 @@
             <div class="bv-form-group">
                 <label>Luminosity source</label>
                 <div class="select">
-                    <select [(ngModel)]="params.type">
+                    <select [(ngModel)]="params.mode">
                         <option *ngFor="let opt of paramOptions.type">{{opt}}</option>
                     </select>
                 </div>
