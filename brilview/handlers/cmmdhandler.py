@@ -63,7 +63,7 @@ def get_brilcalc_lumi(args={}):
     }
 
     '''
-    cmd = _get_total_lumi_command_template()
+    cmd = _get_total_lumi_command_template(args['connection'])
     cmd.extend(_parse_time_range_args(args))
 
     byls = False
@@ -357,7 +357,7 @@ def _parse_brilcalc_output(result, byls, pileup, hltpath):
     }
 
 
-def _get_total_lumi_command_template():
+def _get_total_lumi_command_template(c):
     if (
             hasattr(bvconfig, 'brilcommandhandler') and
             'command' in bvconfig.brilcommandhandler and
@@ -373,7 +373,7 @@ def _get_total_lumi_command_template():
     ):
         connection = bvconfig.brilcommandhandler['connection']
     else:
-        connection = 'offline'
+        connection = c
 
     return [
         cmd, 'lumi', '--output-style', 'csv', '--without-checkjson', '--tssec', '-c', connection

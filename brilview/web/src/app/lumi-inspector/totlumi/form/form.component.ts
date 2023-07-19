@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
         without_correction: false,
         pileup: false,
         minbiasxsec: 80000,
-        mode: 'web'
+        connection: 'web'
     };
     paramOptions = {
         timeunit: ['RUN/FILL', 'DATE'],
@@ -45,7 +45,7 @@ export class FormComponent implements OnInit {
         beamstatus: ['-anybeams-'].concat(BEAMS),
         normtag: null,
         datatagnames: null,
-        mode: ['web', 'offline']
+        connection: ['web', 'offline']
     };
     paramOptionsLoading = {
         normtag: false
