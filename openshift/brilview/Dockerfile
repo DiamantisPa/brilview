@@ -1,5 +1,7 @@
 FROM openshift/base-centos7
 
+PYTHONUNBUFFERED=1
+
 RUN yum install -y epel-release\
  && yum install -y libaio\
  && wget https://dl.influxdata.com/telegraf/releases/telegraf-1.19.1-1.x86_64.rpm\
@@ -20,7 +22,7 @@ CMD /start.sh
 
 COPY containerfiles /
 
-RUN git clone https://github.com/DiamantisPa/brilview.git --branch=1.6.72 &> /dev/null\
+RUN git clone https://github.com/DiamantisPa/brilview.git --branch=1.6.75 &> /dev/null\
  && cd brilview\
  && /opt/brilconda/bin/python ./setup.py install\
  && chmod 666 /brilview_tmp/brilview_openshift_prod.yaml\

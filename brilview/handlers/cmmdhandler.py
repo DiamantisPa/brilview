@@ -180,6 +180,7 @@ def get_brilcalc_bxlumi(args={}):
         cmd.extend(_parse_bxids(args['bxid_start'], args['bxid_end'])) 
         
     bvlogging.get_logger().debug(cmd)
+    print(cmd)
     try:
         r = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
         r = r.decode('utf-8')
